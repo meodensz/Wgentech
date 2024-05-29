@@ -1,0 +1,73 @@
+{
+  "sections": {
+    "partner_BUXLq9": {
+      "type": "partner",
+      "blocks": {
+        "featured_image_UTxgzR": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/user-cover-1.png",
+            "block_name": "<strong>Julian Jameson<\/strong>",
+            "block_profession": "Profession",
+            "link_f": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_i": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_t": "https:\/\/www.facebook.com\/profile.php?id=61550024215293"
+          }
+        },
+        "featured_image_hLXi9C": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/user-cover-2.png",
+            "block_name": "<strong>Julian Jameson<\/strong>",
+            "block_profession": "Profession",
+            "link_f": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_i": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_t": "https:\/\/www.facebook.com\/profile.php?id=61550024215293"
+          }
+        },
+        "featured_image_nJrjjW": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/user-cover-3.png",
+            "block_name": "<strong>Julian Jameson<\/strong>",
+            "block_profession": "Profession",
+            "link_f": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_i": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_t": "https:\/\/www.facebook.com\/profile.php?id=61550024215293"
+          }
+        },
+        "featured_image_wFBgC7": {
+          "type": "featured_image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/user-cover-4.png",
+            "block_name": "<strong>Julian Jameson<\/strong>",
+            "block_profession": "Profession",
+            "link_f": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_i": "https:\/\/www.facebook.com\/profile.php?id=61550024215293",
+            "link_t": "https:\/\/www.facebook.com\/profile.php?id=61550024215293"
+          }
+        }
+      },
+      "block_order": [
+        "featured_image_UTxgzR",
+        "featured_image_hLXi9C",
+        "featured_image_nJrjjW",
+        "featured_image_wFBgC7"
+      ],
+      "settings": {
+        "heading_sub": "<strong>Team<\/strong>",
+        "color_sub": "#96bb7c",
+        "heading": "<strong>Get Quality Education<\/strong>",
+        "color_heading": "#252b42",
+        "heading_size": "h2",
+        "text": "<p>Problems trying to resolve the conflict between <br\/>the two major realms of Classical physics: Newtonian mechanics <\/p>",
+        "color_text": "#737373",
+        "padding_top": 40,
+        "padding_bottom": 52
+      }
+    }
+  },
+  "order": [
+    "partner_BUXLq9"
+  ]
+}

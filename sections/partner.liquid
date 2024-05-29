@@ -1,0 +1,236 @@
+{{ 'parther.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  {%- if section.settings.heading_sub != blank -%}
+    .parther__heading--subheading {
+      color:{{ section.settings.color_sub }};
+    }
+  {%- endif -%}
+  {%- if section.settings.color_heading != blank -%}
+    .parther__heading--heading {
+      color:{{ section.settings.color_heading }};
+    }
+  {%- endif -%}
+  {%- if section.settings.color_text != blank -%}
+    .parther__heading--description {
+      color:{{ section.settings.color_text }};
+    }
+  {%- endif -%}
+  .section-{{ section.id }}-padding {
+    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
+    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
+  }
+  @media screen and (min-width: 750px) {
+    .section-{{ section.id }}-padding {
+      padding-top: {{ section.settings.padding_top }}px;
+      padding-bottom: {{ section.settings.padding_bottom }}px;
+    }
+  }
+{%- endstyle -%}
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.section_color_scheme }}">
+  <div class="page-widthh">
+    <div class="parther__heading">
+      {%- if section.settings.heading_sub != blank -%}
+        <p class="parther__heading--subheading">{{ section.settings.heading_sub }}</p>
+      {%- endif -%}
+      {%- if section.settings.heading != blank -%}
+        <h3 class="parther__heading--heading {{ section.settings.heading_size }}">{{ section.settings.heading }}</h3>
+      {%- endif -%}
+      {%- if section.settings.text != blank -%}
+        <p class="parther__heading--description">{{ section.settings.text }}</p>
+      {%- endif -%}
+      <h3></h3>
+    </div>
+    {%- if section.blocks.size >= 1 -%}
+      <div class="parther__wrapperimg">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when 'featured_image' -%}
+              <div class="parther__image">
+                <div class="parther__image--img">
+                  {%- if block.settings.image != blank -%}
+                    <img
+                      srcset="
+                        {%- if block.settings.image.width >= 375 -%}{{ block.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+                        {%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1100 -%}{{ block.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                        {%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                        {%- if block.settings.image.width >= 2000 -%}{{ block.settings.image | image_url: width: 2000 }} 2000w,{%- endif -%}
+                        {%- if block.settings.image.width >= 3000 -%}{{ block.settings.image | image_url: width: 3000 }} 3000w,{%- endif -%}
+                        {%- if block.settings.image.width >= 3840 -%}{{ block.settings.image | image_url: width: 3840 }} 3840w,{%- endif -%}
+                        {{ block.settings.image | image_url }} {{ block.settings.image.width }}w
+                      "
+                      sizes="100vw"
+                      src="{{ block.settings.image | image_url: width: 1500 }}"
+                      loading="lazy"
+                      alt="{{ block.settings.image.alt | escape }}"
+                      width="100%"
+                      height="100%"
+                    >
+                  {%- else -%}
+                    {{ 'image' | placeholder_svg_tag }}
+                  {%- endif -%}
+                </div>
+                <div class="parther__image--content">
+                  {%- if block.settings.block_name != blank -%}
+                    <p class="image__content--name">{{ block.settings.block_name }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.block_profession != blank -%}
+                    <p class="image__content--profession">{{ block.settings.block_profession }}</p>
+                  {%- endif -%}
+                  {%- if block.settings.link_i != blank
+                    or block.settings.link_f != blank
+                    or block.settings.link_t != blank
+                  -%}
+                    <div class="parther__image--socical">
+                      {%- if block.settings.link_f != blank -%}
+                        <a href="{{ block.settings.link_f }}">{% render 'icon-facebook' %}</a>
+                      {%- endif -%}
+                      {%- if block.settings.link_i != blank -%}
+                        <a href="{{ block.settings.link_i }}">{% render 'icon-instagram' %}</a>
+                      {%- endif -%}
+                      {%- if block.settings.link_t != blank -%}
+                        <a href="{{ block.settings.link_t }}">{% render 'icon-twitter' %}</a>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+              </div>
+          {% endcase %}
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "partner",
+  "tag": "section",
+  "class": "section",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "inline_richtext",
+      "id": "heading_sub",
+      "default": "Team",
+      "label": "Sub Heading"
+    },
+    {
+      "type": "color",
+      "id": "color_sub",
+      "label": "Color sub Heading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "default": "Get Quality Education",
+      "label": "Heading"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Color Heading"
+    },
+    {
+      "type": "select",
+      "id": "heading_size",
+      "options": [
+        {
+          "value": "h3",
+          "label": "t:sections.all.heading_size.options__1.label"
+        },
+        {
+          "value": "h2",
+          "label": "t:sections.all.heading_size.options__2.label"
+        },
+        {
+          "value": "h1",
+          "label": "t:sections.all.heading_size.options__3.label"
+        }
+      ],
+      "default": "h3",
+      "label": "t:sections.all.heading_size.label"
+    },
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Description"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Color Text Description"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_top",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "t:sections.all.padding.padding_bottom",
+      "default": 52
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "featured_image",
+      "name": "Image Partner",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "t:sections.email-signup-banner.settings.image.label"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_name",
+          "default": "Julian Jameson",
+          "label": "Name"
+        },
+        {
+          "type": "inline_richtext",
+          "id": "block_profession",
+          "default": "Profession",
+          "label": "Profession"
+        },
+        {
+          "type": "url",
+          "id": "link_f",
+          "label": "Link Facebook"
+        },
+        {
+          "type": "url",
+          "id": "link_i",
+          "label": "Link Instagram"
+        },
+        {
+          "type": "url",
+          "id": "link_t",
+          "label": "Link Twitter"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "partner"
+    }
+  ]
+}
+{% endschema %}
