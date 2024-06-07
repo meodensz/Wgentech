@@ -1,0 +1,102 @@
+{% comment %}
+    Renders an article card for a given blog with settings to either show the image or not.
+
+    Accepts:
+    - blog: {Object} Blog object
+    - article: {Object} Article object
+    - show_image: {String} The setting either show the article image or not. If it's not included it will show the image by default
+
+    Usage:
+    {% render 'article-card' blog: blog, article: article, show_image: section.settings.show_image %}
+{% endcomment %}
+
+<article class="article-card{% if article.image == blank or show_image == false %} article-card--no-image{% endif %}" aria-labelledby="Article-{{ article.id }}">
+  <a href="{{ article.url }}" class="article-content motion-reduce no-effect">
+    {%- if show_image == true -%}
+      <div class="article-card__image-wrapper">
+        <div class="article-card__image media media--{{ image_ratio }}" {% if image_ratio == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;" {% endif %}>
+          {%- if article.image -%}
+          <img srcset="
+            {%- if article.image.src.width >= 165 -%}{{ article.image.src | image_url: width: 165 }} 165w,{%- endif -%}
+            {%- if article.image.src.width >= 360 -%}{{ article.image.src | image_url: width: 360 }} 360w,{%- endif -%}
+            {%- if article.image.src.width >= 533 -%}{{ article.image.src | image_url: width: 533 }} 533w,{%- endif -%}
+            {%- if article.image.src.width >= 720 -%}{{ article.image.src | image_url: width: 720 }} 720w,{%- endif -%}
+            {%- if article.image.src.width >= 940 -%}{{ article.image.src | image_url: width: 490 }} 940w,{%- endif -%}
+            {%- if article.image.src.width >= 1332 -%}{{ article.image.src | image_url: width: 1332 }} 1332w{%- endif -%}"
+            src="{{ article.image.src | image_url: width: 1332 }}"
+            sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+            alt="{{ article.image.src.alt | escape }}"
+            width="{{ article.image.width }}"
+            height="{{ article.image.height }}"
+            loading="lazy"
+            class="motion-reduce"
+          >
+          {%- else -%}
+            {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+    <div class="content-wrapper">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+          {%- when 'title'-%}
+            <header class="article-card__header">
+              {%- if block.settings.article_tag -%}
+                {% for tag in article.tags %}
+                  <span class="circle-divider caption-with-letter-spacing">
+                    {{ tag }}
+                  </span>
+                {% endfor %}
+              {%- endif -%}
+              {%- if block.settings.show_author -%}
+                <span class="caption-with-letter-spacing">{{ article.author -}}</span>
+              {%- endif -%}
+              {%- if block.settings.title -%}
+              <h2 class="article-card__title" id="Article-{{ article.id }}">
+                {{ article.title | escape }}
+              </h2>
+              {%- endif -%}
+              <div>
+                {%- if block.settings.show_date -%}
+                  <span class="caption-with-letter-spacing date">
+                    {{ article.published_at | time_tag: format: 'date' }}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.article_comment -%}
+                <span class="article__comment article-info caption-with-letter-spacing">
+                  <i class="icon-comment"></i>
+                  {% if article.comments_count <= 1 %}
+                  {{ 'blogs.article.comments.one' | t: count: article.comments_count }}
+                  {% else %}
+                  {{ 'blogs.article.comments.other' | t: count: article.comments_count }}
+                  {% endif %}
+                </span>
+                {% endif %}
+              </div>
+            </header>
+          {%- when 'summary'-%}
+            {%- if article.excerpt.size > 0 or article.content.size > 0 -%}
+              <p class="article-card__excerpt">
+                {%- if article.excerpt.size > 0 -%}
+                  {{ article.excerpt | strip_html | truncatewords: 30 }}
+                {%- else -%}
+                  {{ article.content | strip_html | truncatewords: 30 }}
+                {%- endif -%}
+              </p>
+            {%- endif -%}
+
+          {%- when 'link'-%}
+            <div class="article-card__footer">
+              <span class="link article-card__link" >
+                {%- if block.settings.title -%}
+                {{ block.settings.title }}
+                {%- endif -%}
+              </span>
+            </div>
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </a>
+</article>

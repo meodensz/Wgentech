@@ -1,0 +1,97 @@
+<link rel="stylesheet" href="{{ 'text-column.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'text-column.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div data-section-id="{{ section.id }}" class="gp-section-wrapper container text-column-wrapper{% if section.settings.custom_width != blank %} custom_width{% endif %}">
+  <div class="text-column__blocks gp-section-inner">
+    <div class="row">
+      {%- if section.settings.left_position_text != blank -%}
+        <div class="{%- if section.settings.right_position_text != blank -%}col-6{% else %}col-12{% endif %} left-text">
+          {{ section.settings.left_position_text }}
+        </div>
+      {%- endif -%}
+      {%- if section.settings.right_position_text != blank -%}
+        <div class="{%- if section.settings.left_position_text != blank -%}col-6{% else %}col-12{% endif %} right-text">
+          <span class="heading-1 h1">{{ section.settings.right_position_text | remove: '<p>' | remove: '</p>' }}</span>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% style %}
+  {% if section.settings.background_color != blank %}
+    [data-section-id="{{ section.id }}"].text-column-wrapper {
+      background-color: {{ section.settings.background_color }};
+    }
+  {% endif %}
+  {% if section.settings.color_text != blank %}
+    [data-section-id="{{ section.id }}"].text-column-wrapper .text-column__blocks .left-text,
+    [data-section-id="{{ section.id }}"].text-column-wrapper .text-column__blocks .right-text {
+      color: {{ section.settings.color_text }};
+    }
+  {% endif %}
+  {% if section.settings.color_heading != blank %}
+    [data-section-id="{{ section.id }}"].text-column-wrapper .text-column__blocks .left-text .heading-1,
+    [data-section-id="{{ section.id }}"].text-column-wrapper .text-column__blocks .right-text .heading-1 {
+      color: {{ section.settings.color_heading }};
+    }
+  {% endif %}
+  {% if section.settings.custom_width != blank %}
+    [data-section-id="{{ section.id }}"].custom_width .text-column__blocks {
+      max-width: {{ section.settings.custom_width }}px;
+      margin: auto;
+    }
+  {% endif %}
+
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Text column",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "left_position_text",
+      "default": "<p>We started with humble beginnings - selling out of our basement and frantically shipping orders as soon as we woke up</p>",
+      "label": "Left position text"
+    },
+    {
+      "type": "richtext",
+      "id": "right_position_text",
+      "default": "<p><em>from<\/em> CLASSIC <em>to<\/em> TRENDY<\/p>",
+      "label": "Right position text"
+    },
+    {
+      "type": "color",
+      "id":"color_heading",
+      "label":"Color heading",
+      "default": "#262626"
+    },
+    {
+      "type": "color",
+      "id":"color_text",
+      "label":"Color text",
+      "default": "#595959"
+    },
+    {
+      "type": "color",
+      "id":"background_color",
+      "label":"Background color",
+      "default": "#ffec42"
+    },
+    {
+      "type": "text", 
+      "id": "custom_width",
+      "label": "Custom width",
+      "default": "1525",
+      "info": "Unit: px."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Text column"
+    }
+  ]
+}
+{% endschema %}

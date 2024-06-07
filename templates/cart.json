@@ -1,0 +1,39 @@
+{
+  "sections": {
+    "page-title": {
+      "type": "page-title",
+      "settings": {
+        "show_collection_image_in_breadcrumb": true,
+        "show_breadcrumb": false,
+        "background_color_breadcrumb": "#ffffff"
+      }
+    },
+    "cart-items": {
+      "type": "main-cart-items",
+      "settings": {}
+    },
+    "cart-footer": {
+      "type": "main-cart-footer",
+      "blocks": {
+        "subtotal": {
+          "type": "subtotal",
+          "settings": {}
+        },
+        "buttons": {
+          "type": "buttons",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "subtotal",
+        "buttons"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "page-title",
+    "cart-items",
+    "cart-footer"
+  ]
+}

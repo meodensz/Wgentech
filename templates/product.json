@@ -1,0 +1,153 @@
+{
+  "sections": {
+    "164638311502096565": {
+      "type": "page-title",
+      "settings": {
+        "show_collection_image_in_breadcrumb": true,
+        "show_breadcrumb": true,
+        "breadcrumb_position": "above",
+        "background_color_breadcrumb": "#e8e8e8"
+      }
+    },
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "5e23cf12-9993-4dc3-b934-56d799e7adad": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/star_rating\/bae150af-8da8-48b2-9867-398188115e5f",
+          "settings": {
+            "stars_fill_color": "#ffcf5c",
+            "star_size": 15,
+            "text_align": "flex-start",
+            "product": "{{product}}",
+            "stars_text_empty": "No reviews"
+          }
+        },
+        "subtitle": {
+          "type": "text",
+          "settings": {
+            "text": "{{ product.metafields.descriptors.subtitle.value }}",
+            "text_style": "subtitle"
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "01c2fa56-f16b-47e8-af80-42621cca2934": {
+          "type": "product_details",
+          "settings": {
+            "product_page_show_product_availability": true,
+            "product_page_show_sku": true,
+            "product_page_show_product_type": true
+          }
+        },
+        "description": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "option_show_popup_size_guide": "Size",
+            "page": "sizing-guides",
+            "product_page_option_color_swatch": "Color",
+            "product_page_color_swatch_layout": "swatch-color"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": true,
+            "show_quantity_selector": true
+          }
+        },
+        "bf44a99f-434f-4e43-99ec-270d95f70184": {
+          "type": "popup",
+          "settings": {
+            "text": "Materials & care",
+            "page": "materials-care",
+            "hide_page_title": true
+          }
+        },
+        "dec92173-26b9-471b-9345-9bf74e4834c1": {
+          "type": "popup",
+          "settings": {
+            "text": "Shipping and Returns",
+            "page": "shipping-and-returns",
+            "hide_page_title": false
+          }
+        },
+        "share": {
+          "type": "share",
+          "settings": {
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "5e23cf12-9993-4dc3-b934-56d799e7adad",
+        "subtitle",
+        "price",
+        "01c2fa56-f16b-47e8-af80-42621cca2934",
+        "description",
+        "variant_picker",
+        "buy_buttons",
+        "bf44a99f-434f-4e43-99ec-270d95f70184",
+        "dec92173-26b9-471b-9345-9bf74e4834c1",
+        "share"
+      ],
+      "settings": {
+        "default_template": "horizontal-thumbnail",
+        "enable_sticky_info": true,
+        "enable_video_looping": false
+      }
+    },
+    "product-tab-description": {
+      "type": "product-tab-description",
+      "blocks": {
+        "2e0fd1f8-1dab-476d-9a06-216688e7f7a7": {
+          "type": "description",
+          "settings": {
+          }
+        },
+        "d274c15a-fdb5-4911-b075-0d79e0689bba": {
+          "type": "shopify:\/\/apps\/product-reviews\/blocks\/reviews\/bae150af-8da8-48b2-9867-398188115e5f",
+          "settings": {
+          }
+        }
+      },
+      "block_order": [
+        "2e0fd1f8-1dab-476d-9a06-216688e7f7a7",
+        "d274c15a-fdb5-4911-b075-0d79e0689bba"
+      ],
+      "settings": {
+      }
+    },
+    "product-recommendations": {
+      "type": "product-recommendations",
+      "settings": {
+        "heading": "You may also like",
+        "image_ratio": "adapt",
+        "product_per_row": 3,
+        "product_per_row_tablet": 3,
+        "product_per_row_mobile": 1,
+        "layout": "grid",
+        "limit": 3
+      }
+    }
+  },
+  "order": [
+    "164638311502096565",
+    "main",
+    "product-tab-description",
+    "product-recommendations"
+  ]
+}

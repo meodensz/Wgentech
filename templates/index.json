@@ -1,0 +1,323 @@
+{
+  "sections": {
+    "1647907478f3e0d846": {
+      "type": "slideshow",
+      "blocks": {
+        "1647907478fdb30448-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/slide1_56614c33-47bd-44c9-ab48-165b89fd21da.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/slider-mb-1_5abc0146-2a82-4b9b-a625-f17ec4933e7b.jpg",
+            "heading_color": "#262626",
+            "sub_color": "#595959",
+            "button_text_color": "#ffffff",
+            "button_background_color": "#262626",
+            "button_text_hover_color": "#595959",
+            "button_background_hover_color": "rgba(0,0,0,0)",
+            "overlay_background_color": "#ffffff",
+            "opacity_overlay": 0,
+            "content_style": "style-1",
+            "brand": "CECILE BRAND",
+            "heading": "NEW COLLECTION SUMMER 2021",
+            "sub_heading": "",
+            "sub_title": "We started with humble beginnings - selling out of our basement and frantically shipping orders as soon as we woke up",
+            "button_text": "Shop now",
+            "button_link": "",
+            "content_width": 58,
+            "text_alignment": "center",
+            "content_position": "middle-center",
+            "content_position_mobile": "mobile-top-center"
+          }
+        },
+        "1647907478fdb30448-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/slide2_5fa58b3d-e7fc-4c51-ad8b-fd6873af7c53.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/slider-mb-2_5ff86f38-e4b2-4e3f-9c84-b9db6b058b4e.jpg",
+            "heading_color": "#262626",
+            "sub_color": "#262626",
+            "button_text_color": "#ffffff",
+            "button_background_color": "#262626",
+            "button_text_hover_color": "#595959",
+            "button_background_hover_color": "rgba(0,0,0,0)",
+            "overlay_background_color": "#ffffff",
+            "opacity_overlay": 0,
+            "content_style": "style-1",
+            "brand": "",
+            "heading": "LOOK BOOK<br>FOR NEW SUMMER",
+            "sub_heading": "Featured \/ basic jean collections 2021",
+            "sub_title": "",
+            "button_text": "Shop now",
+            "button_link": "",
+            "content_width": 57,
+            "text_alignment": "center",
+            "content_position": "middle-center",
+            "content_position_mobile": "mobile-top-center"
+          }
+        },
+        "2cbb2b25-ed64-45e0-b725-c025269296da": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/slide3_c27fc6da-cdfa-4bb7-a286-029d856476d2.jpg",
+            "mobile_image": "shopify:\/\/shop_images\/slider-mb-3_ab5c3978-327d-4774-8967-040caf47c4ef.jpg",
+            "heading_color": "#262626",
+            "sub_color": "#262626",
+            "button_text_color": "#ffffff",
+            "button_background_color": "#262626",
+            "button_text_hover_color": "#595959",
+            "button_background_hover_color": "rgba(0,0,0,0)",
+            "overlay_background_color": "#ffffff",
+            "opacity_overlay": 0,
+            "content_style": "style-1",
+            "brand": "",
+            "heading": "SALE OF<br>UP TO 70%",
+            "sub_heading": "Ss2 0221 new arrival",
+            "sub_title": "",
+            "button_text": "Shop now",
+            "button_link": "",
+            "content_width": 30,
+            "text_alignment": "center",
+            "content_position": "middle-center",
+            "content_position_mobile": "mobile-top-center"
+          }
+        }
+      },
+      "block_order": [
+        "1647907478fdb30448-0",
+        "1647907478fdb30448-1",
+        "2cbb2b25-ed64-45e0-b725-c025269296da"
+      ],
+      "settings": {
+        "slideshow_dots": true,
+        "slideshow_arrow": true,
+        "nav_dot_style": "home-trendy"
+      }
+    },
+    "1646814902c9241285": {
+      "type": "promo-banner",
+      "blocks": {
+        "164681490217a15b60-0": {
+          "type": "banner-content-inside",
+          "settings": {
+            "columns": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12,
+            "image": "shopify:\/\/shop_images\/M_1.jpg",
+            "url_action": "",
+            "heading": "MAN",
+            "subheading": "Must have item",
+            "btn_text": "",
+            "btn_url": "",
+            "content_style": "image-overlay",
+            "content_position": "middle-center",
+            "margin_bottom": 30
+          }
+        },
+        "164681490217a15b60-1": {
+          "type": "banner-content-inside",
+          "settings": {
+            "columns": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12,
+            "image": "shopify:\/\/shop_images\/M5_01.jpg",
+            "url_action": "",
+            "heading": "WOMAN",
+            "subheading": "Summer Vibe",
+            "btn_text": "",
+            "btn_url": "",
+            "content_style": "image-overlay",
+            "content_position": "middle-center",
+            "margin_bottom": 30
+          }
+        },
+        "164681490217a15b60-2": {
+          "type": "banner-content-inside",
+          "settings": {
+            "columns": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12,
+            "image": "shopify:\/\/shop_images\/M4_01.jpg",
+            "url_action": "",
+            "heading": "KID",
+            "subheading": "Take you to anywhere",
+            "btn_text": "",
+            "btn_url": "",
+            "content_style": "image-overlay",
+            "content_position": "middle-center",
+            "margin_bottom": 30
+          }
+        }
+      },
+      "block_order": [
+        "164681490217a15b60-0",
+        "164681490217a15b60-1",
+        "164681490217a15b60-2"
+      ],
+      "settings": {
+        "padding_layout": "default",
+        "fullwidth": false
+      }
+    },
+    "16469672941dda1c98": {
+      "type": "image-banner-full-width",
+      "blocks": {
+        "1646967294811aeb20-0": {
+          "type": "image-banner-overlay",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/banner_homepage.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/Frame-302.jpg",
+            "subheading": "New collection",
+            "heading": "Spirit<span>Angle<\/span>",
+            "btn_label": "Shop now",
+            "btn_url": "shopify:\/\/collections\/classic-trend"
+          }
+        }
+      },
+      "block_order": [
+        "1646967294811aeb20-0"
+      ],
+      "settings": {
+        "fullwidth": false
+      }
+    },
+    "16469926218a1ddf5e": {
+      "type": "product-widget",
+      "blocks": {
+        "1646992621fa87d84c-0": {
+          "type": "heading",
+          "settings": {
+            "title": "New Products",
+            "sub_text": "March 2022",
+            "text_alignment": "center"
+          }
+        },
+        "1646992621fa87d84c-1": {
+          "type": "products",
+          "settings": {
+            "collection": "fashion-summer-1",
+            "product_per_row": 4,
+            "product_per_row_tablet": 2,
+            "limit": 8,
+            "swipe_on_mobile": false,
+            "button_text_load_more": "",
+            "link_button": "",
+            "button_ajax": false
+          }
+        }
+      },
+      "block_order": [
+        "1646992621fa87d84c-0",
+        "1646992621fa87d84c-1"
+      ],
+      "settings": {
+        "fullwidth": false
+      }
+    },
+    "1650852498e15b8b2d": {
+      "type": "space",
+      "settings": {
+        "space_desktop": 10,
+        "space_tablet": 8,
+        "space_mobile": 5,
+        "background_color": ""
+      }
+    },
+    "164810620122df69f2": {
+      "type": "image-banner-full-width",
+      "blocks": {
+        "33c4443a-bba4-4fb9-9bd7-36bb179ada03": {
+          "type": "image-banner-with-desc",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Frame-128_01.jpg",
+            "image_mobile": "shopify:\/\/shop_images\/Frame-147_02.jpg",
+            "text_label": "Only <span class=\"number\"> 02<\/span><span class=\"month\">months<\/span>",
+            "heading": "New collection Accessories <span> 2021.<\/span>",
+            "subheading": "We started with humble beginnings - selling out of our basement and frantically shipping orders as soon as we woke up",
+            "btn_label": "Shop now",
+            "btn_url": ""
+          }
+        }
+      },
+      "block_order": [
+        "33c4443a-bba4-4fb9-9bd7-36bb179ada03"
+      ],
+      "settings": {
+        "fullwidth": true
+      }
+    },
+    "1647940039d93c9936": {
+      "type": "product-slider",
+      "blocks": {
+        "16479400395fda4e9c-0": {
+          "type": "heading",
+          "settings": {
+            "title": "New Season Footwear",
+            "sub_text": "March 2022",
+            "text_alignment": "center"
+          }
+        },
+        "16479400395fda4e9c-1": {
+          "type": "products",
+          "settings": {
+            "collection": "shoes",
+            "product_per_row": 4,
+            "product_per_row_tablet": 3,
+            "product_per_row_mobile": 2,
+            "limit": 12
+          }
+        }
+      },
+      "block_order": [
+        "16479400395fda4e9c-0",
+        "16479400395fda4e9c-1"
+      ],
+      "settings": {
+        "fullwidth": false
+      }
+    },
+    "16479404932c15490e": {
+      "type": "product-slider-with-image",
+      "blocks": {
+        "164794049393857e65-0": {
+          "type": "products",
+          "settings": {
+            "heading": "Hot items",
+            "sub_heading": "for summer.",
+            "button_text": "View more",
+            "link_button": "shopify:\/\/collections\/fashion-summer-1",
+            "collection": "fashion-summer-1",
+            "product_per_row": "2",
+            "product_per_row_tablet": "1",
+            "product_per_row_mobile": 2,
+            "limit": 6
+          }
+        },
+        "164794049393857e65-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify:\/\/shop_images\/Rectangle_268_1.jpg",
+            "image_logo": "shopify:\/\/shop_images\/Cecile_e49aa4f2-2116-4dc2-9498-a814f85089fd.png",
+            "text": "summer time <br>2022"
+          }
+        }
+      },
+      "block_order": [
+        "164794049393857e65-0",
+        "164794049393857e65-1"
+      ],
+      "settings": {
+        "fullwidth": true
+      }
+    }
+  },
+  "order": [
+    "1647907478f3e0d846",
+    "1646814902c9241285",
+    "16469672941dda1c98",
+    "16469926218a1ddf5e",
+    "1650852498e15b8b2d",
+    "164810620122df69f2",
+    "1647940039d93c9936",
+    "16479404932c15490e"
+  ]
+}

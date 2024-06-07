@@ -1,0 +1,242 @@
+{%- liquid
+  assign sort_by = results.sort_by | default: results.default_sort_by
+  assign total_active_values = 0
+  assign navigation = navigation_filter
+  if results.url
+    assign results_url = results.url
+  else 
+    assign terms = results.terms | escape
+    assign results_url = '?q=' | append: terms | append: '&options%5Bprefix%5D=last&sort_by=' | append: sort_by
+  endif
+  assign colorSwatchArr = section.settings.show_as_color_swatch | downcase | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+  assign swatchArr = section.settings.show_as_swatch | downcase | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+-%}
+
+{% if section.settings.enable_filtering %}
+  <facet-filters-form class="collection-filter__wrapper active facets mobile-hide">
+    <form class="facets__form" id="FacetFiltersForm">
+      <div class="active-facets active-facets-desktop" style="display: none;">
+        <h3 class="active-heading">{{ 'sections.collection_template.active_filter' | t }}</h3>
+        <div class="active-facets-list">
+         {%- for filter in results.filters -%}
+           {%- for value in filter.active_values -%}
+             <facet-remove>
+               <a class="active-facets__button no-effect button button--tertiary js-facet-remove" href="{{ value.url_to_remove }}">
+                 {{ value.label | escape }}
+                 <span class="icon-close"></span>
+               </a>
+             </facet-remove>
+           {%- endfor -%}
+           {% if filter.type == "price_range" %}
+             {%- if filter.min_value.value != nil or filter.max_value.value != nil -%}
+               <facet-remove>
+                 <a class="active-facets__button no-effect button button--tertiary js-facet-remove" href="{{ filter.url_to_remove }}">
+                   {% if filter.min_value.value %}{{ filter.min_value.value | money }}{% else %}{{ 0 | money }}{% endif %} - {% if filter.max_value.value %}{{ filter.max_value.value | money }}{% else %}{{ filter.range_max | money }}{% endif %}
+                   <span class="icon-close"></span>
+                 </a>
+               </facet-remove>
+             {%- endif -%}
+           {% endif %}
+         {%- endfor -%}
+        </div>
+        <facet-remove class="active-facets__clear">
+          <a href="{{ results_url }}" class="btn active-facets__button no-effect js-facet-remove">{{ 'sections.collection_template.clear_all' | t }}</a>
+        </facet-remove>
+        <div class="line"></div>
+      </div>
+      <div class="facets__wrapper">
+        {%- if title_category_tree != blank and navigation_filter != blank -%}
+          {% assign navigation = navigation_filter %}
+          {% if linklists[navigation].links.size > 0 %}
+            <details class="facets__disclosure" data-index="{{ forloop.index }}" open>
+              <summary class="facets__summary">
+                {% if title_category_tree != blank %}
+                  <div>
+                      <span>{{ title_category_tree }}</span>
+                      <span class="icon-right-arrow-angle no-js-hidden"></span>
+                  </div>
+                {% endif %}
+                </summary>
+              <div class="facets__display linklist">
+                <ul>
+                  {% for link in linklists[navigation].links %}
+                    {% assign child_list_handle = link.title | handle %}
+                    {% if linklists[child_list_handle] and linklists[child_list_handle].links.size == 0 %}
+                      <li>
+                        <a href="{{ link.url }}" class="{% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}parent{% endif %}">
+                          {{ link.title | split: '[' | first }}
+                          {%- if link.title contains '[' -%}
+                            <span class="label-menu" {% if link.title contains '(' %} style="background: {{ link.title | split: '(' | last | split: ')' | first }}" {% else %} style="background: {{ settings.color_highlight }}" {% endif %}>{{ link.title | split: '[' | last | split: ']' | first }}</span>
+                          {%- endif -%}
+                        </a>
+                      </li>
+                    {% else %}
+                      <li>
+                        <details class="level1" data-index="{{ forloop.index }}">
+                          <summary class="linklist-title">
+                            <a href="{{ link.url }}" class="{% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}parent{% endif %}">
+                              {{ link.title | split: '[' | first }}
+                              {%- if link.title contains '[' -%}
+                                <span class="label-menu" {% if link.title contains '(' %} style="background: {{ link.title | split: '(' | last | split: ')' | first }}" {% else %} style="background: {{ settings.color_highlight }}" {% endif %}>{{ link.title | split: '[' | last | split: ']' | first }}</span>
+                              {%- endif -%}
+                            </a>
+                            <span class="icon-right-arrow-angle"></span>
+                          </summary>
+                          <div class="linklist-detail">
+                            <ul>
+                              {% for child_link in linklists[child_list_handle].links %}
+                                <li>
+                                  <a href="{{ child_link.url }}">
+                                    {{ child_link.title | split: '[' | first }}
+                                    {%- if child_link.title contains '[' -%}
+                                      <span class="label-menu" {% if child_link.title contains '(' %} style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}" {% else %} style="background: {{ settings.color_highlight }}" {% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                    {%- endif -%}
+                                  </a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </details>
+                      </li>
+                    {% endif %}
+                  {% endfor %}
+                </ul>
+              </div>
+            </details>
+          {% endif %}
+        {%- endif -%}
+          {%- for filter in results.filters -%}
+            {%- assign total_active_values = total_active_values | plus: filter.active_values.size -%}
+            {% case filter.type %}
+            {% when 'list' %}
+              <details class="facets__disclosure js-filter filters-{{ filter.label | downcase }}" data-index="{{ forloop.index }}" open>
+                <summary class="facets__summary">
+                  <div>
+                    <span>{{ 'sections.collection_template.filter_by' | t }} {{ filter.label | escape }}</span>
+                    <span class="count-bubble">{%- if filter.active_values.size > 0 -%}{{ filter.active_values.size }}{%- endif -%}</span>
+                    <span class="icon-right-arrow-angle no-js-hidden"></span>
+                  </div>
+                </summary>
+                <div class="facets__display">
+                  <div class="facets__header">
+                    <span class="facets__selected no-js-hidden">{{ 'sections.collection_template.filters_selected' | t: count: filter.active_values.size }}</span>
+                    <a href="{{ filter.url_to_remove }}" class="facets__reset link underlined-link js-facet-remove" >{{ 'sections.collection_template.reset' | t }}</a>
+                  </div>
+
+                  <ul class="facets__list list-unstyled" role="list">
+                    {%- for value in filter.values -%}
+                    {% assign filter_label = filter.label | downcase %}
+                      <li class="list-menu__item facets__item {% if colorSwatchArr contains filter_label %}filter-color{% elsif swatchArr contains filter_label %}filter-size{% endif %}">
+                        {% if colorSwatchArr contains filter_label or swatchArr contains filter_label %}
+                          <input type="checkbox"
+                          name="{{ value.param_name }}"
+                          value="{{ value.value }}"
+                          id="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
+                          {% if value.active %}checked{% endif %}
+                          {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                        >
+                        {% endif %}
+                        <label for="Filter-{{ filter.label | escape }}-{{ forloop.index }}" class="checkbox-custom facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
+                          {% if colorSwatchArr contains filter_label or swatchArr contains filter_label %}
+                          {% if colorSwatchArr contains filter_label %}
+                            {% assign variable = value.value | handle | append: '.' | append: 'png' %}
+                            <span class="color" style="background-image: url({{ variable | asset_img_url: '50x' }}); background-color: {{ value.value | split: ' ' | last | handle }};"></span>
+                          {% elsif swatchArr contains filter_label %}
+                            <span class="size">{{ value.value | escape }}</span>
+                          {% endif %}
+
+                        {% else %}
+                          <input type="checkbox"
+                            name="{{ value.param_name }}"
+                            value="{{ value.value }}"
+                            id="Filter-{{ filter.label | escape }}-{{ forloop.index }}"
+                            {% if value.active %}checked{% endif %}
+                            {% if value.count == 0 and value.active == false %}disabled{% endif %}
+                          >
+                          <span class="checkmark"></span>
+                          {{ value.label | escape }}
+                        {% endif %}
+                        </label>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              </details>
+            {% when 'price_range' %}
+              {% liquid
+                assign currencies_using_comma_decimals = 'ANG,ARS,BRL,BYN,BYR,CLF,CLP,COP,CRC,CZK,DKK,EUR,HRK,HUF,IDR,ISK,MZN,NOK,PLN,RON,RUB,SEK,TRY,UYU,VES,VND' | split: ','
+                assign uses_comma_decimals = false
+                if currencies_using_comma_decimals contains cart.currency.iso_code
+                  assign uses_comma_decimals = true
+                endif
+              %}
+              <details class="facets__disclosure js-filter" data-index="{{ forloop.index }}" open>
+                <summary class="facets__summary">
+                  <div>
+                    <span>{{ 'sections.collection_template.filter_by' | t }} {{ filter.label | escape }}</span>
+                    <span class="count-bubble{%- if filter.min_value.value or filter.max_value.value -%}{{ filter.active_values.size }} count-bubble--dot{% endif %}"></span>
+                    <span class="icon-right-arrow-angle no-js-hidden"></span>
+                  </div>
+                </summary>
+                <div class="facets__display">
+                  <div class="facets__header">
+                    {%- assign max_price_amount = filter.range_max | money | escape -%}
+                    <span class="facets__selected">{{ "sections.collection_template.max_price" | t: price: max_price_amount }}</span>
+                    <a href="{{ filter.url_to_remove }}" class="facets__reset link underlined-link js-facet-remove" >{{ 'sections.collection_template.reset' | t }}</a>
+                  </div>
+                  <price-range class="facets__price">
+                    <div class="range-slider">
+                      <label class="field__label" for="Filter-{{ filter.label | escape | append: 'min' }}-{{ forloop.index }}"></label>
+                      <input class="field__input"
+                        name="{{ filter.min_value.param_name }}"
+                        id="Filter-{{ filter.label | escape | append: 'min' }}-{{ forloop.index }}"
+                        {% if filter.min_value.value %}
+                          {% if uses_comma_decimals %}
+                            value="{{ filter.min_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                          {% else %}
+                            value="{{ filter.min_value.value | money_without_currency | replace: ',', '' }}"
+                          {% endif %}
+                        {% else %}  
+                        value="0"
+                        {% endif %}
+                        type="range"
+                        placeholder="0"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                      </input>
+                      <label class="field__label" for="Filter-{{ filter.label | escape | append: 'max' }}-{{ forloop.index | plus: 1 }}"></label>
+                      <input class="field__input"
+                        name="{{ filter.max_value.param_name }}"
+                        id="Filter-{{ filter.label | escape | append: 'max' }}-{{ forloop.index | plus: 1 }}"
+                        {%- if filter.max_value.value -%}
+                          {%- if uses_comma_decimals -%}
+                            value="{{ filter.max_value.value | money_without_currency | replace: '.', '' | replace: ',', '.' }}"
+                          {%- else -%}
+                            value="{{ filter.max_value.value | money_without_currency | replace: ',', '' }}"
+                          {% endif %}
+                        {% else %}
+                          value="{{ filter.range_max | money_without_currency | replace: ',', '' }}"  
+                        {%- endif -%}
+                        type="range"
+                        placeholder="{{ filter.range_max | money_without_currency | replace: ',', '' }}"
+                        min="0"
+                        max="{{ filter.range_max | money_without_currency | replace: ',', '' }}">
+                      </input>
+                      <div class="blackline"></div>
+                    </div>
+                    <div class="price-value">
+                      <span class="field__currency">{{ cart.currency.symbol }}<span class="min">0</span></span>
+                      <span class="field__currency">{{ cart.currency.symbol }}<span class="max">{{ filter.range_max | money_without_currency | replace: ',', '' }}</span></span>
+                    </div>
+                  </price-range>
+                </div>
+              </details>
+            {% endcase %}
+          {%- endfor -%}
+          <noscript>
+            <button type="submit" class="facets__button button">{{ 'sections.collection_template.filter_button' | t }}</button>
+          </noscript>
+      </div>
+    </form>
+  </facet-filters-form>
+{% endif %}

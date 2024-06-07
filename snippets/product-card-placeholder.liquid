@@ -1,0 +1,25 @@
+{% comment %}
+    Renders a product card placeholder
+
+    Usage:
+    {% render 'product-card-placeholder' %}
+{% endcomment %}
+
+<div class="card-wrapper card-placeholder">
+  <div class="card-media">
+    {{ 'product-1' | placeholder_svg_tag }}
+  </div>
+  <div class="card-details">
+    <div class="card card--text-only card--soft card--product">
+      <h2 class="card__text card__text-spacing h2">{{ 'onboarding.product_title' | t }}</h2>
+    </div>
+    <div class="card-information">
+      <div class="card-information__wrapper">
+        <span class="visually-hidden">{{ 'accessibility.vendor' | t }}</span>
+        <div class="caption-with-letter-spacing">{{ 'products.product.vendor' | t }}</div>
+        {% render 'price' %}
+      </div>
+    </div>
+  </div>
+
+</div>

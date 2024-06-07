@@ -1,0 +1,213 @@
+.gp-product-slider-with-banner .block-products slider-component {
+	overflow: hidden;
+}
+.gp-product-slider-with-banner .row {
+	margin-bottom: 30px;
+}
+.gp-product-slider-with-banner .slider {
+	overflow-y: hidden;
+}
+.banner-position-right .slick-slide {
+	float: right;
+}
+.banner-position-right {
+	text-align: left;
+}
+.slick-slide .item {
+	padding: 0 10px;
+}
+.block-products{
+	overflow: hidden;
+}
+.block-products .slick-arrow {
+	position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-link-disable);
+  color: #fff;
+  text-align: center;
+  line-height: 24px;
+  cursor: pointer;
+  z-index: 1;
+  font-size: 13px;
+}
+.block-products .slick-arrow.icon-arrow-right {
+	left: calc(50% + 18.5px);
+}
+.block-products .slick-arrow.icon-arrow-left {
+	left: calc(50% - 18.5px);
+}
+.block-banner h3 {
+	font-size: 24px;
+	line-height: 30px;
+	text-transform: uppercase;
+}
+.block-banner .image-banner-inner {
+	position: relative;
+}
+.block-banner .image-banner img {
+	height: auto;
+	display: block;
+}
+.block-banner .text-banner {
+	position: absolute;
+	top: 10px;
+	padding-left: 15px;
+}
+.block-banner .btn-banner {
+	display: inline-block;
+	background-color: transparent;
+	padding: 9px 12px;
+	line-height: 22px;
+	font-size: 14px;
+}
+.block-banner .btn-banner:hover,
+.block-banner .btn-banner:focus{
+	color: var(--color-btn-primary-text) !important;
+	border-color: var(--color-btn-primary-border)!important;
+	background-color: var(--color-btn-primary-background)!important;
+}
+.block-banner .button-banner {
+	position: absolute;
+	bottom: 15px;
+	left: 15px;
+}
+.block-banner .subheading {
+	font-size: 12px;
+	line-height: 20px;
+}
+.product-grid-slider.slick-slider {
+	margin: 0 -10px;
+}
+.col-padding-0 .block-products {
+	padding: 0 15px;
+}
+.block-banner{
+	margin-bottom: 20px;
+}
+@media screen and (max-width: 767px) {
+	.block-banner h3{
+		font-weight: 500;
+	}
+	.product-grid-slider.slick-slider {
+		padding-bottom: 50px;
+	}
+	.block-products .slick-arrow {
+		top: auto !important;
+		bottom: 0;
+		transform: translateX(-50%);
+	}
+}
+@media screen and (min-width: 768px) {
+	.block-banner{
+		margin-bottom: 30px;
+	}
+	.banner-position-right .slick-list,
+	.banner-position-left .slick-list {
+		padding: 0 47px;
+	}
+	.product-grid-slider.slick-slider {
+		margin: 0 -15px;
+	}
+	.product-grid-slider .slick-slide .item {
+		padding: 0 15px;
+	}
+	.block-banner h3{
+		font-size: 40px;
+		line-height: 46px;
+	}
+	.block-banner .subheading {
+		font-size: 18px;
+		line-height: 28px;
+	}
+	.block-banner .text-banner {
+		padding-left: 45px;
+		top: 40px;
+	}
+	.block-banner .button-banner {
+		bottom: 36px;
+		left: 45px;
+	}
+	.block-banner .btn-banner {
+		padding: 20px 51px;
+		line-height: 24px;
+		font-size: 16px;
+	}
+	.block-products .slick-arrow.icon-arrow-right {
+		right: 62px;
+		left: auto;
+	}
+	.block-products .slick-arrow.icon-arrow-left {
+		left: 62px;
+	}
+}
+@media screen and (min-width: 1025px) {
+	.gp-product-slider-with-banner .row {
+		margin-bottom: 40px;
+	}
+	.col-padding-0 .block-products {
+		padding: 0;
+	}
+	.block-banner{
+		margin-bottom: 0;
+	}
+	.block-products .slick-arrow {
+		position: absolute;
+	  width: 28px;
+	  height: 28px;
+	  border-radius: 50%;
+	  background: var(--color-link-disable);
+	  color: #fff;
+	  text-align: center;
+	  line-height: 28px;
+	  cursor: pointer;
+	  z-index: 1;
+	}
+	.banner-position-right .slick-arrow.icon-arrow-right {
+		right: 25px;
+	}
+	.banner-position-right .slick-arrow.icon-arrow-left {
+		left: 72px;
+	}
+	.banner-position-right .slick-list {
+		padding: 0 0 0 47px;
+	}
+	.banner-position-left .slick-list {
+		padding: 0 47px 0 0;
+	}
+	.banner-position-right .block-banner {
+		order: 1;
+		padding-left: 15px;
+	}
+	.block-banner .image-banner-inner {
+		height: 100%;
+	}
+	.block-banner .image-banner img {
+		opacity: 0;
+	}
+	.block-banner .image-banner svg {
+		display: none;
+	}
+	.gp-product-slider-with-banner .block-products .grid--2-col-desktop .grid__item {
+		width: 45%;
+	}
+	.banner-position-right .block-products, .banner-position-left .block-banner {
+		padding-right: 15px;
+	}
+	.block-banner .subheading {
+		font-size: 20px;
+	}
+	.banner-position-left .block-products {
+		padding-left: 15px;
+	}
+	.banner-position-left .block-products .slick-arrow.icon-arrow-right {
+		right: 72px;
+	}
+	.banner-position-left .block-products .slick-arrow.icon-arrow-left {
+		left: 25px;
+	}
+}
+.gp-product-slider-with-banner .row:last-of-type {
+	margin-bottom: 0;
+}

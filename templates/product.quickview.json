@@ -1,0 +1,68 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+          }
+        },
+        "price": {
+          "type": "price",
+          "settings": {
+          }
+        },
+        "vendor": {
+          "type": "text",
+          "settings": {
+            "label_detail": "",
+            "text": "Cut from light and fluid mushroom washed silk-georgette, it’s designed with a wrap-effect front and a longer back hem for extra coverage. Team it with your favorite jeans and heels.",
+            "label_detail_style": "style-1",
+            "text_style": "body"
+          }
+        },
+        "variant_picker": {
+          "type": "variant_picker",
+          "settings": {
+            "product_page_option_color_swatch": "Color , Colors",
+            "product_page_color_swatch_layout": "swatch-color"
+          }
+        },
+        "buy_buttons": {
+          "type": "buy_buttons",
+          "settings": {
+            "show_dynamic_checkout": false,
+            "show_quantity_selectort": true
+          }
+        },
+        "share":{
+          "type": "share",
+          "settings":{
+            "share_label": "Share"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "vendor",
+        "variant_picker",
+        "buy_buttons",
+        "share"
+      ],
+      "settings": {
+        "enable_sticky_info": true,
+        "default_template": "gallery-list",
+        "hide_variants": false,
+        "enable_video_looping": true
+      }
+
+    }
+  },
+  "wrapper": "div#product_quickview",
+  "layout": false,
+  "order": [
+    "main"
+  ]
+}

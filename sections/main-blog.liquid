@@ -1,0 +1,159 @@
+{{ 'component-article-card.css' | asset_url | stylesheet_tag }}
+{{ 'section-main-blog.css' | asset_url | stylesheet_tag }}
+
+<link rel="stylesheet" href="{{ 'blog-sidebar.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'blog-sidebar.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% assign limit = section.settings.limit %}
+{%- paginate blog.articles by limit -%}
+  <div class="main-blog container {% if settings.blog_sidebar_position == 'left' %} blog-left-sidebar{% elsif settings.blog_sidebar_position == 'right'%} blog-right-sidebar{%else%} none-sidebar{% endif %}">
+    <div class="blog-articles{% if section.settings.layout == 'grid' %} row blog-articles--grid grid--{{ section.settings.article_per_row }}-col-desktop{% endif %}">
+      {%- for article in blog.articles -%}
+        <div class="blog-articles__article article{% if section.settings.layout == 'grid' %} grid__item{% endif %}">
+          {%- render 'article-card', article: article, show_image: section.settings.show_image, image_ratio: section.settings.image_ratio -%}
+        </div>
+      {%- endfor -%}
+      {%- if paginate.pages > 1 -%}
+        {%- render 'pagination', paginate: paginate -%}
+      {%- endif -%}
+    </div>
+  </div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-blog.name",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "t:sections.main-blog.settings.header.content"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "list",
+          "label": "List"
+        }
+      ],
+      "default": "grid",
+      "label": "Layout"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "default": true,
+      "label": "t:sections.main-blog.settings.show_image.label",
+      "info": "t:sections.main-blog.settings.show_image.info"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+          {
+            "value": "adapt",
+            "label": "t:sections.main-blog.settings.image_ratio.options__1_label"
+          }, 
+          {
+            "value": "portrait",
+            "label": "t:sections.main-blog.settings.image_ratio.options__2_label"
+          }, 
+          {
+            "value": "square",
+            "label": "t:sections.main-blog.settings.image_ratio.options__3_label"
+          }
+      ],
+      "default": "adapt",
+      "label": "t:sections.main-blog.settings.image_ratio.label",
+      "info": "t:sections.main-blog.settings.image_ratio.info"
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Limit",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 9
+    },
+    {
+      "type": "range",
+      "id": "article_per_row",
+      "label": "Articles per row(layout grid)",
+      "min": 2,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    }
+  ],
+  "blocks": [
+    {
+      "type": "title",
+      "name": "t:sections.main-blog.blocks.title.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "article_tag",
+          "label": "Show tag",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_date",
+          "default": true,
+          "label": "t:sections.main-blog.blocks.title.settings.show_date.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "title",
+          "label": "Show heading",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "article_comment",
+          "label": "Show comment",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "show_author",
+          "default": false,
+          "label": "t:sections.main-blog.blocks.title.settings.show_author.label"
+        }
+      ]
+    },
+    {
+      "type": "summary",
+      "name": "t:sections.main-blog.blocks.summary.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "t:sections.main-blog.settings.paragraph.content"
+        }
+      ]
+    },
+    {
+      "type": "link",
+      "name": "t:sections.main-blog.blocks.link.name",
+      "limit": 1,
+      "settings":[
+      {
+        "type": "text",
+        "id": "title",
+        "label": "Link heading",
+        "default": "continue reading"
+      }
+      ]
+    }
+  ]
+}
+{% endschema %}

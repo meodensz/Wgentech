@@ -1,0 +1,198 @@
+{{ 'section-collection-list.css' | asset_url | stylesheet_tag }}
+
+{% assign singleProductText = 'collections.landing.item' | t %}
+{% assign multiProductText = 'collections.landing.items' | t %}
+
+<div class="container">
+    {%- liquid
+    case section.settings.sort
+      when 'products_high' or 'products_low'
+        assign collections = collections | sort: 'all_products_count'
+      when 'date' or 'date_reversed'
+        assign collections = collections | sort: 'published_at'
+    endcase
+
+    if section.settings.sort == 'products_high' or section.settings.sort == 'date_reversed' or section.settings.sort == 'alphabetical_reversed'
+      assign collections = collections | reverse
+    endif
+  -%}
+    <ul class="collection-list grid grid--1-col grid--2-col-tablet grid--{{ section.settings.grid_desktop }}-col-desktop">
+        {% if section.settings.display_type == 'all' %}
+            {%- for collection in collections -%}
+                  <li class="collection-list__item grid__item">
+                      <a {% if collection.all_products_count > 0 %} href="{{ collection.url }}" {% endif %} class="card animate-arrow{% if collection.featured_image != blank %} card--media {% else %} {% if section.settings.image_ratio != 'adapt' %} card--stretch{% endif %}{% endif %}">
+                          <div class=" collection-list-wrapper ">
+                              <div class="media media--{{ section.settings.image_ratio }} media--hover-effect overflow-hidden"{% if section.settings.image_ratio == 'adapt' %}{% if collection.featured_image != blank %} style="padding-bottom: {{ 1 | divided_by: collection.featured_image.aspect_ratio | times: 100 }}%;" {% else %} style="padding-bottom: 100%;"{% endif %}{% endif %}>
+                                {% if collection.featured_image != blank %}
+                                  <img srcset="{%- if collection.featured_image.width >= 165 -%}{{ collection.featured_image | image_url: width: 165 }} 165w,{%- endif -%} {%- if collection.featured_image.width >= 360 -%}{{ collection.featured_image | image_url: width: 360 }} 360w,{%- endif -%} {%- if collection.featured_image.width >= 535 -%}{{ collection.featured_image | image_url: width: 535 }} 535w,{%- endif -%} {%- if collection.featured_image.width >= 750 -%}{{ collection.featured_image | image_url: width: 750 }} 750w,{%- endif -%} {%- if collection.featured_image.width >= 1000 -%}{{ collection.featured_image | image_url: width: 1000 }} 1000w,{%- endif -%} {%- if collection.featured_image.width >= 1500 -%}{{ collection.featured_image | image_url: width: 1500 }} 1500w,{%- endif -%} {{ collection.featured_image | image_url: width: 1500 }} {{ collection.featured_image.width }}w" src="{{ collection.featured_image | image_url: width: 1500 }}" sizes="(min-width: 750px) calc((100vw - 130px) / 3), calc(100vw - 30px)" alt="{{ collection.title | escape }}" height="{{ collection.featured_image.height }}" width="{{ collection.featured_image.width }}" loading="lazy">
+                                {% else %}
+                                  {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                                {% endif %}
+                              </div>
+                              <div class="card__text card__text-spacing card__text-hover">
+                                <div class="content-list-item">
+                                  {%- if collection.title -%}
+                                    <h2 class="h3">{{- collection.title -}}</h2>
+                                    <p class="cats-total">{{ collection.all_products_count }}
+                                      {{ collection.all_products_count | pluralize: singleProductText, multiProductText }}
+                                    </p>
+                                  {%- else -%}
+                                    <h2 class="h3">{{ 'collections.landing.title' | t }}</h2>
+                                    <p class="cats-total">
+                                      0 {{ 'collections.landing.item' | t }}
+                                    </p>
+                                  {%- endif -%}
+                                </div>
+                              </div>
+                          </div>
+                      </a>
+                  </li>
+            {%- endfor -%}
+        {% else %}
+            {% for block in section.blocks %}
+								<li class="collection-list__item grid__item">
+										{%- assign collection = collections[block.settings.collection] -%}
+										<a {% if collection.all_products_count > 0 %} href="{{ collection.url }}" {% endif %} class="card animate-arrow{% if collection.featured_image != blank %} card--media {% else %} {% if section.settings.image_ratio != 'adapt' %} card--stretch{% endif %}{% endif %} card--light-border">
+												<div class="collection-list-wrapper">
+														<div class="media-wrapper">
+                              <div class="media media--{{ section.settings.image_ratio }}  media--hover-effect overflow-hidden" {% if section.settings.image_ratio == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: collection.featured_image.aspect_ratio | times: 100 }}%;" {% endif %}>
+                                {% if collection.featured_image != blank %}
+                                <img srcset="{%- if collection.featured_image.width >= 165 -%}{{ collection.featured_image | image_url: width: 165 }} 165w,{%- endif -%} {%- if collection.featured_image.width >= 360 -%}{{ collection.featured_image | image_url: width: 360 }} 360w,{%- endif -%} {%- if collection.featured_image.width >= 535 -%}{{ collection.featured_image | image_url: width: 535 }} 535w,{%- endif -%} {%- if collection.featured_image.width >= 750 -%}{{ collection.featured_image | image_url: width: 750 }} 750w,{%- endif -%} {%- if collection.featured_image.width >= 1000 -%}{{ collection.featured_image | image_url: width: 1000 }} 1000w,{%- endif -%} {%- if collection.featured_image.width >= 1500 -%}{{ collection.featured_image | image_url: width: 1500 }} 1500w,{%- endif -%} {{ collection.featured_image | image_url: width: 1500 }} {{ collection.featured_image.width }}w" src="{{ collection.featured_image | image_url: width: 1500 }}" sizes="(min-width: 750px) calc((100vw - 130px) / 3), calc(100vw - 30px)" alt="{{ collection.title | escape }}" height="{{ collection.featured_image.height }}" width="{{ collection.featured_image.width }}" loading="lazy">
+                                {% else %}
+                                  {{ 'collection-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                                {% endif %}
+                              </div>
+														</div>
+                            <div class="card__text card__text-spacing card__text-hover">
+                              <div class="content-list-item">
+                                {%- if collection.title != blank -%}
+                                  <h2 class="h3">{{- collection.title -}}</h2>
+																	{% if collection.all_products_count == 0 %}
+																	<p class="cats-total">
+																		0 Product
+																	</p>
+																	{% else %}
+																		<p class="cats-total">{{ collection.all_products_count }}
+																			{{ collection.all_products_count | pluralize: singleProductText, multiProductText }}
+																		</p>
+																	{% endif %}
+                                {%- else -%}
+                                  <h2 class="h3">{{ 'collections.landing.title' | t }}</h2>
+                                  <p class="cats-total">
+                                    0 {{ 'collections.landing.item' | t }}
+                                  </p>
+                                {%- endif -%}
+                              </div>
+														</div>
+												</div>
+										</a>
+								</li>
+            {% endfor %}
+        {% endif %}
+    </ul>
+</div>
+
+{% schema %}
+{
+	"name": "t:sections.main-list-collections.name",
+	"settings": [
+			{
+				"type": "paragraph",
+				"content": "All of your collections are listed by default. To customize your list, choose 'Selected' and add collections."
+			}, 
+			{
+			"type": "radio",
+			"id": "display_type",
+			"label": "Select collections to show",
+			"default": "all",
+			"options": [
+					{
+						"value": "all",
+						"label": "All"
+					}, 
+					{
+						"value": "selected",
+						"label": "Selected"
+					}
+				]
+			},
+			{
+				"type": "select",
+				"id": "image_ratio",
+				"options": [
+						{
+							"value": "adapt",
+							"label": "t:sections.main-list-collections.settings.image_ratio.options__1.label"
+						}, 
+						{
+							"value": "portrait",
+							"label": "t:sections.main-list-collections.settings.image_ratio.options__2.label"
+						}, 
+						{
+							"value": "square",
+							"label": "t:sections.main-list-collections.settings.image_ratio.options__3.label"
+						}
+				],
+				"default": "adapt",
+				"label": "t:sections.main-list-collections.settings.image_ratio.label",
+				"info": "t:sections.main-list-collections.settings.image_ratio.info"
+			}, 
+		{
+			"type": "select",
+			"id": "sort",
+			"info": "Sorting only applies when 'All' is selected",
+			"options": [
+					{
+						"value": "alphabetical",
+						"label": "t:sections.main-list-collections.settings.sort.options__1.label"
+					}, 
+					{
+						"value": "alphabetical_reversed",
+						"label": "t:sections.main-list-collections.settings.sort.options__2.label"
+					}, 
+					{
+						"value": "date_reversed",
+						"label": "t:sections.main-list-collections.settings.sort.options__3.label"
+					}, 
+					{
+						"value": "date",
+						"label": "t:sections.main-list-collections.settings.sort.options__4.label"
+					}, 
+					{
+							"value": "products_high",
+							"label": "t:sections.main-list-collections.settings.sort.options__5.label"
+					}, 
+					{
+						"value": "products_low",
+						"label": "t:sections.main-list-collections.settings.sort.options__6.label"
+					}
+				],
+			"default": "alphabetical",
+			"label": "t:sections.main-list-collections.settings.sort.label"
+		}, 
+		{
+			"type": "range",
+			"id": "grid_desktop",
+			"label": "Collections per row",
+			"default": 3,
+			"min": 2,
+			"max": 5,
+			"step": 1
+		}
+	],
+	"blocks": [
+		{
+			"type": "collection",
+			"name": "Collection",
+			"settings": [
+					{
+						"label": "Collection",
+						"id": "collection",
+						"type": "collection"
+					}
+			]
+		}
+	]
+}
+
+{% endschema %}

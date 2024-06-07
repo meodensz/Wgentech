@@ -1,0 +1,191 @@
+<link rel="stylesheet" href="{{ 'section-contact.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-contact.css' | asset_url | stylesheet_tag }}</noscript>
+<div data-section-id="{{ section.id }}" data-section-type="main-contact" class="{% unless section.settings.fullwidth %}page-contact-width{% endunless %}">
+  <div class="contact-wrapper row">
+    {% if section.settings.show_breadcrumb %}
+      <div class="col-12">
+        {% render 'breadcrumb' %}
+      </div>
+    {% else %}
+      {% assign nobreadcrumb = 'no-breadcrumb' %}
+    {% endif %}
+    {% if section.settings.heading_contact or section.blocks.size > 0 or section.settings.show_social %}
+      <div class="contact-infor col-12{% if section.settings.image_description %} col-lg-6 {{ section.settings.position_infor }}{% endif %} {{ nobreadcrumb }}">
+        {% if section.settings.heading_contact %}
+          <h1 class="heading-contact">{{ section.settings.heading_contact }}</h1>
+        {% endif %}
+        {% if section.blocks.size > 0 %}
+          <div class="contact-information">
+            {% for block in section.blocks %}
+              {% if block.type == 'phone' %}
+                {% if block.settings.label != blank and block.settings.phone-number != blank %}
+                  <div class="infor-item">
+                    <span class="infor-label">{{ block.settings.label }}:</span>
+                    <a class="infor-contact" href="tel: {{ block.settings.phone-number }}">{{ block.settings.phone-number }}</a>
+                  </div>
+                {% endif %}
+              {% endif %}
+              {% if block.type == 'email' %}
+                {% if block.settings.label != blank and block.settings.email != blank %}
+                  <div class="infor-item">
+                    <span class="infor-label">{{ block.settings.label }}:</span>
+                    <a class="infor-contact" href="mailto: {{ block.settings.email }}">{{ block.settings.email }}</a>
+                  </div>
+                {% endif %}
+              {% endif %}
+              {% if block.type == 'text' %}
+                {% if block.settings.label != blank and block.settings.infor != blank %}
+                  <div class="infor-item">
+                    <span class="infor-label">{{ block.settings.label }}:</span>
+                    <span class="infor-contact">{{ block.settings.infor }}</span>
+                  </div>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+        {% if section.settings.show_social %}
+          <div class="social">
+            <h2 class="heading-social">{{ 'templates.contact.infor.follow' | t }}</h3>
+            {% render 'follow-social' %}
+          </div>
+        {% endif %}
+      </div>
+    {% endif %}
+    {% if section.settings.image_description %}
+      <div class="contact-media col-12{% if section.settings.heading_contact or section.blocks.size > 0 or section.settings.show_social %} col-lg-6 {% endif %}{% if section.settings.position_infor == 'order-1' %}order-2{% else %}order-1{% endif %} {{ nobreadcrumb }}">
+        <div class="media media--adapt media--hover-effect overflow-hidden" style="padding-bottom: 56%;">
+          <img srcset="{%- if section.settings.image_description.width >= 165 -%}{{ section.settings.image_description | image_url: width: 165 }} 165w,{%- endif -%} {%- if section.settings.image_description.width >= 300 -%}{{ section.settings.image_description | image_url: width: 300 }} 300w,{%- endif -%} {%- if section.settings.image_description.width >= 535 -%}{{ section.settings.image_description | image_url: width: 535 }} 535w,{%- endif -%} {%- if section.settings.image_description.width >= 720 -%}{{ section.settings.image_description | image_url: width: 720 }} 720w,{%- endif -%} {%- if section.settings.image_description.width >= 940 -%}{{ section.settings.image_description | image_url: width: 940 }} 940w,{%- endif -%} {%- if section.settings.image_description.width >= 1070 -%}{{ section.settings.image_description | image_url: width: 1070 }} 1070w{%- endif -%}" src="{{ section.settings.image_description | image_url: width: 533 }}" sizes="(min-width: 1025px) 641px, 100vw" alt="{{ section.settings.image_description.alt | escape }}" height="{{ section.settings.image_description.height | divided_by: 2 }}" width="{{ section.settings.image_description.width | divided_by: 2 }}" loading="lazy">
+        </div>
+      </div>
+    {% endif %}
+  </div>
+  {% if section.settings.background_color %}
+    <span class="contact-wrapper-border"></span>
+  {% endif %}
+</div>
+{% style %}
+
+
+
+{% endstyle %}
+<script>
+	function imagePadding() {
+		if(document.querySelector(".contact-infor")) {
+			const height = document.querySelector(".contact-infor").clientHeight;
+			if(document.querySelector(".contact-media .media")) {
+				document.querySelector(".contact-media .media").style.paddingBottom = height + "px";
+			}
+		}
+	}
+	window.addEventListener("resize", imagePadding);
+</script>
+{% schema %}
+{
+  "name": "Contact us",
+	"class": "main-contact",
+  "settings": [
+		{
+			"type": "checkbox",
+			"id": "fullwidth",
+			"label": "Fullwidth",
+			"default": false
+		},
+		{
+			"type": "checkbox",
+			"id": "show_breadcrumb",
+			"label": "Show breadcrumb",
+			"default": true
+		},
+		{
+      "type": "text",
+      "id": "heading_contact",
+			"label": "Heading",
+			"default": "Headquarter"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_description",
+      "label": "Image description"
+    },
+		{
+			"type": "select",
+			"id": "position_infor",
+			"label": "Position info",
+			"default": "order-1",
+			"options": [
+				{
+					"label": "Position left",
+					"value": "order-1"
+				},
+				{
+					"label": "Position right",
+					"value": "order-2"
+				}
+			]
+		},
+		{
+			"type": "checkbox",
+			"id": "show_social",
+			"label": "Show social media",
+			"default": true
+		}
+  ],
+  "blocks":[
+    {
+			"type": "phone",
+			"name": "Phone",
+			"settings":[
+				{
+					"type": "text",
+					"id": "phone-number",
+					"label": "Phone number",
+					"default": "+98 0 9876 0954"
+				},
+				{
+					"type": "text",
+					"id": "label",
+					"label": "Label",
+					"default": "Phone"
+				}
+			]
+    },
+    {
+      "type": "email",
+      "name": "Email",
+      "settings":[
+        {
+					"type": "text",
+					"id": "label",
+					"label": "Label",
+					"default": "Email"          
+        },
+        {
+					"type": "text",
+					"id": "email",
+					"label": "Email",
+					"default": "info@cecilesupport.com"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Text",
+      "settings":[
+        {
+					"type": "text",
+					"id": "label",
+					"label": "Label",
+					"default": "Address"
+        },
+        {
+					"type": "textarea",
+					"id": "infor",
+					"label": "Infor",
+					"default": "Box 599, Charlestown, Nevis, West Indies, Caribbean"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

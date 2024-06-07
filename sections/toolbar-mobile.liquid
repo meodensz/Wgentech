@@ -1,0 +1,303 @@
+{%- if section.blocks.size > 0 -%}
+	{%- assign numberOfBlock = section.blocks.size -%}
+{%- endif -%}
+{%- style -%}
+
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group {
+	background-color: {{ section.settings.background_color }};
+}
+
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group .toolbar-item .counter {
+	color: {{ section.settings.number_color }};
+	background-color: {{ section.settings.number_background_color }};
+}
+
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group .toolbar-item > a,
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group .toolbar-item modal-opener > a {
+	color: {{ section.settings.item_color }};
+}
+
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group .toolbar-item>a:hover,
+.toolbar-menu[data-section-id="{{ section.id }}"] .header-group .toolbar-item modal-opener>a:hover {
+	color: {{ section.settings.item_color_hover }} !important;
+}
+
+{%- endstyle -%}
+<link rel="stylesheet" href="{{ 'toolbar-mobile.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'toolbar-mobile.css' | asset_url | stylesheet_tag }}</noscript>
+{%- render 'gp-section-style' -%}
+{% if section.blocks.size > 0 %}
+	<div id="{{ section.id }}" data-section-id="{{ section.id }}" data-section-type="toolbar-section" class="toolbar-menu">
+		<div class="header-group header-moblie-show{% if section.settings.show_text == false %} no-text{% endif %}">
+			<div class="row-item row-{{ numberOfBlock }}">
+				{% for block in section.blocks %}
+					{% case block.type %}
+						{% when 'home' %}
+							<div class="toolbar-item header-visit-home">
+								<a href="{% if block.settings.url != blank %}{{ block.settings.url }}{% else %}/{% endif %}" {% if block.settings.open_new_window %} target="_blank"{% endif %} class="mini-icon-hover no-effect" aria-label="{{ 'general.breadcrumbs.home' | t }}">
+									<i class="icon-home"></i>
+									{% if block.settings.title != blank and section.settings.show_text %}
+										<span class="toolbar-item-title">{{ block.settings.title }}</span>
+									{% endif %}
+								</a>
+							</div>
+						{% when 'account' %}
+							<div class="toolbar-item header-account">
+								<a href="{{ routes.account_url }}" class=" mini-icon-hover no-effect{% if settings.account_popup_enable %}js-account-popup {% if customer %} link-account{% else %}no-account{% endif %}{% endif %}" aria-label="{{ 'customer.account.title' | t }}">
+									<i class="icon-user"></i>
+									{% if block.settings.title != blank and section.settings.show_text %}
+										<span class="toolbar-item-title">{{ block.settings.title }}</span>
+									{% endif %}
+								</a>
+							</div>
+						{% when 'cart' %}
+							<div class="toolbar-item header-cart-item toggle-cart-slide{% if section.settings.show_text %} has-label{% endif %}">
+								{% if template != 'cart' and settings.cart_drawer_enable %}
+									<modal-opener data-modal="#Slideout-cart">
+										<a href="{{ routes.cart_url }}" class="action-cart mini-icon-hover no-effect" aria-label="{{ 'general.cart.title' | t }}">
+											<i class="icon-cart"></i>
+											{% if section.settings.show_text %}
+												<span class="toolbar-item-title">{{ 'general.cart.title' | t }}</span>
+											{% endif %}
+										</a>
+										<span class="counter qty"><span class="counter-number">{{ cart.item_count }}</span></span>
+									</modal-opener>
+								{% else %}
+									<div>
+										<a href="{{ routes.cart_url }}" class="action-cart mini-icon-hover no-effect" aria-label="{{ 'general.cart.title' | t }}">
+											<i class="icon-cart"></i>
+											{% if section.settings.show_text %}
+												<span class="toolbar-item-title">{{ 'general.cart.title' | t }}</span>
+											{% endif %}
+										</a>
+										<span class="counter qty"><span class="counter-number">{{ cart.item_count }}</span></span>
+									</div>
+								{% endif %}
+							</div>
+						{% when 'settings' %}
+							<settings-custom class="toolbar-item header-settings" style="cursor: pointer;">
+								<a href="#" class="link-setting toggle-desktop-additional-menu mini-icon-hover no-effect" title="{% if block.settings.title != blank %}{{ block.settings.title }}{% else %}setting{% endif %}">
+									<i class="icon-setting"></i>
+									{% if block.settings.title != blank and section.settings.show_text %}
+										<span class="toolbar-item-title">{{ block.settings.title }}</span>
+									{% endif %}
+								</a>
+								{%- render 'gp-additional-menu', block: block -%}
+							</settings-custom>
+						{% when 'link-custom' %}
+							<div class="toolbar-item link-custom">
+								<a href=" {% if block.settings.url != blank %}{{ block.settings.url }}{% else %}#{% endif %}" {% if block.settings.open_new_window %} target="_blank"{% endif %} class="link-custom mini-icon-hover no-effect">
+									{% if block.settings.image != blank %}
+										<img
+											src="{{ block.settings.image | image_url: width: 750 }}"
+											srcset="{%- if block.settings.image.width >= 375 -%}{{ block.settings.image | image_url: width: 375 }} 375w,{%- endif -%}
+											{%- if block.settings.image.width >= 750 -%}{{ block.settings.image | image_url: width: 750 }} 750w,{%- endif -%}
+											{%- if block.settings.image.width >= 1100 -%}{{ block.settings.image | image_url: width: 1100 }} 1100w,{%- endif -%}
+											{%- if block.settings.image.width >= 1500 -%}{{ block.settings.image | image_url: width: 1500 }} 1500w,{%- endif -%}
+											{%- if block.settings.image.width >= 1780 -%}{{ block.settings.image | image_url: width: 1780 }} 1780w,{%- endif -%}
+											{%- if block.settings.image.width >= 2000 -%}{{ block.settings.image | image_url: width: 2000 }} 2000w,{%- endif -%}
+											{%- if block.settings.image.width >= 2800 -%}{{ block.settings.image | image_url: width: 2800 }} 2800w{%- endif -%}"
+											alt="{{ block.settings.image.alt | escape }}" 
+											loading="lazy" 
+											sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+											loading="lazy" 
+											width="{{ block.settings.image.width }}" 
+											height="{{ block.settings.image.height }}" 
+											/>
+									{% else %}
+										{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+									{% endif %}
+									{% if block.settings.title != blank and section.settings.show_text %}
+										<span class="toolbar-item-title">{{ block.settings.title }}</span>
+									{% endif %}
+								</a>
+							</div>
+					{% endcase %}
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+{% endif %}
+{% javascript %}
+
+class settings extends HTMLElement {
+	constructor() {
+		super();
+		this.querySelector('a').addEventListener('click',(e)=> {
+      this.toggle(e);
+    })
+	}
+
+	toggle(e) {
+    e.preventDefault();
+		if (document.documentElement.classList.contains("nav-open-additional-menu")) {
+      document.documentElement.classList.remove("nav-open-additional-menu")
+		} else {
+      document.documentElement.classList.add("nav-open-additional-menu")
+		}
+	}
+}
+customElements.define('settings-custom', settings)
+
+{% endjavascript %}
+
+{% schema %}
+  {
+    "name": "Toolbar menu",
+    "max_blocks": 5,
+    "settings": [
+			{
+				"type": "paragraph",
+				"content": "This section only show in mobile"
+			},
+			{
+				"type": "checkbox",
+				"id": "show_text",
+				"label": "Show text under icon",
+				"default": false
+			},
+			{
+				"type": "color",
+				"id": "background_color",
+				"label": "Background color",
+				"default": "#fff"
+			},
+			{
+				"type": "color",
+				"id": "item_color",
+				"label": "Item color",
+				"default": "#2c2c2c"
+			},
+			{
+				"type": "color",
+				"id": "item_color_hover",
+				"label": "Item color hover",
+				"default": "#262626"
+			},
+			{
+				"type": "color",
+				"id": "number_color",
+				"label": "Number color",
+				"default": "#fff"
+			},
+			{
+				"type": "color",
+				"id": "number_background_color",
+				"label": "Number background color",
+				"default": "#262626"
+			}
+    ],
+    "blocks": [
+			{
+				"type": "link-custom",
+				"name": "Link custom",
+				"settings": [
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Heading",
+						"default": "Custom"
+					},
+					{
+						"type": "image_picker",
+						"id": "image",
+						"label": "Icon image",
+						"info": "Recommended(16x16)"
+					},
+					{
+						"type": "url",
+						"id": "url",
+						"label": "Link"
+					},
+          {
+            "type": "checkbox",
+            "label": "Open link in new tab",
+            "id": "open_new_window",
+            "default": false
+          }
+				]
+			},
+			{
+				"type": "home",
+				"name": "Home",
+				"limit": 1,
+				"settings": [
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Heading",
+						"default": "Home"
+					},
+					{
+						"type": "url",
+						"id": "url",
+						"label": "Link",
+						"info": "Leave it blank to direct to home."
+					},
+          {
+            "type": "checkbox",
+            "label": "Open link in new tab",
+            "id": "open_new_window",
+            "default": false
+          }
+				]
+			},
+			{
+				"type": "account",
+				"name": "Account",
+				"limit": 1,
+				"settings": [
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Heading",
+						"default": "Account"
+					}
+				]
+			},
+			{
+				"type": "cart",
+				"name": "Cart",
+				"limit": 1
+			},
+			{
+				"type": "settings",
+				"name": "Settings",
+				"limit": 1,
+				"settings": [
+					{
+						"type": "text",
+						"id": "title",
+						"label": "Heading",
+						"default": "Settings",
+						"info": "Show header content hidden: Currency convertor, custom content, header newsletter, header social."
+					},
+					{
+						"type": "textarea",
+						"label": "Custom content",
+						"id": "custom_content",
+						"default": "<ul class='list-info-contact'><li class='info-address'> <i class='icon-pin1'></i><div class='info-content'><p>924/1 Cummerata Mission, Los Angeles, USA, Inc - 4852</p></div></li><li class='info-mail'> <i class='icon-envelope'></i><div class='info-content'> <a href='mailto:shopify@gmail.com'>shopify@gmail.com</a></div></li><li class='info-phone'> <i class='icon-call'></i><div class='info-content'> <a href='tel:+8(800)1234589'>+8 (800) 123 4589</a></div></li><li class='info-time'> <i class='icon-nine-oclock-on-circular-clock'></i><div class='info-content'><p>Monday: 13:00-18:00</p></div></li></ul>"
+					},
+					{
+						"type": "checkbox",
+						"id": "enable_country_selector",
+						"label": "Show currency selector",
+						"default": true
+					},
+					{
+						"type": "checkbox",
+						"id": "enable_language_selector",
+						"label": "Show language selector",
+						"default": true
+					},
+					{
+						"type": "checkbox",
+						"id": "enable_socials",
+						"label": "Show social media",
+						"default": true
+					}
+				]
+			}
+    ]
+  }
+{% endschema %}

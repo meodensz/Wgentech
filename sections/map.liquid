@@ -1,0 +1,44 @@
+<link rel="stylesheet" href="{{ 'section-map.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-map.css' | asset_url | stylesheet_tag }}</noscript>
+{% if section.settings.map %}
+    <div class="map{% if section.settings.fullwidth == false %} {% if page.template_suffix contains 'contact' %}page-contact-width{%else%}container{% endif %}{% endif %}">
+        {{ section.settings.map }}
+    </div>
+{% endif %}
+{% style %}
+  {% if section.settings.filter %}
+    .map iframe {
+      filter: grayscale(1);
+    }
+  {% endif %}
+{% endstyle %}
+{% schema %}
+{
+  "name": "Map",
+  "settings": [
+    {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Full width",
+        "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "filter",
+      "label": "Show filter for map",
+      "default": false
+    },
+    {
+        "type": "textarea",
+        "id":"map",
+        "label": "Map iframe of Google",
+        "default": "<iframe src='https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d30277.56376072169!2d105.79522185967556!3d21.022459333388674!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x22b86ba5d38a91d0!2sC%C3%B4ng%20Ty%20Mitec!5e0!3m2!1svi!2s!4v1622695134401!5m2!1svi!2s' width='600' height='442' style='border:0;' allowfullscreen='' loading='lazy'></iframe>"
+    }
+  ],
+  "presets": [
+  {
+    "name": "Map"
+  }
+]
+}
+{% endschema %}

@@ -1,0 +1,65 @@
+{% render 'gp-section-style' %}
+<div data-section-id="{{ section.id }}">
+</div>
+{% style %}
+  [data-section-id="{{ section.id }}"]{
+    padding-top: {{ section.settings.space_mobile }}rem;
+  }
+  @media (min-width: 768px) {
+    [data-section-id="{{ section.id }}"]{
+      padding-top: {{ section.settings.space_tablet }}rem;
+    }
+  }
+  @media (min-width: 1025px) {
+    [data-section-id="{{ section.id }}"]{
+      padding-top: {{ section.settings.space_desktop }}rem;
+    }
+  }
+{% endstyle %}
+{% schema %}
+{
+  "name": "Space",
+  "settings": [
+    {
+      "type": "range",
+      "id": "space_desktop",
+      "label": "Space desktop",
+      "min": 1,
+      "max": 50,
+      "default":10,
+      "step": 1,
+      "info": "Unit: rem."
+    },
+    {
+      "type": "range",
+      "id": "space_tablet",
+      "label": "Space tablet",
+      "min": 1,
+      "max": 50,
+      "default":8,
+      "step": 1,
+      "info": "Unit: rem."
+    },
+    {
+      "type": "range",
+      "id": "space_mobile",
+      "label": "Space mobile",
+      "min": 1,
+      "max": 50,
+      "default":5,
+      "step": 1,
+      "info": "Unit: rem."
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Space"
+    }
+  ]
+}
+  {% endschema %}

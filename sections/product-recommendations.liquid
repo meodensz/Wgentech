@@ -1,0 +1,162 @@
+<link rel="stylesheet" href="{{ 'component-price.css' | asset_url }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ 'section-product-recommendations.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-product-recommendations.css' | asset_url | stylesheet_tag }}</noscript>
+
+<product-recommendations class="product-recommendations container" data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ section.settings.limit }}">
+  {% if recommendations.performed and recommendations.products_count > 0 %}
+    <h2 class="product-recommendations__heading">{{ section.settings.heading | escape }}</h2>
+    <slider-component class="recommen-slider">
+      <ul class="grid {% if section.settings.layout == 'slider' %} slider {% endif %} grid--{{ section.settings.product_per_row_mobile }}-col grid--{{ section.settings.product_per_row_tablet }}-col-tablet grid--{{ section.settings.product_per_row }}-col-desktop" role="list">
+        {% for recommendation in recommendations.products %}
+          <li class="grid__item {% if section.settings.layout == 'slider' %} slider__slide {% endif %}">
+            {% render 'product-card',
+              product: recommendation,
+              media_size: section.settings.image_ratio
+            %}
+          </li>
+        {% endfor %}
+      </ul>
+      {% if section.settings.layout == 'slider' %}
+        <div class="pagination-wrapper">
+          <button type="button" class="pagination_item pagination_item--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}"><span class="icon-arrow-left"></span></button>
+          <button type="button" class="pagination_item pagination_item--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}"><span class="icon-arrow-right"></span></button>
+        </div>
+        <div class="slider-counter">
+          <span class="slider-counter--current"></span>
+          <span class="slider-counter--total"></span>
+        </div>
+        <div class="slider-dots">
+        </div>
+      {% endif %}
+    </slider-component>
+  {% endif %}
+</product-recommendations>
+
+{% javascript %}
+  class ProductRecommendations extends HTMLElement {
+    constructor() {
+      super();
+
+      const handleIntersection = (entries, observer) => {
+        if (!entries[0].isIntersecting) return;
+        observer.unobserve(this);
+
+        fetch(this.dataset.url)
+          .then(response => response.text())
+          .then(text => {
+            const html = document.createElement('div');
+            html.innerHTML = text;
+            const recommendations = html.querySelector('product-recommendations');
+            if (recommendations && recommendations.innerHTML.trim().length) {
+              this.innerHTML = recommendations.innerHTML;
+            }
+          })
+          .catch(e => {
+            console.error(e);
+          });
+      }
+
+      new IntersectionObserver(handleIntersection.bind(this), {rootMargin: '0px 0px 200px 0px'}).observe(this);
+    }
+  }
+
+  customElements.define('product-recommendations', ProductRecommendations);
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "t:sections.product-recommendations.name",
+  "tag": "section",
+  "class": "spaced-section-100",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "t:sections.product-recommendations.settings.paragraph__1.content"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "default": "You may also like",
+      "label": "t:sections.product-recommendations.settings.heading.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.product-recommendations.settings.header__2.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.product-recommendations.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.product-recommendations.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.product-recommendations.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.product-recommendations.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "product_per_row",
+      "label": "Product per row desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "product_per_row_tablet",
+      "label": "Product per row tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "product_per_row_mobile",
+      "label": "Product per row mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slideshow"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "min": 0,
+      "max": 10,
+      "step": 1,
+      "default": 3,
+      "label": "Limit",
+      "info": "0 to hide section"
+    }
+  ]
+}
+{% endschema %}

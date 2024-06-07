@@ -1,0 +1,197 @@
+<link rel="stylesheet" href="{{ 'component-rte.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'section-rich-text.css' | asset_url }}" media="print" onload="this.media='all'">
+
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-rich-text.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div  data-section-id="{{ section.id }}" class=" container gp-section-wrapper rich-text {% unless section.settings.full_width %}custom_width{% endunless %}">
+  <div class="rich-text__blocks gp-section-inner">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'heading' -%}
+          <h2 class="{{ block.settings.text_align }} {% if block.settings.heading_size == 'extra-small' %}h6{% elsif block.settings.heading_size == 'small' %}h5{% elsif block.settings.heading_size == 'medium' %}h4{% elsif block.settings.heading_size == 'large' %}h3{% elsif block.settings.heading_size == 'extra-large' %}h2{% else %}h1{% endif %}">{{ block.settings.heading | escape }}</h2>
+        {%- when 'text' -%}
+          <div class="rich-text__text rte {{ block.settings.text_align_2 }}">{{ block.settings.text }}</div>
+        {%- when 'button' -%}
+          <a{% if block.settings.button_link == blank %} aria-disabled="true"{% else %} href="{{ block.settings.button_link }}"{% endif %} class="button{% if block.settings.button_style_secondary %} btn-2 {% else %} btn{% endif %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>{{ block.settings.button_label | escape }}</a>
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</div>
+{% style %}
+  {% unless section.settings.full_width %}
+    [data-section-id="{{ section.id }}"].custom_width.rich-text{
+      max-width: {{ section.settings.custom_width }}px;
+      margin: auto;
+    }
+  {% endunless %}
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "t:sections.rich-text.name",
+  "tag": "section",
+  "class":"padding-section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "default": true,
+      "label": "Fullwidth"
+    },
+    {
+      "type": "text", 
+      "id": "custom_width",
+      "label": "Custom width",
+      "default": "1240",
+      "info": "Unit: px. Leave it to blank to get default width. only active when unchecked checkbox Fullwidth "
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "t:sections.rich-text.blocks.heading.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Talk about your brand",
+          "label": "t:sections.rich-text.blocks.heading.settings.heading.label"
+        },
+        {
+          "type": "select",
+          "id": "text_align",
+          "label": "Text alignment",
+          "default": "text-center",
+          "options": [
+            {
+              "value": "text-left",
+              "label": "Left"
+            },
+            {
+              "value": "text-center",
+              "label": "Center"
+            },
+            {
+              "value": "text-right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "heading_size",
+          "options": [
+            {
+              "value": "extra-small",
+              "label": "Extra small"
+            },
+            {
+              "value": "small",
+              "label": "Small"
+            },
+            {
+              "value": "medium",
+              "label": "Medium"
+            },
+            {
+              "value": "large",
+              "label": "Large"
+            },
+            {
+              "value": "extra-large",
+              "label": "Extra large"
+            },
+            {
+              "value": "extra-extra-large",
+              "label": "Extra extra large"
+            }
+          ],
+          "default": "medium",
+          "label": "t:sections.rich-text.blocks.heading.settings.heading_size.label"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "t:sections.rich-text.blocks.text.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "default": "<p>Share information about your brand with your customers. Describe a product, make announcements, or welcome customers to your store.</p>",
+          "label": "t:sections.rich-text.blocks.text.settings.text.label"
+        },
+        {
+          "type": "select",
+          "id": "text_align_2",
+          "label": "Text alignment",
+          "default": "text-center",
+          "options": [
+            {
+              "value": "text-left",
+              "label": "Left"
+            },
+            {
+              "value": "text-center",
+              "label": "Center"
+            },
+            {
+              "value": "text-right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "t:sections.rich-text.blocks.button.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "button_label",
+          "default": "Button label",
+          "label": "t:sections.rich-text.blocks.button.settings.button_label.label"
+        },
+        {
+          "type": "url",
+          "id": "button_link",
+          "label": "t:sections.rich-text.blocks.button.settings.button_link.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_window",
+          "label": "Open link in new tab",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "button_style_secondary",
+          "default": false,
+          "label": "t:sections.rich-text.blocks.button.settings.button_style_secondary.label"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.rich-text.presets.name",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "button"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

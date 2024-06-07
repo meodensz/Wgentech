@@ -1,0 +1,102 @@
+.image-widget img{
+  height: auto;
+}
+.image-widget-wrapper{
+  padding: 30px 0 10px;
+}
+.image-widget .row{
+  align-items: center;
+  margin-left: -10px;
+  margin-right: -10px;
+}
+.image-widget-wrapper h2{
+  margin-bottom: 30px;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+.image-widget .item-image-widget{
+  padding: 0 10px;
+  line-height: 0;
+  margin-bottom: 20px;
+}
+.section-image-widget{
+  margin-top: 60px;
+}
+@media (min-width: 768px) {
+  .image-widget .item-image-widget{
+    margin-bottom: 0;
+  }
+  .image-widget-wrapper{
+    padding: 40px 0 40px;
+  }
+  .image-widget .row{
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+  .image-widget .item-image-widget{
+    padding: 0 15px;
+  }
+  .image-widget-wrapper h2{
+    margin-bottom: 40px;
+    font-size: 32px;
+    line-height: 38px;
+  }
+  .image-widget .img-wrapper{
+    margin-bottom: 0;
+  }
+}
+@media (min-width: 768px) {
+  .image-widget .item-image-widget{
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+  [data-size="5"].image-widget .item-image-widget.forloop-3 {
+    flex: 0 0 25.4%;
+    max-width: 25.4%;
+  }
+  [data-size="5"].image-widget .item-image-widget.forloop-2,
+  [data-size="5"].image-widget .item-image-widget.forloop-4 {
+    flex: 0 0 21%;
+    max-width: 21%;
+  }
+  [data-size="5"].image-widget .item-image-widget.forloop-1,
+  [data-size="5"].image-widget .item-image-widget.forloop-5 {
+    flex: 0 0 16.3%;
+    max-width: 16.3%;
+  }
+
+  [data-size="3"].image-widget .item-image-widget.forloop-1,
+  [data-size="3"].image-widget .item-image-widget.forloop-3 {
+    flex: 0 0 30%;
+    max-width: 30%;
+  }
+  [data-size="3"].image-widget .item-image-widget.forloop-2 {
+    flex: 0 0 40%;
+    max-width: 40%;
+  }
+  [data-size="2"].image-widget .item-image-widget.forloop-1,
+  [data-size="2"].image-widget .item-image-widget.forloop-2 {
+    flex: 0 0 50%;
+    max-width: 50%;
+  }
+  [data-size="4"].image-widget .item-image-widget.forloop-1,
+  [data-size="4"].image-widget .item-image-widget.forloop-2,
+  [data-size="4"].image-widget .item-image-widget.forloop-3,
+  [data-size="4"].image-widget .item-image-widget.forloop-4 {
+    flex: 0 0 25%;
+    max-width: 25%;
+  }
+}
+@media (min-width: 1025px) {
+  .section-image-widget{
+    margin-top: 100px;
+  }
+  .image-widget-wrapper h2{
+    margin-bottom: 40px;
+    line-height: 46px;
+    font-size: 40px;
+    text-transform: none;
+  }
+}

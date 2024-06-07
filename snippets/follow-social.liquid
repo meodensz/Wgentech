@@ -1,0 +1,69 @@
+<ul class="social-sharing list-social list-unstyled">
+    {%- if settings.social_facebook_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="//www.facebook.com/sharer.php?u={{ settings.social_facebook_link }}" target="_blank" title="{{ 'general.social.links.facebook' | t }}">
+            <i class="icon-fb"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_twitter_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_twitter_link }}" target="_blank" title="{{ 'general.social.links.twitter' | t }}">
+            <i class="icon-tw"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_pinterest_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_pinterest_link }}" target="_blank" title="{{ 'general.social.links.pinterest' | t }}">
+            <i class="icon-p"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_tiktok_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_tiktok_link }}" target="_blank" title="{{ 'general.social.links.tiktok' | t }}">
+                {%- render 'icon-tiktok' -%}
+            </a>
+    </li>
+    {%- endif -%} {%- if settings.social_tumblr_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_tumblr_link }}" target="_blank" title="{{ 'general.social.links.tumblr' | t }}">
+                {%- render 'icon-tumblr' -%}
+            </a>
+    </li>
+    {%- endif -%} {%- if settings.social_snapchat_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_snapchat_link }}" target="_blank" title="{{ 'general.social.links.snapchat' | t }}">
+                {%- render 'icon-snapchat' -%}
+            </a>
+    </li>
+    {%- endif -%} {%- if settings.social_youtube_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_youtube_link }}" target="_blank" title="{{ 'general.social.links.youtube' | t }}">
+            <i class="icon-youtobe"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_vimeo_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_vimeo_link }}" target="_blank" title="{{ 'general.social.links.vimeo' | t }}">
+                {%- render 'icon-vimeo' -%}
+            </a>
+    </li>
+    {%- endif -%} {%- if settings.social_linkedin_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_linkedin_link }}" target="_blank" title="{{ 'general.social.links.linkedin' | t }}">
+            <i class="icon-in"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_telegram_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_telegram_link }}" target="_blank" title="{{ 'general.social.links.telegram' | t }}">
+            <i class="icon-tele"></i>
+        </a>
+    </li>
+    {%- endif -%} {%- if settings.social_mail_link -%}
+    <li class="list-social__item">
+        <a class="list-social__link no-effect link link--text" href="{{ settings.social_mail_link }}" target="_blank" title="{{ 'general.social.links.mail' | t }}">
+            <i class="icon-mail"></i>
+        </a>
+    </li>
+    {%- endif -%}
+</ul>

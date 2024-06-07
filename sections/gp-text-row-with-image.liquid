@@ -1,0 +1,263 @@
+<link rel="stylesheet" href="{{ 'section-gp-text-row-with-image.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'section-gp-text-row-with-image.css' | asset_url | stylesheet_tag }}</noscript>
+{% render 'gp-section-style' %}
+<div data-section-id="{{ section.id }}" data-section-type="gp-image-with-content" class=" container gp-section-wrapper {% unless section.settings.fullwidth %}custom_width{% endunless %}">
+  <div class="text-row-with-image gp-section-inner">
+    {%- if section.blocks.size > 0 -%}
+      {%- for block in section.blocks -%}
+        <div class="image-with-content-container row position-{{ forloop.index }}" data-block-id="{{ block.id }}">
+          {%- if block.settings.image_position contains 'left' %}
+            <div class="col-md-6 col-12 image-wrapper{% if block.settings.image_position == "left-1" %} order-1{% endif %}">
+              {%- if block.settings.desktop_image != blank -%}
+                <img
+                src="{{ block.settings.desktop_image | image_url: width: 750 }}"
+                srcset="{%- if block.settings.desktop_image.width >= 375 -%}{{ block.settings.desktop_image | image_url: width: 375 }} 375w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 750 -%}{{ block.settings.desktop_image | image_url: width: 750 }} 750w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1100 -%}{{ block.settings.desktop_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1500 -%}{{ block.settings.desktop_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1780 -%}{{ block.settings.desktop_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 2000 -%}{{ block.settings.desktop_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 2800 -%}{{ block.settings.desktop_image | image_url: width: 2800 }} 2800w{%- endif -%}"
+                alt="{{ block.settings.desktop_image.alt }}"
+                sizes="100vw"
+                loading="lazy" 
+                width="{{ block.settings.desktop_image.width }}" 
+                height="{{ block.settings.desktop_image.height }}" 
+                class=" motion-reduce {% if block.settings.mobile_image != blank %} above-767-only{% endif %}" />          
+              {%- else -%}
+                {%- if block.settings.mobile_image != blank -%}<div class="desktop-only tablet-only">{%- endif -%}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                {%- if block.settings.mobile_image != blank -%}</div>{%- endif -%}
+              {%- endif -%}
+              {%- if block.settings.mobile_image != blank -%}
+                <img
+                src="{{ block.settings.mobile_image | image_url: width: 750 }}"
+                srcset="{%- if block.settings.mobile_image.width >= 375 -%}{{ block.settings.mobile_image | image_url: width: 375 }} 375w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 750 -%}{{ block.settings.mobile_image | image_url: width: 750 }} 750w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 1100 -%}{{ block.settings.mobile_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 1500 -%}{{ block.settings.mobile_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 1780 -%}{{ block.settings.mobile_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 2000 -%}{{ block.settings.mobile_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+                {%- if block.settings.mobile_image.width >= 2800 -%}{{ block.settings.mobile_image | image_url: width: 2800 }} 2800w{%- endif -%}"
+                alt="{{ block.settings.mobile_image.alt }}"
+                sizes="100vw"
+                loading="lazy" 
+                width="{{ block.settings.mobile_image.width }}" 
+                height="{{ block.settings.mobile_image.height }}" 
+                class="motion-reduce mobile-only" />          
+              {%- endif -%}
+            </div>
+          {%- endif -%}
+          <div class="content-wrapper col-md-5 col-12 {% if block.settings.image_position == "right-2" %}order-1{% endif %} {% if block.settings.image_position == "left-1" %} order-2{% endif %}">
+            <div class="content-details">
+              {%- if block.settings.title != blank -%}
+              <h3 class="custom-content-title heading-2">{{ block.settings.title }}</h3>
+              {%- endif -%}
+              {%- if block.settings.sub_title != blank -%}
+              <p class="sub-title">
+                {{ block.settings.sub_title }}
+              </p>
+              {%- endif -%}
+              {%- if block.settings.content != blank -%}
+              <div class="content">
+                {{ block.settings.content }}
+              </div>
+              {%- endif -%}
+              {%- if block.settings.content_impression != blank -%}
+              <div class="content-emphasized">
+                {{ block.settings.content_impression }}
+              </div>
+              {%- endif -%}
+              {%- if block.settings.title_signature != blank or block.settings.signature_text_post != blank -%}
+                <div class="wrapper-signature">
+                {%- if block.settings.title_signature != blank -%}
+                    <p>{{ block.settings.title_signature }}</p>
+                {%- endif -%}
+                {%- if block.settings.signature_text_post != blank -%}
+                    <h4 class="signature">{{ block.settings.signature_text_post }}</h4>
+                {%- endif -%}
+                </div> 
+              {%- endif -%}
+            </div>
+          </div>
+          {% if block.settings.image_position contains 'right' %}
+              <div class="col-md-6 medium-up--push-one-twelfth col-12 image-wrapper">
+                {%- if block.settings.desktop_image != blank -%}
+                <img 
+                src="{{ block.settings.desktop_image | image_url: width: 750 }}"
+                srcset="{%- if block.settings.desktop_image.width >= 375 -%}{{ block.settings.desktop_image | image_url: width: 375 }} 375w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 750 -%}{{ block.settings.desktop_image | image_url: width: 750 }} 750w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1100 -%}{{ block.settings.desktop_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1500 -%}{{ block.settings.desktop_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 1780 -%}{{ block.settings.desktop_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 2000 -%}{{ block.settings.desktop_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+                {%- if block.settings.desktop_image.width >= 2800 -%}{{ block.settings.desktop_image | image_url: width: 2800 }} 2800w{%- endif -%}"
+                alt="{{ block.settings.desktop_image.alt }}"
+                sizes="100vw" 
+                loading="lazy" 
+                width="{{ block.settings.desktop_image.width }}" 
+                height="{{ block.settings.desktop_image.height }}" 
+                class=" motion-reduce {% if block.settings.mobile_image != blank %} above-767-only{% endif %}" />           
+                {% else %}
+                  {%- if block.settings.mobile_image != blank -%}<div class="desktop-only tablet-only">{%- endif -%}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {%- if block.settings.mobile_image != blank -%}</div>{%- endif -%}
+                {% endif %}
+                {%- if block.settings.mobile_image != blank -%}
+                <img 
+                  src="{{ block.settings.mobile_image | image_url: width: 750 }}"
+                  srcset="{%- if block.settings.mobile_image.width >= 375 -%}{{ block.settings.mobile_image | image_url: width: 375 }} 375w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 750 -%}{{ block.settings.mobile_image | image_url: width: 750 }} 750w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 1100 -%}{{ block.settings.mobile_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 1500 -%}{{ block.settings.mobile_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 1780 -%}{{ block.settings.mobile_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 2000 -%}{{ block.settings.mobile_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+                  {%- if block.settings.mobile_image.width >= 2800 -%}{{ block.settings.mobile_image | image_url: width: 2800 }} 2800w{%- endif -%}"
+                  alt="{{ block.settings.mobile_image.alt }}" 
+                  loading="lazy" 
+                  sizes="100vw" width="{{ block.settings.mobile_image.width }}" 
+                  height="{{ block.settings.mobile_image.height }}" 
+                  class="motion-reduce mobile-only" />          
+                {% endif %}
+              </div>  
+          {% endif %}
+        </div>
+        <style>
+          {% if section.settings.custom_width != blank %}
+            [data-section-id="{{ section.id }}"].custom_width .text-row-with-image .image-with-content-container{
+              max-width: {{ section.settings.custom_width }}px;
+              margin: auto;
+            }
+          {% endif %}
+          [data-block-id="{{ block.id }}"] {
+            background-color: {{ block.settings.bg_color }};
+          }
+        </style>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+  {
+    "name": "Text rows with image",
+    "class":"padding-section",
+    "settings": [
+      {
+        "type": "header",
+        "content": "Common settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth",
+        "default": false
+      },
+      {
+        "type": "text", 
+        "id": "custom_width",
+        "label": "Custom width block",
+        "info": "Unit: px. Leave it to blank to get default width. only active when unchecked checkbox Fullwidth ",
+        "default": "1350"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background",
+        "default": "#FFF"
+      }
+    ],
+    "blocks" : [
+      {
+        "type": "image-with-content",
+        "name": "Image with content",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "desktop_image",
+            "label": "Image(desktop)"
+          },
+          {
+            "type": "image_picker",
+            "id": "mobile_image",
+            "label": "Image(mobile)"
+          },
+          {
+            "type": "select",
+            "id": "image_position",
+            "label": "Image position",
+            "default": "right-2",
+            "options": [
+              {
+                "value": "left-1",
+                "label": "Left -- bottom content in mobile"
+              },              {
+                "value": "left-2",
+                "label": "Left -- above content in mobile"
+              },
+              {
+                "value": "right-1",
+                "label": "Right -- bottom content in mobile"
+              },
+              {
+                "value": "right-2",
+                "label": "Right -- above content in mobile"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "id": "title",
+            "label": "Heading",
+            "default": "Setting Industry Standards"
+          },
+          {
+            "type": "text",
+            "id": "sub_title",
+            "label": "Subheading",
+            "default": "OUR FUTURE"
+          },
+          {
+            "type": "textarea",
+            "id": "content",
+            "label": "Content",
+            "default": "<p>Portland meggings chartreuse plaid palo santo, gluten-free ramps iPhone etsy salvia cray kombucha copper mug single-origin coffee. </p>"
+          },
+          {
+            "type": "textarea",
+            "id": "content_impression",
+            "label": "Content emphasized",
+            "default": "<h4>12.345</h4><p>Satisfied customers worldwide and growing</p>"
+          },
+          {
+            "type": "text",
+            "id": "title_signature",
+            "label": "Job",
+            "default": "Co-founder"
+          },
+          {
+            "type": "text",
+            "id": "signature_text_post",
+            "label": "Signature",
+            "default": "John Doe"
+          },
+          {
+              "type": "color",
+              "id": "bg_color",
+              "label": "Background color",
+              "default": "#fff"
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Text rows with image",
+        "blocks": [
+          {
+            "type": "image-with-content"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

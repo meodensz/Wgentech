@@ -1,0 +1,59 @@
+{% comment %}
+    Renders a set of links for paginated results. Must be used within paginate tags.
+
+    Usage:
+    {% paginate results by 2 %}
+      {% render 'pagination', paginate: paginate, anchor: '#yourID' %}
+    {% endpaginate %}
+
+    Accepts:
+    - paginate: {Object}
+    - anchor: {String} (optional) This can be added so that on page reload it takes you to wherever you've placed your anchor tag.
+    - class: {String} (optional) Appended to container element's class attribute
+{% endcomment %}
+
+<link rel="stylesheet" href="{{ 'component-pagination.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-pagination.css' | asset_url | stylesheet_tag }}</noscript>
+{% if template contains 'collection' %}
+  {% assign div = 'li' %}
+{% else %}
+  {% assign div = 'div' %}
+{% endif %}
+{%- if paginate.parts.size > 0 -%}
+  <{{ div }} class="{{ class | default: 'pagination-wrapper' }}">
+    <nav class="pagination pagination-content type-number {% if template contains 'collection' or template contains 'search' %}style-1{% else %}style-3{% endif %}" role="navigation" aria-label="{{ 'general.pagination.label' | t }}">
+      <ul class="pagination-custom" role="list">
+        {% if paginate.previous %}
+          <li class="pagination-nav">
+            <a href="{{ paginate.previous.url }}{{ anchor }}" class="pagination-prev no-effect" aria-label="{{ 'general.pagination.previous' | t }}"><span>{{ 'general.pagination.previous' | t }}</span>
+            </a>
+          </li>
+        {% endif %}
+      {%- for part in paginate.parts -%}
+          {%- if part.is_link -%}
+            <li class="pagination-change">
+              <a href="{{ part.url }}{{ anchor }}" class="pagination__item no-effect" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</a>
+            </li>
+            {%- else -%}
+            {%- if part.title == paginate.current_page -%}
+              <li class="pagination-change active">
+                <span class="pagination__item" aria-current="page" aria-label="{{ 'general.pagination.page' | t: number: part.title }}">{{ part.title }}</span>
+              </li>
+            {%- else -%}
+              <li class="pagination-change">
+                <span class="pagination__item">{{ part.title }}</span>
+              </li>
+            {%- endif -%}
+          {%- endif -%}
+      {%- endfor -%}
+      {% if paginate.next %} 
+        <li class="pagination-nav">
+          <a href="{{ paginate.next.url }}{{ anchor }}" class="pagination-next no-effect" aria-label="{{ 'general.pagination.next' | t }}">
+            <span>{{ 'general.pagination.next' | t }}</span>
+          </a>
+        </li>
+      {% endif %}
+      </ul>
+    </nav>
+  </{{ div }}>
+{%- endif -%}

@@ -1,0 +1,299 @@
+<!doctype html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="">
+    <link rel="canonical" href="{{ canonical_url }}">
+    <link rel="preconnect" href="https://cdn.shopify.com" crossorigin>
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 32, height: 32 }}">
+    {%- endif -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin>
+    {%- endunless -%}
+
+    <title>{{ shop.name }}</title>
+
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+
+    {% render 'meta-tags' %}
+
+    <script src="{{ 'global.js' | asset_url }}" defer="defer"></script>
+
+    {% if template != 'cart' %}
+      <script src="{{ 'cart.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+     {% if settings.hide_quickview_btn == blank %}
+      <script src="{{ 'quickview.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+    {{ content_for_header }}
+
+    {% style %}
+      :root {
+        --font-size-base : 16px;
+        {% if settings.type_base_family == 'google' %}
+          {%- liquid 
+            assign base_font = settings.typo_google_body_font 
+            assign heading_font = settings.typo_google_headings_font
+            assign heading1_font = settings.typo_google_headings1_font
+          -%}
+          --font-stack-body: {{ base_font }};
+          --font-style-body: normal;
+          --font-weight-body: {{ settings.typo_body_text_font_weight }};
+          --font-stack-heading:{{ heading_font }};
+          --font-style-heading: normal;
+          --font-weight-heading: {{ settings.typo_heading_font_weight }};
+          --font-stack-heading-special: {{ heading1_font }};
+          --font-style-heading-special: normal;
+          --font-weight-heading-special: {{ settings.typo_heading1_font_weight }};
+        {% else %}  
+          --font-stack-body: {{ settings.type_body_font.family }}, {{ settings.type_body_font.fallback_families }};
+          --font-style-body: {{ settings.type_body_font.style }};
+          --font-weight-body: {{ settings.type_body_font.weight }}; 
+          --font-stack-heading: {{ settings.type_header_font.family }}, {{ settings.type_header_font.fallback_families }};
+          --font-style-heading: {{ settings.type_header_font.style }};
+          --font-weight-heading: {{ settings.type_header_font.weight }};
+          --font-stack-heading-special: {{ settings.type_header1_font.family }}, {{ settings.type_header1_font.fallback_families }};
+          --font-style-heading-special: {{ settings.type_header1_font.style }};
+          --font-weight-heading-special: {{ settings.type_header1_font.weight }};
+        {% endif %}
+
+        --general-padding: {{ settings.general_padding }}px;
+
+        --color-primary: {{ settings.color_primary }};
+        
+        --color-heading: {{ settings.color_heading }};
+        --color-text: {{ settings.color_text }};
+        --color-sub-text: #8c8c8c;
+        
+        --color-borders: {{ settings.color_borders }};
+        --color-price: {{ settings.color_price }};
+        --color-sale_price: {{ settings.color_sale_price }};
+        --color-background: {{ settings.color_background }};
+
+        --header-color-background:{{ settings.header_color_background }};
+        --header-color-text:{{ settings.header_color_text }};
+        --header-color-text-hover:{{ settings.header_color_text_hover }};
+        --header-icon-hover-background-color: #e8e8e8;
+
+        --footer-bottom-color: #8c8c8c;
+        --color-link-disable: #8c8c8c;
+        --color-newsletterform-field: #262626;
+        --color-newsletterform-input: #BFBFBF;
+        --color-background-footer-1: #262626;
+        --color-heading-footer-1: #FFFFFF;
+        --color-link: {{ settings.color_link }};
+        --color-link-hover: {{ settings.color_link_hover }};
+
+        --color-blankstate: {{ settings.color_text | color_modify: 'alpha', 0.35 }};
+        --color-blankstate-border: {{ settings.color_text | color_modify: 'alpha', 0.2 }};
+        --color-blankstate-background: {{ settings.color_text | color_modify: 'alpha', 0.1 }};
+
+        --color-btn-primary-text: {{ settings.color_btn_primary_text }};
+        --color-btn-primary-text-hover: {{ settings.color_btn_primary_text_hover }};
+        --color-btn-primary-background: {{ settings.color_btn_primary_background }};
+        --color-btn-primary-background-hover: {{ settings.color_btn_primary_background_hover }};
+        --color-btn-primary-border: {{ settings.color_btn_primary_border }};
+        --color-btn-primary-border-hover: {{ settings.color_btn_primary_border_hover }};
+
+        --color-btn-secondary-text: {{ settings.color_btn_secondary_text }};
+        --color-btn-secondary-text-hover: {{ settings.color_btn_secondary_text_hover }};
+        --color-btn-secondary-background: {{ settings.color_btn_secondary_background }};
+        --color-btn-secondary-background-hover: {{ settings.color_btn_secondary_background_hover }};
+        --color-btn-secondary-border: {{ settings.color_btn_secondary_border }};
+        --color-btn-secondary-border-hover: {{ settings.color_btn_secondary_border_hover }};
+
+        --color-focus: {{ settings.color_primary }};
+        --color-disabled: #bfbfbf;
+        --color-dot-inactive: #f5f5f5;
+        --color-disabled: #D9D9D9;
+        --color-disabled-border: #D9D9D9;
+        --color-error: #bf0d12;
+        --sale-label-bg: {{ settings.sale_label_bg }};
+        --hot-label-bg:{{ settings.hot_label_bg }};
+        --new-label-bg:{{ settings.new_label_bg }};
+        
+        --color-sold-out-badge: {{ settings.sold_out_badge_color }};
+
+        --color-form-message-success-text: #629E7B;
+        --color-form-message-success-background: #CDE7D8;
+        --color-form-message-success-border: #CDE7D8;
+
+        --color-form-message-error-text: #C22C2C;
+        --color-form-message-error-background: #FFB8C9;
+        --color_form_message_error_border: #FFB8C9;
+
+        --color-form-field-placeholder: #8C8C8C;
+        --color-form-field-text: {{ settings.color_heading }};
+        --color-form-field-border-radius: 4px;
+        --typo-form-field-font-size: 14px;
+        --disable-background: url("{{ 'disable.png' | asset_url }}");
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: inherit;
+      }
+
+      html {
+        box-sizing: border-box;
+        font-size: 62.5%;
+        height: 100%;
+      }
+
+      body {
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        grid-template-columns: 100%;
+        min-height: 100%;
+        margin: 0;
+        font-size: 1.5rem;
+        letter-spacing: 0.06rem;
+        line-height: 1.8;
+        font-family: var(--font-stack-body);
+        font-style: var(--font-style-body);
+        font-weight: var(--font-weight-body);
+        counter-reset: section;
+        background-color: var(--color-background);
+        overflow-x: hidden;
+        word-break: break-word;
+      }
+
+      @media screen and (min-width: 750px) {
+        body {
+          font-size: 1.6rem;
+        }
+      }
+    {% endstyle %}
+    {{ 'base.css' | asset_url | stylesheet_tag }}
+    {{ 'theme-icons.css' | asset_url | stylesheet_tag }}
+    {%- unless settings.type_body_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_body_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    {%- unless settings.type_header_font.system? -%}
+      <link rel="preload" as="font" href="{{ settings.type_header_font | font_url }}" type="font/woff2" crossorigin>
+    {%- endunless -%}
+    <link rel="stylesheet" href="{{ 'popup-quickview.css' | asset_url }}" onload="this.media='all'">
+
+    <link href="{{ 'section-header.css' | asset_url }}" type="text/css" media="all" rel="stylesheet">
+    <link rel="stylesheet" href="{{ 'section-minicart.css' | asset_url }}" onload="this.media='all'">
+
+    {%- if settings.predictive_search_enabled -%}
+      <link rel="stylesheet" href="{{ 'component-predictive-search.css' | asset_url }}" onload="this.media='all'">
+    {%- endif -%}
+    <link rel="stylesheet" href="{{ 'component-rating.css' | asset_url }}" type="text/css" media="all">
+    <noscript>{{ 'component-rating.css' | asset_url | stylesheet_tag }}</noscript>
+    <link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" type="text/css" media="all">
+    <noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+    <script>document.documentElement.className = document.documentElement.className.replace('no-js', 'js');</script>
+    <script id="jquery" src="{{ 'jquery.js' | asset_url }}" defer="defer"></script>
+  </head>
+
+  <body class="template-{{ request.page_type | handle }} {{ settings.general_width }}{% if settings.enable_sticky_toolbar_mobile %} has-toolbar{% endif %}">
+    <a class="skip-to-content-link button visually-hidden" href="#MainContent">
+      {{ "accessibility.skip_to_text" | t }}
+    </a>
+    
+    {%- unless page.template_suffix == 'styleguide' or template contains "404" -%}
+      {% section 'announcement-bar' %}
+      {% section 'header' %}
+    {%- endunless -%}
+
+    <main id="MainContent" class="content-for-layout focus-none" role="main" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+    {%- unless page.template_suffix == 'styleguide'  or template contains "404" -%}
+    <footer class="footer {{ settings.footer_version }}{% if settings.no_space_section and template contains "index" %} no-margin-top{% endif %}">
+        {{ 'section-footer.css' | asset_url | stylesheet_tag }}
+        <link rel="stylesheet" href="{{ 'component-newsletter.css' | asset_url }}" type="text/css" media="all">
+        <link rel="stylesheet" href="{{ 'component-accordion.css' | asset_url }}" type="text/css" media="all">
+        <link rel="stylesheet" href="{{ 'component-list-social.css' | asset_url }}" type="text/css" media="all">
+
+        <noscript>{{ 'component-newsletter.css' | asset_url | stylesheet_tag }}</noscript>
+        <noscript>{{ 'component-accordion.css' | asset_url | stylesheet_tag }}</noscript>
+        <noscript>{{ 'component-list-social.css' | asset_url | stylesheet_tag }}</noscript>
+
+
+        {%- liquid
+          if settings.enable_footer_top
+            section 'footer-top'
+          endif
+          if settings.enable_footer_middle
+            section 'footer-middle'
+          endif
+          if settings.enable_footer_bottom
+            section 'footer-bottom'
+          endif 
+        -%}
+      </footer>
+
+      {%- if settings.enable_sticky_toolbar_mobile -%}
+        {% section 'toolbar-mobile' %}
+      {%- endif -%}
+
+    {%- endunless -%}
+
+    {%- if settings.newsletter_popup_enable -%}
+      {% section 'popup-newsletter' %}
+    {%- endif -%}
+    {%- if settings.display_icon_scroll_to_top -%}
+      <scroll-to-top class="scroll-to-top">
+        {%- render 'icon-arrow-up' -%}
+        <span>{{ 'general.back_to_top' | t }}</span>
+      </scroll-to-top>
+    {%- endif -%}
+    <ul hidden>
+      <li id="a11y-refresh-page-message">{{ 'accessibility.refresh_page' | t }}</li>
+    </ul>
+
+    {%- render 'popup-product-action' , product: product -%}
+
+    <script>
+      window.routes = {
+        search_url:'{{ routes.search_url }}',
+        cart_url: '{{ routes.cart_url }}',
+        cart_add_url: '{{ routes.cart_add_url }}',
+        cart_change_url: '{{ routes.cart_change_url }}',
+        cart_update_url: '{{ routes.cart_update_url }}',
+        predictive_search_url: '{{ routes.predictive_search_url }}'
+      };
+
+      window.cartStrings = {
+        error: `{{ 'sections.cart.cart_error' | t }}`,
+        quantityError: `{{ 'sections.cart.cart_quantity_error_html' | t }}`
+      }
+
+      window.variantStrings = {
+        addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+        soldOut: `{{ 'products.product.sold_out' | t }}`,
+        unavailable: `{{ 'products.product.unavailable' | t }}`,
+      }
+      var theme = {
+        "strings": {
+          "soldOutText" : {{ "products.product.sold_out" | default: 'Sold out' | t | json }},
+          "selectOptionText" :{{ "products.product.select_options" | default: 'Select options' | t | json }},
+          "addToCartText" :{{ "products.product.add_to_cart" | default: 'Add to cart' | t | json }}
+        },
+        "settings": {
+            "minicart_type" : {{ theme.settings.minicart_type | json }}
+        },
+        "money_format": {{ shop.money_format | json }},
+        "country": {{ localization.country | json }},
+        "currency": {{ localization.country.currency.iso_code | json }},
+        "symbol" : {{ localization.country.currency.symbol | json }},
+        "domain": {{ shop.permanent_domain | json }},
+        "in_stock": '{{ 'products.product.in_stock' | t }}',
+        "out_stock": '{{ 'products.product.out_stock' | t }}'
+      }
+    </script>
+    {%- if settings.predictive_search_enabled -%}
+      <script src="{{ 'predictive-search.js' | asset_url }}" async="async"></script>
+    {%- endif -%}
+    
+  </body>
+</html>

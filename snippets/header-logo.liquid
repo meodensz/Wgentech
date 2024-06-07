@@ -1,0 +1,45 @@
+{%- if request.page_type == 'index' -%}
+  <h1 class="site-header__logo header__heading">
+{%- else -%}
+  <div class="site-header__logo header__heading">
+{%- endif -%}
+    <a href="{{ routes.root_url }}">
+      {%- if section.settings.header_logo != blank -%}
+        {%- assign image_size = section.settings.header_logo_max_width -%}
+        <img srcset="{{ section.settings.header_logo | image_url: width: image_size }}"
+          src="{{ section.settings.header_logo | image_url: width: image_size }}"
+          loading="lazy"
+          class="header__heading-logo {% if section.settings.header_logo_mobile != blank %}desktop-only{% endif %}"
+          width="{{ section.settings.header_logo.width }}"
+          height="{{ section.settings.header_logo.height }}"
+          alt="{{ section.settings.header_logo.alt | default: shop.name | escape }}"
+        >
+      {%- else -%}
+        <span class="h2">{{ shop.name }}</span>
+      {%- endif -%}
+      {%- if section.settings.header_logo_mobile != blank -%}
+        {%- assign image_size = section.settings.header_logo_max_width_mobile -%}
+        <img srcset="{{ section.settings.header_logo_mobile | image_url: width: image_size }}"
+          src="{{ section.settings.header_logo_mobile | image_url: width: image_size }}"
+          loading="lazy"
+          class="header__heading-logo logo-mobile"
+          width="{{ section.settings.header_logo_mobile.width }}"
+          height="{{ section.settings.header_logo_mobile.height }}"
+          alt="{{ section.settings.header_logo_mobile.alt | default: shop.name | escape }}"
+        >
+      {%- endif -%}
+    </a>
+{%- if request.page_type == 'index' -%}
+  </h1>
+{%- else -%}
+  </div>
+{%- endif -%}
+{% style %}
+  {%- if section.settings.header_logo_mobile == blank -%}
+    @media (max-width: 767px){
+       .header__heading-logo{
+        max-width: {{ section.settings.header_logo_max_width_mobile }}px
+      }
+    }
+  {%- endif -%}
+{% endstyle %}

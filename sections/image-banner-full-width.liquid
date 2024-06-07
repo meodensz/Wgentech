@@ -1,0 +1,484 @@
+<link rel="stylesheet" href="{{ 'section-image-banner.css' | asset_url }}" type="text/css">
+<noscript>{{ 'section-image-banner.css' | asset_url | stylesheet_tag }}</noscript>
+
+<div data-section-id="{{ section.id }}" data-section-type="image-banner-full-width-section" class="gp-section-wrapper{% unless section.settings.fullwidth %} not-fullwidth-section{% endunless %}">
+  <div class="gp-section-inner">
+    {% if section.blocks.size > 0 %}   
+      {% for block in section.blocks %}
+        {% case block.type %}  
+          {% when '@app' %}
+            {% render block %}
+          {% when 'image-banner-overlay' %}
+            <div class="image-banner-has-overlay position-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="banner-image">
+                {% if block.settings.image == blank and block.settings.image_mobile == blank %}
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                {% elsif block.settings.image %}
+                  <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+                            {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+                            {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+                            {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+                            {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+                            {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image | image_url: width: 1824 }}" 
+                      sizes="(min-width: 1100px) 1824px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+                      alt="{{ block.settings.image.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image_mobile != blank %} hide-mobile{% endif %}" 
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"/>   
+                {% endif %} 
+                {% if block.settings.image_mobile %}
+                  <img srcset="{%- if block.settings.image_mobile.width >= 180 -%}{{ block.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 360 -%}{{ block.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 540 -%}{{ block.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 720 -%}{{ block.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 900 -%}{{ block.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 1080 -%}{{ block.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image_mobile | image_url: width: 737 }}" 
+                      sizes="calc(100vw - 30px)" alt="{{ block.settings.image_mobile.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image != blank %} mobile-only{% endif %}" 
+                      width="{{ block.settings.image_mobile.width }}"
+                      height="{{ block.settings.image_mobile.height }}"/>
+                {% endif %}
+              </div>
+              {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.btn_label != blank %}
+                <div class="content-banner-image">
+                  <div class="image-banner-content-inner">
+                    {% if block.settings.subheading != blank %}
+                      <p class="subheading-banner">
+                        {{ block.settings.subheading }}
+                      </p>
+                    {% endif %}
+                    {% if block.settings.heading != blank %}
+                      <h3 class="heading-banner">
+                        {{ block.settings.heading }}
+                      </h3>
+                    {% endif %}
+                    {% if block.settings.btn_label != blank %}
+                      <a class="btn-2"
+                         href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        {{ block.settings.btn_label }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {% when 'image-banner-with-desc' %}
+            <div class="image-banner-normal image-banner-with-desc position-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="banner-image">
+                {% if block.settings.image == blank and block.settings.image_mobile == blank %}
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                {% elsif block.settings.image %}
+                  <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+                            {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+                            {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+                            {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+                            {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+                            {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image | image_url: width: 1824 }}" 
+                      sizes="(min-width: 1100px) 1824px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+                      alt="{{ block.settings.image.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image_mobile != blank %} hide-mobile{% endif %}" 
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"/>   
+                {% endif %} 
+                {% if block.settings.image_mobile %}
+                  <img srcset="{%- if block.settings.image_mobile.width >= 180 -%}{{ block.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 360 -%}{{ block.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 540 -%}{{ block.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 720 -%}{{ block.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 900 -%}{{ block.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 1080 -%}{{ block.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image_mobile | image_url: width: 737 }}" 
+                      sizes="calc(100vw - 30px)" alt="{{ block.settings.image_mobile.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image != blank %} mobile-only{% endif %}" 
+                      width="{{ block.settings.image_mobile.width }}"
+                      height="{{ block.settings.image_mobile.height }}"/>
+                {% endif %}
+              </div>
+              {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.btn_label != blank %}
+                <div class="content-banner-image">
+                  <div class="image-banner-content-inner">
+                    {% if block.settings.text_label != blank %}
+                      {% assign text_label = block.settings.text_label | split: "," %}
+                      <div class="text-label">
+                        {{ text_label[0] }} <span class="number"> {{ text_label[1] }}</span><span class="month">{{ text_label[2] }}</span>
+                        {% if text_label.size > 3 %}
+                          {% for text in text_label offset: 3 %}
+                            {{ text }}
+                          {% endfor %}
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                    {% if block.settings.heading != blank %}
+                      <h3 class="heading-banner">
+                        {{ block.settings.heading }}
+                      </h3>
+                    {% endif %}
+                    {% if block.settings.subheading != blank %}
+                      <p class="subheading-banner">
+                        {{ block.settings.subheading }}
+                      </p>
+                    {% endif %}
+                    {% if block.settings.btn_label != blank %}
+                      <a class="btn"
+                         href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        {{ block.settings.btn_label }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {% when 'image-banner-without-desc' %}
+            <div class="image-banner-normal image-banner-without-desc position-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="banner-image">
+                {% if block.settings.image == blank and block.settings.image_mobile == blank %}
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                {% elsif block.settings.image %}
+                  <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+                            {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+                            {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+                            {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+                            {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+                            {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1920 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image | image_url: width: block.settings.image.width }}" 
+                      sizes="(min-width: 1100px) 100vw, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+                      alt="{{ block.settings.image.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image_mobile != blank %} hide-mobile{% endif %}" 
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"/>   
+                {% endif %} 
+                {% if block.settings.image_mobile %}
+                  <img srcset="{%- if block.settings.image_mobile.width >= 180 -%}{{ block.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 360 -%}{{ block.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 540 -%}{{ block.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 720 -%}{{ block.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 900 -%}{{ block.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 1080 -%}{{ block.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image_mobile | image_url: width: 737 }}" 
+                      sizes="calc(100vw - 30px)" alt="{{ block.settings.image_mobile.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image != blank %} mobile-only{% endif %}" 
+                      width="{{ block.settings.image_mobile.width }}"
+                      height="{{ block.settings.image_mobile.height }}"/>
+                {% endif %}
+              </div>
+              {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.btn_label != blank %}
+                <div class="content-banner-image">
+                  <div class="image-banner-content-inner">
+                    {% if block.settings.subheading != blank %}
+                      <p class="subheading-banner">
+                        {{ block.settings.subheading }}
+                      </p>
+                    {% endif %}
+                    {% if block.settings.heading != blank %}
+                      <h3 class="heading-banner">
+                        {{ block.settings.heading }}
+                      </h3>
+                    {% endif %}
+                    {% if block.settings.btn_label != blank %}
+                      <a class="btn-2"
+                         href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        {{ block.settings.btn_label }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+          {% else %}
+            <div class="image-banner-normal image-banner-with-desc banner-color-white position-{{ forloop.index }}" {{ block.shopify_attributes }}>
+              <div class="banner-image">
+                {% if block.settings.image == blank and block.settings.image_mobile == blank %}
+                  {% capture current %}{% cycle 1, 2 %}{% endcapture %}
+                  {{ 'lifestyle-' | append: current | placeholder_svg_tag: 'placeholder-svg' }}
+                {% elsif block.settings.image %}
+                  <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+                            {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+                            {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+                            {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+                            {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+                            {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1920 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image | image_url: width: block.settings.image.width }}" 
+                      sizes="(min-width: 1100px) 100vw, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+                      alt="{{ block.settings.image.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image_mobile != blank %} hide-mobile{% endif %}" 
+                      width="{{ block.settings.image.width }}"
+                      height="{{ block.settings.image.height }}"/>   
+                {% endif %} 
+                {% if block.settings.image_mobile %}
+                  <img srcset="{%- if block.settings.image_mobile.width >= 180 -%}{{ block.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 360 -%}{{ block.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 540 -%}{{ block.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 720 -%}{{ block.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 900 -%}{{ block.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%} 
+                          {%- if block.settings.image_mobile.width >= 1080 -%}{{ block.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                      src="{{ block.settings.image_mobile | image_url: width: 737 }}" 
+                      sizes="calc(100vw - 30px)" alt="{{ block.settings.image_mobile.alt | escape }}" 
+                      loading="lazy" 
+                      class="motion-reduce{% if block.settings.image != blank %} mobile-only{% endif %}" 
+                      width="{{ block.settings.image_mobile.width }}"
+                      height="{{ block.settings.image_mobile.height }}"/>
+                {% endif %}
+              </div>
+              {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.btn_label != blank %}
+                <div class="content-banner-image">
+                  <div class="image-banner-content-inner">
+                    {% if block.settings.heading != blank %}
+                      <h3 class="heading-banner">
+                        {{ block.settings.heading }}
+                      </h3>
+                    {% endif %}
+                    {% if block.settings.subheading != blank %}
+                      <p class="subheading-banner">
+                        {{ block.settings.subheading }}
+                      </p>
+                    {% endif %}
+                    {% if block.settings.btn_label != blank %}
+                      <a class="btn"
+                         href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        {{ block.settings.btn_label }}
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+        {% endcase %}
+      {% endfor %}  
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Image banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Common settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "banner-text-color-white",
+      "name": "Banner text color white",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image on mobile"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "WOMEN LOOKBOOK",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Description",
+          "default": "Discover for latest collection"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open link in new tab",
+          "id": "open_new_window",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "image-banner-overlay",
+      "name": "Image banner has overlay",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image on mobile"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Spirit <span>Angle</span>",
+          "label": "Heading",
+          "info": "Add HTML tag <span>Your text</span> to change color of text to primary color"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "default": "New collection",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open link in new tab",
+          "id": "open_new_window",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "image-banner-with-desc",
+      "name": "Image with description",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image on mobile"
+        },
+        {
+          "type": "text",
+          "id": "text_label",
+          "default": "Only, 02, months",
+          "label": "Text label",
+          "info": "Devide text by comma to make a new line"
+        },
+        {
+          "type": "textarea",
+          "id": "heading",
+          "default": "New collection Accessories <span> 2021.</span>",
+          "label": "Heading",
+          "info": "Add HTML tag <span>Your text</span> to change text italic and color text."
+        },
+        {
+          "type": "textarea",
+          "id": "subheading",
+          "label": "Description",
+          "default": "We started with humble beginnings - selling out of our basement and frantically shipping orders as soon as we woke up"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open link in new tab",
+          "id": "open_new_window",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "image-banner-without-desc",
+      "name": "Image without description",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image on mobile"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "2022 collections"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "<span>You are</span> </br>REFLECTING</br> <span>your</span> STYLE",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open link in new tab",
+          "id": "open_new_window",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Image banner", 
+      "blocks": [
+        {
+          "type": "image-banner-overlay"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,21 @@
+<div class="footer-block__details-content footer-block-image {{ block.settings.alignment }}">
+  {%- if block.settings.image != blank -%}
+    {%- assign image_size = block.settings.image_width -%}
+    <img
+      srcset= "{{ block.settings.image | image_url: width: image_size }}"
+      src="{{ block.settings.image | image_url: width: image_size }}"
+      alt="{{ block.settings.image.alt | escape }}"
+      loading="lazy"
+      width="{{ block.settings.image.width }}"
+      height="{{ block.settings.image.height }}"
+      style="max-width: min(100%, {{ block.settings.image_width }}px);"
+    >
+  {%- else -%}
+    {{ 'image' | placeholder_svg_tag: 'placeholder-svg placeholder' }}
+  {%- endif -%}
+  {% if block.settings.content != blank %}
+    <div class="content">
+      {{ block.settings.content }}
+    </div>
+  {% endif %}
+</div>

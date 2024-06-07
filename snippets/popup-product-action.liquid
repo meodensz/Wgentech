@@ -1,0 +1,58 @@
+{% unless settings.hide_quickview_btn %}
+<link rel="stylesheet" href="{{ 'component-pickup-availability.css' | asset_url }}" media="print" onload="this.media='all'">
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" type="text/css" media="print" onload="this.media='all'">
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+  <quickview-dialog id="PopupModal-quickview" class="gp-product-action-popup gp-popup-quickview">
+    <div class="gp-popup-wrapper">
+      <div class="ajax_header">
+        <button id="ModalClose-quickview" title="Close (Esc)" type="button" class="mfp-close"></button>
+      </div>
+      <div class="quickview-popup-content">
+        
+      </div>
+    </div>
+  </quickview-dialog>
+{% endunless %}
+{% if settings.cart_dialog_enable %}
+  <cart-dialog class="gp-popup-addtocart gp-product-action-popup" id="PopupModal-addtocart">
+    <div class="gp-popup-wrapper">
+      <div class="ajax_cart-popup popup__columns">
+        <div class="ajax_header">
+          <span class="item-added-to-cart"></span>
+          <span class="one-item-text" style="display: none;">{{ 'general.ajaxcart.item_to_cart' | t }}</span>
+          <span class="other-item-text" style="display: none;">{{ 'general.ajaxcart.items_to_cart' | t }}</span>
+          <button title="Close (Esc)" type="button" class="mfp-close"></button>
+        </div>
+        <div class="popup__column">
+          <div class="popup__table">
+            <ul class="no-effect form-message">
+                <li class="form-message__link">ERROR</li>
+            </ul>
+            <div class="popup__table-col">
+              <div class="popup__column--media">
+                <div class="popup__image-wrapper">
+                </div>
+              </div>
+            </div>
+            <div class="popup__table-col">
+              <div class="popup__column--result">
+                <div class="product-confirm-detail">
+                  <div class="product-confirm-name"></div>
+                  <div class="selling-plan-name"><span class="title">{{ 'general.ajaxcart.selling_plan' | t }}</span><span class="value"></span></div>
+                  <div class="product-confirm-qty"><span class="title">{{ 'general.ajaxcart.quantity' | t }}</span><span class="value"></span></div>
+                  <div class="product-confirm-subtotal"><span class="title">{{ 'general.ajaxcart.cart_subtotal' | t }}</span><span class="value"><span class="price"></span></span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ajax_footer">
+          <div class="actions">
+            <button id="close-cartopener" class="btn btn-2 popup__action-close btn-close">{{ 'general.ajaxcart.continue_shopping' | t }}</button>
+            <a href="{{ routes.cart_url }}" class="btn">{{ 'general.ajaxcart.proceed_to_cart' | t }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </cart-dialog>
+{% endif %}

@@ -1,0 +1,11 @@
+{%- if template == 'product-item' -%}
+	<a href="{{ product.url }}#reviews-product-id" alt="{{ 'products.product.reviews' | t }}" title="{{ 'products.product.reviews' | t }}">
+		<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+	</a>
+{%- elsif template == 'product-rating' -%}
+	<a href="{{ product.url }}#reviews-product-id" class="product-review no-effect" alt="{{ 'products.product.reviews' | t }}" title="{{ 'products.product.reviews' | t }}">
+		<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+	</a>
+{%- else -%}
+	<div id="shopify-product-reviews" data-id="{{ product.id }}">{{ product.metafields.spr.reviews }}</div>
+{%- endif -%}

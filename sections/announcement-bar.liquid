@@ -1,0 +1,157 @@
+{%- for block in section.blocks -%}
+  <div class="announcement-bar text-{{ block.settings.text_alignment }}" id="announcement-{{ block.id }}" role="region" aria-label="{{ 'sections.header.announcement' | t }}">
+    <div class="container">
+      {%- if block.settings.text != blank -%}
+        {%- if block.settings.link != blank -%}
+          <a href="{{ block.settings.link }}" class="announcement-bar__link"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+        {%- endif -%}
+            {{ block.settings.text }}
+            {%- if block.settings.show_countdown -%}
+              <gp-countdown>
+                <div class="countdown" data-year="{{ block.settings.until_year }}" data-month="{{ block.settings.until_month }}" data-day="{{ block.settings.until_day }}" >
+                  <div>
+                    <span class="number countdown-days"></span>
+                    <span class="text">{{ 'general.countdown.days' | t }} </span>
+                  </div>
+                  <div>
+                    <span class="number countdown-hours"></span>
+                    <span class="count-dot">:</span>
+                  </div>
+                  <div>
+                    <span class="number countdown-minutes"></span>
+                    <span class="count-dot">:</span>
+                  </div>
+                  <div>
+                    <span class="number countdown-seconds"></span>
+                    <span class="count-dot">.</span>
+                  </div>
+                </div>
+              </gp-countdown>
+            {%- endif -%}
+            {%- if block.settings.text_after_countdown != blank -%}
+              {{ block.settings.text_after_countdown }}
+            {%- endif -%}
+        {%- if block.settings.link != blank -%}
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+  {% style %}
+    #announcement-{{ block.id }}{
+      background-color: {{ block.settings.background_color }};
+      color: {{ block.settings.text_color }};
+    }
+    #announcement-{{ block.id }} a{
+      color: {{ block.settings.text_color }};
+    }
+  {% endstyle %}
+{%- endfor -%}
+<script src="{{ 'countdown.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name": "t:sections.announcement-bar.name",
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "announcement",
+      "name": "t:sections.announcement-bar.blocks.announcement.name",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "default": "Hurry up! Today deal sale off <b>70%. </b> End in",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.text.label"
+        },
+        {
+          "type": "header",
+          "content": "Countdown"
+        },
+        {
+          "type": "checkbox",
+          "label": "Show Countdown",
+          "default": true,
+          "id": "show_countdown"
+        },
+        {
+          "type": "range",
+          "id": "until_day",
+          "label": "Until day",
+          "default": 1,
+          "min": 1,
+          "max": 31,
+          "step": 1
+        },
+        {
+          "type": "range",
+          "id": "until_month",
+          "label": "Until month",
+          "default": 1,
+          "min": 1,
+          "max": 12,
+          "step": 1
+        },
+        {
+          "type": "range",
+          "id": "until_year",
+          "label": "Until year",
+          "default": 2023,
+          "min": 2022,
+          "max": 2050,
+          "step": 1
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "t:sections.announcement-bar.blocks.announcement.settings.link.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_window",
+          "label": "Open link in new tab",
+          "default": false
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color",
+          "default": "#FFEC42"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Color",
+          "default": "#262626"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "default": {
+    "blocks": [
+      {
+        "type": "announcement"
+      }
+    ]
+  }
+}
+{% endschema %}

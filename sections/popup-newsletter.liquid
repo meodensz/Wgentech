@@ -1,0 +1,259 @@
+<link rel="stylesheet" href="{{ 'popup-newsletter.css' | asset_url }}" type="text/css" onload="this.media='all'">
+<noscript>{{ 'popup-newsletter.css' | asset_url | stylesheet_tag }}</noscript>
+
+<newsletter-dialog class="gp-action-popup newsletter-popup {% if section.settings.newsletter_popup_enable_test_mode %}test-mode{% endif %} {% if section.settings.newsletter_popup_display_on_mobile %}show-on-mobile{% endif %}" data-delay="{{ section.settings.newsletter_popup_delay_time | times: 1000 }}" data-expire="{{ section.settings.newsletter_popup_continue_day }}" id="newsletter-popup">
+  <div class="gp-popup-wrapper" style="width: {% if section.settings.newsletter_popup_width != blank %}{{ section.settings.newsletter_popup_width }}px{% else %}1479px{% endif %};">
+    <div class="newsletter-popup-inner">
+      <div class="block-popup-left{% if section.settings.newsletter_popup_image == blank %} block-full-width{% endif %}">
+        {%- if section.settings.newsletter_popup_heading != blank or section.settings.newsletter_popup_description != blank -%}
+          <div class="block-popup-title">
+            {%- if section.settings.newsletter_popup_heading != blank -%}
+              <div class="h4">{{ section.settings.newsletter_popup_heading }}</div>
+            {%- endif -%}
+            {%- if section.settings.newsletter_popup_description != blank -%}
+              <p>{{ section.settings.newsletter_popup_description }}</p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+        {%- form 'customer', id: 'popup-newsletter', class: 'contact-form' -%}
+          <input type="hidden" value="customer" name="form_type">
+          <input type="hidden" name="utf8" value="✓">
+          <div class="input-group password__input-group">
+            <input type="hidden" name="contact[tags]" value="newsletter">
+            <input type="email"
+              name="contact[email]"  
+              id="popup-email" 
+              {% if form.errors %}
+                autofocus
+                aria-invalid="true"
+                aria-describedby="Newsletter-error--{{ section.id }}"
+              {% elsif form.posted_successfully? %}
+                aria-describedby="Newsletter-success--{{ section.id }}"
+              {% endif %}
+              class="input-group__field newsletter__input input-large email-input"
+              value="{% if customer %}{{ customer.email }}{% endif %}"
+              placeholder="{{ 'general.newsletter_form.email_placeholder' | t }}"
+              autocapitalize="off" required>
+            <button type="submit" class="btn newsletter__submit" name="commit" aria-label="Submit"><i class="icon-right"></i></button>
+          </div>
+          {%- if form.errors -%}
+            <small class="form-message--error form__message" id="Newsletter-error--{{ section.id }}">{% render 'icon-error' %}{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</small>
+          {%- endif -%}
+          {%- if form.posted_successfully? -%}
+            <h3 class="form-message--success form__message" id="Newsletter-success--{{ section.id }}" tabindex="-1" autofocus>{{ 'newsletter.success' | t }}</h3>
+          {%- endif -%}
+        {% endform %}
+        {%- if section.settings.show_social -%}
+          <div class="social-newsletter">
+            {%- if section.settings.socials_heading != blank -%}
+            <p class="heading-social">{{ section.settings.socials_heading }}</p>
+            {%- endif -%}
+            <ul>
+              {% if settings.social_facebook_link != blank %}
+                <li>
+                 <a class="social" href="{{ settings.social_facebook_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Facebook' }}">
+                   <i class="icon-fb"></i>
+                 </a>
+                </li>
+              {% endif %}
+              {% if settings.social_twitter_link != blank %}
+               <li>
+                <a class="social" href="{{ settings.social_twitter_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Twitter' }}">
+                  <i class="icon-tw"></i>
+                </a>
+               </li>
+              {% endif %}
+              {% if settings.social_linkedin_link != blank %}
+               <li>
+                <a class="social" href="{{ settings.social_linkedin_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Linkedin' }}">
+                 <i class="icon-in"></i>
+                </a>
+               </li>
+              {% endif %}
+              {% if settings.social_pinterest_link != blank %}
+               <li>
+                <a class="social" href="{{ settings.social_pinterest_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Pinterest' }}">
+                 <i class="icon-p"></i>
+                </a>
+               </li>
+              {% endif %}
+              {% if settings.social_telegram_link != blank %}
+               <li>
+                <a class="social" href="{{ settings.social_telegram_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Telegram' }}">
+                  <i class="icon-tele"></i>
+                </a>
+               </li>
+              {% endif %}
+              {% if settings.social_mail_link != blank %}
+               <li>
+                <a class="social" href="{{ settings.social_mail_link | escape }}" target="_blank" title="{{ 'general.social.social_platform' | t: name: shop.name, platform: 'Mail' }}">
+                 <i class="icon-mail"></i>
+                </a>
+               </li>
+              {% endif %}
+            </ul>
+          </div>
+        {%- endif -%}
+      </div>
+      {% if section.settings.newsletter_popup_image != blank %}
+        <div class="block-popup-image">
+          <img class="img-user" 
+            srcset="{%- if section.settings.newsletter_popup_image.width >= 375 -%}{{ section.settings.newsletter_popup_image | image_url: width: 375 }} 375w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 750 -%}{{ section.settings.newsletter_popup_image | image_url: width: 750 }} 750w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 1100 -%}{{ section.settings.newsletter_popup_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 1500 -%}{{ section.settings.newsletter_popup_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 1780 -%}{{ section.settings.newsletter_popup_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 2000 -%}{{ section.settings.newsletter_popup_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 3000 -%}{{ section.settings.newsletter_popup_image | image_url: width: 3000 }} 3000w,{%- endif -%}
+              {%- if section.settings.newsletter_popup_image.width >= 3840 -%}{{ section.settings.newsletter_popup_image | image_url: width: 3840 }} 3840w,{%- endif -%}
+              {{ section.settings.newsletter_popup_image | image_url: width: 5000 }} {{ section.settings.newsletter_popup_image.width }}w"
+            sizes="100vw"
+            src="{{ section.settings.newsletter_popup_image | image_url: width: 5000 }}"
+            loading="lazy"
+            alt="{{ section.settings.newsletter_popup_image.alt | escape }}"
+            width="{{ section.settings.newsletter_popup_image.width }}"
+            height="{{ section.settings.newsletter_popup_image.width | divided_by: section.settings.newsletter_popup_image.aspect_ratio }}">
+        </div>
+      {% endif %}
+      <button id="close-popup" title="Close (Esc)" type="button"><i class="icon-close"></i></button>
+    </div>
+  </div>
+</newsletter-dialog>
+
+{% javascript %}
+class newsletterDialog extends HTMLElement {
+  constructor() {
+    super();
+    var display_on_mobile = this.getAttribute("data-mobile")
+
+    if (this.classList.contains("show-on-mobile")) {
+      this.show(this);
+    } else {
+      if (window.innerWidth > 767) {
+        this.show(this);
+      }
+    }
+    this.querySelector('#close-popup').addEventListener('click', this.hide.bind(this));
+    this.querySelector('#close-popup').addEventListener('click', this.dontShowPopUp.bind(this));
+
+    this.addEventListener('keyup', () => {
+      if (event.code.toUpperCase() === 'ESCAPE') this.hide();
+    });
+  } 
+  show(container) {
+    if (container != document.getElementById('newsletter-popup')) {
+      document.getElementById('newsletter-popup').setAttribute('open', '');
+      return
+    }
+    setTimeout(function() {
+      if (document.getElementById('newsletter-popup').classList.contains('test-mode')) {
+          document.getElementById('newsletter-popup').setAttribute('open', '')
+      } else {
+        if(getCookie('cec_newsletterpopup') == 'nevershow'){
+          document.getElementById('newsletter-popup').removeAttribute('open')
+        } else {
+          document.getElementById('newsletter-popup').setAttribute('open', '')
+        }
+      }
+    }, document.getElementById('newsletter-popup').getAttribute("data-delay"));
+  }
+
+  dontShowPopUp() {
+    var d = new Date();
+    var expire = this.getAttribute("data-expire")
+
+    var time = expire* 24 * 60 * 60;
+    d.setTime(d.getTime() + time);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = 'cec_newsletterpopup' + "=" + 'nevershow' + "; " + expires;
+  }
+  hide() {
+    this.removeAttribute('open')
+  }
+}
+customElements.define('newsletter-dialog', newsletterDialog)
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Newsletter popup",
+  "tag": "section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "newsletter_popup_enable_test_mode",
+      "label": "Test mode",
+      "default": false,
+      "info": "Always show after loading page. Enable this when you need to test after changing something on newsletter popup."
+    },
+    {
+      "type": "checkbox",
+      "id": "newsletter_popup_display_on_mobile",
+      "label": "Display on mobile",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "newsletter_popup_delay_time",
+      "label": "Delay time to show popup",
+      "default": 5,
+      "min": 0,
+      "max": 15,
+      "unit": "s"
+    },
+    {
+      "type": "range",
+      "id": "newsletter_popup_continue_day",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "unit": "day",
+      "label": "Day expire",
+      "default": 10
+    },
+    {
+      "type": "text",
+      "id": "newsletter_popup_width",
+      "label": "Popup width (px)",
+      "info": "Optional. Input a number. Ex: 500"
+    },
+    {
+      "type": "header",
+      "content": "Content Newsletter"
+    },
+    {
+      "type": "text",
+      "id": "newsletter_popup_heading",
+      "label": "Heading",
+      "default": "NEWSLETTER SIGNUP"
+    },
+    {
+      "type": "textarea",
+      "id": "newsletter_popup_description",
+      "label": "Description",
+      "default": "Enter your email bottom to receive a $30 coupon, special offers, exclusive discounts and more!"
+    },
+    {
+      "type": "image_picker",
+      "id": "newsletter_popup_image",
+      "label": "Newsletter popup image "
+    },
+    {
+      "type": "header",
+      "content": "Social media"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_social",
+      "label": "Show social media",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "socials_heading",
+      "label": "Heading",
+      "default": "PELLENTESQUE DE FERMENTUM MOLLIS COMODOUS AN LOREMOUS"
+    }
+  ]
+}
+{% endschema %}

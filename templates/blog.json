@@ -1,0 +1,108 @@
+{
+  "wrapper": "div.blog-wrapper",
+  "sections": {
+    "164853855782458e56": {
+      "type": "page-title",
+      "settings": {
+        "show_collection_image_in_breadcrumb": true,
+        "show_breadcrumb": true,
+        "breadcrumb_position": "above",
+        "background_color_breadcrumb": "#e8e8e8"
+      }
+    },
+    "main": {
+      "type": "main-blog",
+      "blocks": {
+        "title": {
+          "type": "title",
+          "settings": {
+            "article_tag": true,
+            "show_date": true,
+            "title": true,
+            "article_comment": true,
+            "show_author": false
+          }
+        },
+        "summary": {
+          "type": "summary",
+          "settings": {
+          }
+        },
+        "link": {
+          "type": "link",
+          "settings": {
+            "title": "continue reading"
+          }
+        }
+      },
+      "block_order": [
+        "title",
+        "summary",
+        "link"
+      ],
+      "settings": {
+        "layout": "list",
+        "show_image": true,
+        "limit": 9,
+        "article_per_row": 3
+      }
+    },
+    "1648539082757028fe": {
+      "type": "blog-sidebar",
+      "blocks": {
+        "517bc986-f054-4b97-9be3-148310013033": {
+          "type": "search",
+          "settings": {
+            "title": ""
+          }
+        },
+        "0e96a13a-5265-4691-ac2d-31c01031229b": {
+          "type": "blog_list",
+          "settings": {
+            "title": "",
+            "blog": "",
+            "limit": 3
+          }
+        },
+        "f273f2e1-0abe-4249-a8f0-c257e694924d": {
+          "type": "tags",
+          "settings": {
+            "title": "Tags",
+            "limit": 8
+          }
+        },
+        "212a1c81-7163-468c-80f4-939037e6e477": {
+          "type": "link_list",
+          "settings": {
+            "title": "Category",
+            "navigation": "beckam"
+          }
+        },
+        "07e5d6e8-4dc9-4195-9796-89ac7e232619": {
+          "type": "image_with_text",
+          "settings": {
+            "background_image": "shopify:\/\/shop_images\/image_55.jpg",
+            "background_color": "",
+            "logo": "shopify:\/\/shop_images\/Cecile__6.png",
+            "show_social": true,
+            "content": "<p>Hello, We’re content writer who is fascinated by content fashion, celebrity and lifestyle. We helps clients bring the right content to the right people<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "517bc986-f054-4b97-9be3-148310013033",
+        "0e96a13a-5265-4691-ac2d-31c01031229b",
+        "f273f2e1-0abe-4249-a8f0-c257e694924d",
+        "212a1c81-7163-468c-80f4-939037e6e477",
+        "07e5d6e8-4dc9-4195-9796-89ac7e232619"
+      ],
+      "settings": {
+      }
+    }
+  },
+  "order": [
+    "164853855782458e56",
+    "main",
+    "1648539082757028fe"
+  ]
+}

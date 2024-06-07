@@ -1,0 +1,210 @@
+<link rel="stylesheet" href="{{ 'section-product-slider.css' | asset_url }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-product-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% render 'gp-section-style', section: section %}
+<div data-section-id="{{ section.id }}" data-section-type="gp-product-slider" class="gp-section-wrapper gp-product-slider-wrapper{% unless section.settings.fullwidth %} not-fullwidth-section{% endunless %}">
+  <div class="gp-product-slider gp-section-inner">
+    <div class="row">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'products' %}
+              <div class="col-12 position-{{ forloop.index }}">
+                {%- liquid
+                    assign product_per_row = block.settings.product_per_row
+                    assign product_per_row_tablet = block.settings.product_per_row_tablet
+                    assign product_per_row_mobile = block.settings.product_per_row_mobile
+                    assign product_limit = block.settings.limit
+                    assign collection = collections[block.settings.collection]
+                -%}
+                <slider-component>
+                  <ul class="grid slider product-grid-slider grid--{{ product_per_row }}-col-desktop grid--{{ product_per_row_tablet }}-col-tablet grid--{{ product_per_row_mobile }}-col">
+                    {% if block.settings.collection != blank %}
+                      {% for product in collection.products limit: product_limit %}
+                        <li class="grid__item slider__slide">
+                          {% render 'product-card',
+                            product: product,
+                            media_size: settings.image_ratio,
+                            add_image_padding: section.settings.add_image_padding,
+                            show_secondary_image: settings.show_secondary_image
+                          %}
+                        </li>
+                      {% endfor %}
+                    {% else %}
+                      {% for i in (1..product_limit) %}
+                        <li class="grid__item slider__slide">
+                          {% render 'product-card-placeholder', 
+                          product: product ,
+                          media_size: settings.image_ratio,
+                          show_secondary_image: settings.show_secondary_image,
+                          add_image_padding: section.settings.add_image_padding %}
+                        </li>
+                      {% endfor %}
+                    {% endif %}
+                  </ul>
+                  <div class="pagination-custom">
+                    {%- liquid
+                      assign products_to_display = collection.all_products_count
+
+                      if collection.all_products_count > product_per_row
+                        assign products_to_display = product_per_row 
+                      endif
+                    -%}
+                    <div class="slider-counter caption hidden">
+                      <span class="slider-counter--current">1</span>
+                      <span aria-hidden="true"> / </span>
+                      <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
+                      <span class="slider-counter--total">{{ products_to_display }}</span>
+                    </div>
+                    <div class="slider-dots">
+                      {% for dot in products_to_display %}
+                        <button type="button" aria-label="Dots" name="dot" class="dotslide {% if forloop.index == 1 %}active{% endif %%}" data-position="{{ forloop.index }}"></button>
+                      {% endfor %}
+                    </div>
+                    <button type="button" class="btn-2 pagination__item pagination__item--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}"><span class="icon-arrow-right"></span></button>
+                    <button type="button" class="btn-2 pagination__item pagination__item--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}"><span class="icon-arrow-left"></span></button>
+                  </div>
+                </slider-component>
+              </div>
+            {% when '@app' %}
+              {% render block %}
+            {% else %}
+              {%- render 'block-heading', block: block, forloop: forloop -%}
+          {% endcase %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product slideshow",
+  "class": "spaced-section-100 spaced-top-100",
+  "settings": [
+    {
+			"type": "header",
+			"content": "Common settings"
+		},
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "heading",
+      "name": "Heading content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "New Season Footwear"
+        },
+        {
+          "type": "textarea",
+          "id": "sub_text",
+          "label": "Subheading",
+          "default": "March 2022"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "products",
+      "name": "Products",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "product_per_row",
+          "label": "Products per row",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "product_per_row_tablet",
+          "label": "Products per row tablet",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "product_per_row_mobile",
+          "label": "Products per row mobile",
+          "info": "Apply to screen 480px -> 767px",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Limit",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 12
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product slideshow",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "products"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

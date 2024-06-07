@@ -1,0 +1,30 @@
+<div class="gp-section-wrapper{% unless section.settings.fullwidth %} not-fullwidth-section{% endunless %}">
+  <div class="gp-section-inner">
+    {{ section.settings.custom_liquid }}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "t:sections.custom-liquid.name",
+  "tag": "section",
+  "class": "spaced-section  section-custom-liquid",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    },
+    {
+      "type": "liquid",
+      "id": "custom_liquid",
+      "label": "t:sections.custom-liquid.settings.custom_liquid.label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "t:sections.custom-liquid.presets.name"
+    }
+  ]
+}
+{% endschema %}

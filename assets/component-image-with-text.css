@@ -1,0 +1,126 @@
+.image-with-text {
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  padding: 0 15px;
+}
+.image-with-text__heading {
+  line-height: 30px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+  line-height: 30px;
+  font-size: 24px;
+  word-break: break-word;
+}
+.image-with-text__text p{
+  word-break: break-word;
+}
+.image-with-text .grid {
+  margin-left: 0;
+  margin-bottom: 0;
+}
+
+.image-with-text__grid {
+  overflow: hidden;
+}
+
+@media screen and (min-width: 750px) {
+  .image-with-text__grid--reverse {
+    flex-direction: row-reverse;
+  }
+}
+
+.image-with-text__media {
+  background-color: transparent;
+  min-height: 100%;
+}
+
+.image-with-text__media--small {
+  height: 19.4rem;
+}
+
+.image-with-text__media--large {
+  height: 43.5rem;
+}
+
+@media screen and (min-width: 750px) {
+  .image-with-text__media--small {
+    height: 31.4rem;
+  }
+
+  .image-with-text__media--large {
+    height: 69.5rem;
+  }
+}
+
+.image-with-text__media--placeholder {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-with-text__media--placeholder.image-with-text__media--adapt {
+  height: 20rem;
+}
+
+@media screen and (min-width: 750px) {
+  .image-with-text__media--placeholder.image-with-text__media--adapt {
+    height: 30rem;
+  }
+}
+
+.image-with-text__media--placeholder > svg {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  fill: currentColor;
+  border: none;
+}
+.image-with-text__media--placeholder{
+  border: 1px solid var(--color-borders);
+}
+.image-with-text__content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  justify-content: center;
+  padding: 60px 0;
+}
+
+@media screen and (min-width: 750px) {
+  .image-with-text__grid--reverse .image-with-text__content {
+    margin-left: auto;
+  }
+}
+@media (min-width: 768px) {
+  .image-with-text__content {
+    padding: 100px 0;
+  }
+  .image-with-text {
+    padding: 0 30px;
+  }
+  
+}
+@media screen and (min-width: 990px) {
+  .image-with-text__content {
+    padding: 100px 0;
+  }
+}
+@media (min-width: 1025px) {
+  .image-with-text__heading {
+    line-height: 46px;
+    font-size: 40px;
+  }
+  .image-with-text__content .wrapper-signature p {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+  .image-with-text {
+    background-position: bottom left;
+  }
+  .image-with-text {
+    padding: 0 50px;
+  }
+}

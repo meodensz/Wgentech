@@ -1,0 +1,34 @@
+<div class="summary {% if cart == empty %} is-empty{% endif %}" id="main-cart-footer" data-id="{{ section.id }}">
+  <div class="js-contents">
+    {% if settings.cart_note_enable %}
+      <cart-note class="field field-wrapper">
+        <textarea class="field" placeholder="{{ 'sections.cart.note' | t }}" aria-label="{{ 'sections.cart.note' | t }}" name="note" id="Cart-note">{{ cart.note }}</textarea>
+      </cart-note>
+    {% endif %}
+    <div class="subtotal">
+      <span class="subtotal-title">{{ 'sections.minicart.subtotal' | t }}</span>
+      <div class="total-price">
+        <span class="subtotal-price totals__subtotal-value">{{ cart.total_price | money_with_currency }}</span>
+        {%- if cart.cart_level_discount_applications.size > 0 -%}
+        <ul class="discounts list-unstyled" role="list" aria-label="{{ 'customer.order.discount' | t }}">
+          {%- for discount in cart.cart_level_discount_applications -%}
+            <li class="discounts__discount discounts__discount--end">
+              {%- render 'icon-discount' -%}
+              <span>{{ discount.title }}</span>
+              {{ discount.total_allocated_amount | money | append: ')' | prepend: '(-' }}
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+      </div>
+    </div>
+  </div>
+  <div class="actions minicart-button-wrapper">
+    <div class="viewcart">
+      <a href="{{ routes.cart_url }}" class="btn">{{ 'sections.minicart.view_cart' | t }}</a>
+    </div>
+    <div class="checkout">
+      <a class="btn" href="/checkout">{{ 'sections.minicart.check_out' | t }}</a>
+    </div>
+  </div>
+</div> 

@@ -1,0 +1,32 @@
+{
+  "sections": {
+    "16485213181344a924": {
+      "type": "page-title",
+      "settings": {
+        "show_collection_image_in_breadcrumb": true,
+        "show_breadcrumb": true,
+        "breadcrumb_position": "above",
+        "background_color_breadcrumb": "#e8e8e8"
+      }
+    },
+    "main": {
+      "type": "main-search",
+      "settings": {
+        "image_ratio": "square",
+        "show_secondary_image": false,
+        "enable_image_padding": false,
+        "show_vendor": false,
+        "article_show_date": true,
+        "article_show_author": false,
+        "enable_filtering": true,
+        "enable_sorting": true,
+        "title_category_tree": "",
+        "navigation_filter": ""
+      }
+    }
+  },
+  "order": [
+    "16485213181344a924",
+    "main"
+  ]
+}

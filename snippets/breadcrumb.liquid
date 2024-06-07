@@ -1,0 +1,59 @@
+{% unless template == 'index' %}
+  <ul class="breadcrumb" aria-label="breadcrumbs">
+    <li>
+      <a href="{{ routes.root_url }}" class="breadcrumb-link" title="{{ 'general.breadcrumbs.home' | t }}">{{ 'general.breadcrumbs.home' | t }}</a>
+    </li>
+
+    {% if template contains 'product' %}
+
+      {% if collection %}
+        {% if collection.handle %}
+          {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+          <li>{{ collection.title | link_to: url }}</li>
+        {% endif %}
+      {% endif %}
+      <li><span>{{ product.title }}</span></li>
+    
+    {% elsif template == 'cart' %}  
+      <li><span>{{ 'cart.general.title' | t }}</span></li>
+      
+    
+    {% elsif template contains 'collection' and collection.handle %}
+
+      {% if current_tags %}
+        {% capture url %}/collections/{{ collection.handle }}{% endcapture %}
+        <li>{{ collection.title | link_to: url }}</li>
+        <li><span>{{ current_tags | join: " + " }}</span></li>
+      {% else %}
+        <li><span>{{ collection.title }}</span></li>
+      {% endif %}
+
+    {% elsif template == 'blog' %}
+
+      {% if current_tags %}
+        <li>{{ blog.title | link_to: blog.url }}</li>
+        <li><span>{{ current_tags | join: " + " }}</span></li>
+      {% else %}
+        <li><span>{{ blog.title }}</span></li>
+      {% endif %}
+
+    {% elsif template == 'article' %}
+
+      <li>{{ blog.title | link_to: blog.url }}</li>
+      <li><span>{{ article.title }}</span></li>
+
+    {% elsif template contains 'page' %}
+
+      <li><span>{{ page.title }}</span></li>
+
+    {% elsif template contains 'search' %}
+
+      <li><span>{{ 'general.search.title' | t }}</span></li>
+
+    {% else %}
+
+      <li><span>{{ page_title }}</span></li>
+
+    {% endif %}
+  </ul>
+{% endunless %}

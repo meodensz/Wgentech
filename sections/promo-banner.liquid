@@ -1,0 +1,297 @@
+<link rel="stylesheet" href="{{ 'section-banner.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'section-banner.css' | asset_url | stylesheet_tag }}</noscript>
+
+{%- assign padding_layout = section.settings.padding_layout -%}
+<div data-section-id="{{ section.id }}" data-section-type="banner-section" class="gp-section-wrapper{% unless section.settings.fullwidth %} not-fullwidth-section{% endunless %}">
+  <div class="gp-banners gp-section-inner {{ padding_layout }}">
+    <div class="row">  
+      {% if section.blocks.size > 0 %}   
+        {% for block in section.blocks %}
+          {% case block.type %}  
+            {% when '@app' %}
+              {% render block %}
+            {% when 'banner-content-inside' %}
+              <div class="style-{{ block.settings.content_style }} col-lg-{{ block.settings.columns }} col-md-{{ block.settings.columns_tablet }} col-{{ block.settings.columns_mobile }} position-{{ forloop.index }}" {{ block.shopify_attributes }}>
+                {% render 'banner-with-content-inside', block: block, forloop: forloop %}
+              </div>
+              {% style %}
+                [data-section-id="{{ section.id }}"] .row > .position-{{ forloop.index }} {
+                  margin-bottom: {{ block.settings.margin_bottom }}px;
+                }
+              {% endstyle %}
+            {% else %}
+              {% render 'block-heading', block: block, forloop: forloop %}
+          {% endcase %}
+        {% endfor %}  
+      {% endif %}
+    </div>
+  </div>  
+</div>
+
+{% schema %}
+{
+  "name": "Promo banner",
+  "class": "section-banner",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Specific settings"
+    },
+    {
+      "type": "select",
+      "id": "padding_layout",
+      "label": "Spacing between 2 items",
+      "default": "default",
+      "options": [
+        {
+          "value": "default",
+          "label": "Default"
+        },
+        {
+          "value": "col-padding-0",
+          "label": "Padding left and right 0px"
+        },
+        {
+          "value": "col-padding-10",
+          "label": "Padding left and right 10px"
+        },
+        {
+          "value": "col-padding-25",
+          "label": "Padding left and right 25px"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Common settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "heading",
+      "name": "Heading content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "sub_text",
+          "label": "Subheading",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "banner-content-inside",
+      "name": "Image with content inside",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Common settings"
+        },
+        {
+          "type": "range",
+          "id": "columns",
+          "label": "Columns desktop",
+          "default": 4,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "type": "range",
+          "id": "columns_tablet",
+          "label": "Columns tablet",
+          "default": 4,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "type": "range",
+          "id": "columns_mobile",
+          "label": "Columns mobile",
+          "default": 12,
+          "min": 1,
+          "max": 12
+        },
+        {
+          "type": "header",
+          "content": "Images"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "image_picker",
+          "id": "image_mobile",
+          "label": "Image on mobile"
+        },
+        {
+          "type": "url",
+          "id": "url_action",
+          "label": "Action URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_window",
+          "label": "Open link in new tab",
+          "default": false
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "label": "Heading",
+          "default": "Mans"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "label": "Subheading",
+          "default": "Must have item"
+        },
+        {
+          "type": "text",
+          "id": "btn_text",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button URL"
+        },
+        {
+          "type": "checkbox",
+          "id": "button_open_new_window",
+          "label": "Open link in new tab",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Content layout"
+        },
+        {
+          "type": "select",
+          "id": "content_style",
+          "label": "Content style",
+          "default": "image-overlay",
+          "options": [
+            {
+              "value": "image-overlay",
+              "label": "Image overlay"
+            },
+            {
+              "value": "simple",
+              "label": "Simple"
+            }
+          ]
+        },
+        {
+          "type": "select",
+          "id": "content_position",
+          "label": "Position",
+          "default": "middle-center",
+          "options": [
+            {
+              "value": "top-left",
+              "label": "Top left"
+            },
+            {
+              "value": "top-center",
+              "label": "Top center"
+            },
+            {
+              "value": "top-right",
+              "label": "Top right"
+            },
+            {
+              "value": "middle-left",
+              "label": "Middle left"
+            },
+            {
+              "value": "middle-center",
+              "label": "Middle center"
+            },
+            {
+              "value": "middle-right",
+              "label": "Middle right"
+            },
+            {
+              "value": "bottom-left",
+              "label": "Bottom left"
+            },
+            {
+              "value": "bottom-center",
+              "label": "Bottom center"
+            },
+            {
+              "value": "bottom-right",
+              "label": "Bottom right"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "margin_bottom",
+          "label": "Margin bottom",
+          "min": 0,
+          "max": 100,
+          "step": 5,
+          "unit": "px",
+          "default": 0
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Promo banner",
+      "category": "Image",
+      "blocks": [
+        {
+          "type": "banner-content-inside"
+        },
+        {
+          "type": "banner-content-inside"
+        },
+        {
+          "type": "banner-content-inside"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

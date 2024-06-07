@@ -1,0 +1,79 @@
+<div class="banner-item position-{{ forloop.index }} effect-zoom-overlay">
+  <div class="banner-item-img">
+    {% if block.settings.image == blank %}
+      {{ 'collection-1' | placeholder_svg_tag }}
+    {% else %}
+      <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+            {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+            {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+            {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+            {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+            {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1080 }} 1080w{%- endif -%}" 
+      src="{{ block.settings.image | image_url: width: 540 }}" 
+      sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+      alt="{{ block.settings.image.alt | escape }}" 
+      loading="lazy" 
+      class="motion-reduce{% if block.settings.image_mobile != blank %} hide-mobile{% endif %}" 
+      width="{{ block.settings.image.width }}"
+      height="{{ block.settings.image.height }}"/>   
+    {% endif %} 
+    {% if block.settings.image_mobile %}
+      <img srcset="{%- if block.settings.image_mobile.width >= 180 -%}{{ block.settings.image_mobile | image_url: width: 180 }} 180w,{%- endif -%} 
+              {%- if block.settings.image_mobile.width >= 360 -%}{{ block.settings.image_mobile | image_url: width: 360 }} 360w,{%- endif -%} 
+              {%- if block.settings.image_mobile.width >= 540 -%}{{ block.settings.image_mobile | image_url: width: 540 }} 540w,{%- endif -%} 
+              {%- if block.settings.image_mobile.width >= 720 -%}{{ block.settings.image_mobile | image_url: width: 720 }} 720w,{%- endif -%} 
+              {%- if block.settings.image_mobile.width >= 900 -%}{{ block.settings.image_mobile | image_url: width: 900 }} 900w,{%- endif -%} 
+              {%- if block.settings.image_mobile.width >= 1080 -%}{{ block.settings.image_mobile | image_url: width: 1080 }} 1080w{%- endif -%}" 
+          src="{{ block.settings.image_mobile | image_url: width: 737 }}" 
+          sizes="calc(100vw - 30px)" alt="{{ block.settings.image_mobile.alt | escape }}" 
+          loading="lazy" 
+          class="motion-reduce{% if block.settings.image_mobile != blank %} mobile-only{% endif %}" 
+          width="{{ block.settings.image_mobile.width }}"
+          height="{{ block.settings.image_mobile.height }}"/>
+    {% endif %}
+  </div>
+  
+  <div class="banner-content-wrapper position-{{ block.settings.content_position }}">
+    {% if block.settings.url_action != blank %}
+      <a class="no-effect banner-url-action" href="{{ block.settings.url_action }}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>Link to banner</a>
+    {% endif %}
+    
+    {% if block.settings.heading != blank or block.settings.subheading != blank or block.settings.btn_text != blank %}
+      <div class="banner-content-inner">
+          {% if block.settings.heading != blank %}
+            <h3 class="heading-banner">
+              {{ block.settings.heading }}
+            </h3>
+          {% endif %}
+          {% if block.settings.subheading != blank %}
+            <p class="subheading-banner">
+              {{ block.settings.subheading }}
+            </p>
+          {% endif %}
+          {% if block.settings.btn_text != blank %}
+            <a class="{% if block.settings.content_style == 'simple' %}text-link text-underlined{% else %}btn-2{% endif %}" href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}"{% if block.settings.button_open_new_window %} target="_blank"{% endif %}>
+              {{ block.settings.btn_text }}
+              {% if block.settings.content_style == 'simple' %}<i class="icon-ar-right"></i>{% endif %}
+            </a>
+          {% endif %}
+      </div>
+    {% endif %}
+  </div>
+  
+  {% style %}
+    [data-section-id="{{ section.id }}"] .banner-item.position-{{ forloop.index }} {
+      margin-bottom: {{ block.settings.margin_bottom }}px;
+    }
+    {% if isParallax and block.settings.image == blank %}
+      [data-section-id="{{ section.id }}"] .banner-item.position-{{ forloop.index }} {
+        background-image: url({{ 'image-placeholder.png' | asset_url }});
+        background-color: #f0f1f1;
+      }
+    {% endif %}
+    {% if isParallax and block.settings.image != blank %}
+      [data-section-id="{{ section.id }}"] .banner-item.position-{{ forloop.index }} {
+        background-image: url({{ block.settings.image | image_url: width: 2048 }});
+      }
+    {% endif %}
+  {% endstyle %}
+</div>

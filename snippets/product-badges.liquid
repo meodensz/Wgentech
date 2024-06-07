@@ -1,0 +1,22 @@
+{%- if product.tags contains 'hot' or product.compare_at_price > product.price or settings.new_label_ago > 0 or product.available == false -%}
+  <div class="card__badge">
+    {%- liquid 
+      if product.available == false
+        echo 'products.product.sold_out' | t | prepend: '<span class="badge sold-out">' | append: '</span>'
+      elsif product.compare_at_price > product.price and product.available
+        echo 'products.product.on_sale' | t | prepend: '<span class="badge sale">' | append: '</span>'
+      endif
+      if settings.new_label_ago > 0
+        assign time_new = settings.new_label_ago
+        assign product_created_at = product.created_at | date: '%s'
+        assign time_ago = 'now' | date: '%s' | minus: product_created_at | divided_by: 86400
+        if time_ago < time_new
+          echo 'products.product.new' | t | prepend: '<span class="badge new">' | append: '</span>'
+        endif
+      endif
+      if product.tags contains 'hot'
+        echo 'products.product.hot' | t | prepend: '<span class="badge hot">' | append: '</span>'
+      endif
+    -%}
+  </div>
+{%- endif -%}

@@ -1,0 +1,423 @@
+{%- liquid 
+  if settings.type_base_family == 'google'
+    assign base_font = settings.typo_google_body_font
+    assign heading_font = settings.typo_google_headings_font
+    assign heading1_font = settings.typo_google_headings1_font
+    if base_font == heading_font
+      assign font_google = heading_font | strip | replace: ' ', '+' | append : ":ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800"
+      unless heading1_font == heading_font
+        assign font_google_heading1 = heading1_font | strip | replace: ' ', '+' | append: ":ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800"
+      endunless
+    else
+      assign font_google = base_font | strip | replace: ' ', '+' | append: ":ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800"
+      assign font_google_heading = heading_font | strip | replace: ' ', '+' | append: ":ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800"
+      if heading1_font != heading_font or heading1_font != base_font
+        assign font_google_heading1 = heading1_font | strip | replace: ' ', '+' | append: ":ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800"
+      endif
+    endif
+  endif
+-%}
+{%- if settings.type_base_family == 'google' -%}
+  {%- if font_google != blank -%}
+    @import url('https://fonts.googleapis.com/css2?family={{ font_google }}&display=swap');
+  {%- endif -%}
+  {%- if font_google_heading1 != blank -%}
+    @import url('https://fonts.googleapis.com/css2?family={{ font_google_heading1 }}&display=swap');
+  {%- endif -%}
+  {%- if font_google_heading != blank -%}
+    @import url('https://fonts.googleapis.com/css2?family={{ font_google_heading }}&display=swap');
+  {%- endif -%}
+{%- else -%}
+  {{ settings.type_body_font | font_face: font_display: 'swap' }}
+  {{ settings.type_header_font | font_face: font_display: 'swap' }}  
+  {{ settings.type_header1_font | font_face: font_display: 'swap' }}  
+{%- endif -%}
+
+/* Base */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+a:empty,
+ul:empty,
+dl:empty,
+div:empty,
+section:empty,
+article:empty,
+p:empty,
+h1:empty,
+h2:empty,
+h3:empty,
+h4:empty,
+h5:empty,
+h6:empty {
+  display: none;
+}
+.gift-card__title a{
+  text-decoration: unset;
+  color: var(--color-heading);
+}
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+body {
+  background-color: var(--color-background);
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: 0 2rem;
+  flex: 1 0 auto;
+  font-size: var(--font-size-base);
+  font-family: var(--font-stack-body);
+  font-style: var(--font-style-body);
+  font-weight: var(--font-weight-body);
+  color: var(--color-text);
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+}
+
+@media only screen and (min-width: 750px) {
+  body {
+    font-size: 1.6rem;
+    line-height: 1.8;
+    padding: 0 5rem;
+  }
+}
+h2, .h2, .heading-2,
+h3, .h3, .heading-3,
+h4, .h4, .heading-4,
+h5, .h5, .title-1,
+h6, .h6, .title-2 {
+  font-family: var(--font-stack-heading);
+  font-style: var(--font-style-heading);
+  font-weight: var(--font-weight-heading);
+  color: var(--color-heading);
+  margin: 0;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+h2,
+.h2 {
+  font-size: 40px;
+  line-height: 46px;
+}
+
+h1,
+.h1 {
+  font-size: 50px;
+  line-height: 55px;
+  font-family: var(--font-stack-heading-special);
+  font-style: var(--font-style-heading-special);
+  font-weight: var(--font-weight-heading-special);
+  color: var(--color-heading);
+  margin: 0;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+.skip-to-content-link:focus {
+  z-index: 9999;
+  position: inherit;
+  overflow: auto;
+  width: auto;
+  height: auto;
+  clip: auto;
+}
+
+.link {
+  cursor: pointer;
+  display: inline-block;
+  border: none;
+  box-shadow: none;
+  background-color: transparent;
+  padding: 0.4rem;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--color-link);
+  position: relative;
+  font-family: inherit;
+  word-break: break-word;
+}
+.link:after {
+content: "";
+  width: 0;
+  height: 7px;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  z-index: -1;
+  display: block;
+  transition: .3s ease-out;
+  -o-transition: .3s ease-out;
+  -moz-transition: .3s ease-out;
+  -webkit-transition: .3s ease-out;
+  -ms-transition: .3s ease-out;
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
+  background: linear-gradient(180deg, transparent 0%, var(--color-primary) 51.56%);
+}
+.link:hover:after {
+  width: 100%;
+}
+
+.button {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  text-decoration: none;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid var(--color-btn-primary-border);
+  border-radius: 3px;
+  padding: 17px 29px;
+  background-color: var(--color-btn-primary-background);
+  color: var(--color-btn-primary-text);
+  font-style: normal;
+  font-weight: 600;
+  white-space: normal;
+  font-size: var(--font-size-base);
+  letter-spacing: 0em;
+  transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+  text-transform: uppercase;
+}
+
+.button:hover {
+  outline: none;
+  box-shadow: none;
+  color: var(--color-btn-primary-text-hover);
+  background-color: var(--color-btn-primary-background-hover);
+  border-color: var(--color-btn-primary-border-hover);
+}
+.button:focus, .button:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+.button--secondary {
+  color: var(--color-btn-secondary-text);
+  background-color: var(--color-btn-secondary-background);
+  border: 1px solid var(--color-btn-secondary-border);
+  border-radius: 3px;
+  transition: all 0.4s;
+  -o-transition: all 0.4s;
+  -moz-transition: all 0.4s;
+  -webkit-transition: all 0.4s;
+  -ms-transition: all 0.4s;
+}
+
+.button--secondary:hover {
+  color: var(--color-btn-secondary-text-hover);
+  background-color: var(--color-btn-secondary-background-hover);
+  border-color: var(--color-btn-secondary-border-hover);
+}
+
+.gift-card {
+  padding-bottom: 3.4rem;
+}
+
+.gift-card__title {
+  text-align: center;
+  word-break: break-word;
+  padding: 4rem 0 1.7rem;
+}
+
+@media only screen and (min-width: 990px) {
+  .gift-card__title {
+    padding: 6rem 0 2.6rem;
+  }
+}
+
+.gift-card__image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  margin-bottom: 0.8rem;
+  margin: 0 auto;
+}
+
+@media only screen and (min-width: 750px) {
+  .gift-card__image-wrapper {
+    margin-bottom: 0;
+    width: 40rem;
+  }
+}
+
+.gift-card__image {
+  max-width: 100%;
+  padding: 0 2rem;
+  height: auto;
+}
+
+@media only screen and (min-width: 750px) {
+  .gift-card__image {
+    padding: 0;
+  }
+}
+
+.gift-card__heading {
+  font-weight: 400;
+  margin: 2.5rem 0 1rem;
+}
+
+.gift-card__price {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: 1px;
+  line-height: 1.5;
+  opacity: 0.85;
+}
+
+.gift-card__price > p:first-child {
+  margin-bottom: 1rem;
+}
+
+@media only screen and (min-width: 750px) {
+  .gift-card__price {
+    font-size: 2rem;
+  }
+}
+
+.gift-card__label:not(.badge) {
+  font-weight: 400;
+  opacity: 0.7;
+}
+
+.gift-card__number {
+  background-color: var(--color-background);
+  border: none;
+  font-size: 1.8rem;
+  font-weight: 400;
+  line-height: 1.6;
+  text-align: center;
+  width: 100%;
+  margin-bottom: 1rem;
+  outline: none;
+  font-family:  inherit;
+}
+
+@media only screen and (min-width: 750px) {
+  .gift-card__number {
+    font-size: 1.8rem;
+  }
+}
+
+.gift-card__text {
+  margin-bottom: 4rem;
+  opacity: 0.7;
+}
+
+.gift-card__information {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.gift-card__label {
+  font-size: 1.3rem;
+  letter-spacing: 0.05rem;
+  font-weight: 500;
+  display: inline;
+  margin-left: 1rem;
+}
+
+.badge {
+  border: 1px solid transparent;
+  margin: 1.7rem 0 1rem 1rem;
+  border-radius: 4rem;
+  display: inline-block;
+  font-size: 1.2rem;
+  letter-spacing: 0.1rem;
+  line-height: 1;
+  padding: 0.6rem 1.6rem;
+  text-align: center;
+  border-color: var(--color-disabled-border);
+  color: var(--color-link-disable);
+  background-color: var(--color-disabled);
+}
+
+.gift-card__copy-code {
+  margin-bottom: 2.2rem;
+}
+
+.gift-card__qr-code {
+  margin-top: 3rem;
+}
+
+@media only screen and (min-width: 750px) {
+  .gift-card__qr-code {
+    margin-top: 5rem;
+  }
+}
+
+.gift-card__qr-code img {
+  margin: 0 auto;
+}
+
+.gift_card__apple-wallet {
+  line-height: 0;
+  display: block;
+  margin-bottom: 5rem;
+}
+
+.gift-card__buttons {
+  display: flex;
+  flex-direction: column;
+  max-width: 25rem;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+
+.gift-card__buttons > .button:first-child {
+  display: block;
+  margin-bottom: 2rem;
+}
+
+
+/* Negate the fallback side-effect for browsers that support :focus-visible */
+*:focus:not(:focus-visible) {
+  outline: 0;
+  box-shadow: none;
+}
+
+.form__message {
+  align-items: center;
+  display: flex;
+  font-size: 1.2rem;
+  line-height: 1;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.form__message .icon {
+  flex-shrink: 0;
+  height: 1.3rem;
+  margin-right: 0.5rem;
+  width: 1.3rem;
+}
+
+@media print {
+  .no-print {
+    display: none;
+  }
+}
+.money {
+  color: var(--color-price);
+  font-size: 3rem;
+}

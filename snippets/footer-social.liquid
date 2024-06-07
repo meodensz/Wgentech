@@ -1,0 +1,79 @@
+<ul class="footer-socials footer__list-social list-unstyled list-social {{ block.settings.alignment }}" role="list">
+  {%- if settings.social_facebook_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_facebook_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.facebook' | t }}">
+        <i class="icon-fb"></i>
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_twitter_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_twitter_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.twitter' | t }}">
+        {%- render 'icon-twitter' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_instagram_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_instagram_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.instagram' | t }}">
+        {%- render 'icon-instagram' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_pinterest_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_pinterest_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.pinterest' | t }}">
+        <i class="icon-p"></i>
+      </a>
+    </li>
+  {%- endif -%}
+  
+  {%- if settings.social_tiktok_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_tiktok_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.tiktok' | t }}">
+        {%- render 'icon-tiktok' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_tumblr_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_tumblr_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.tumblr' | t }}">
+         {%- render 'icon-tumblr' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_snapchat_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_snapchat_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.snapchat' | t }}">
+        {%- render 'icon-snapchat' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_youtube_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_youtube_link }}" target="_blank" class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.youtube' | t }}">
+        {%- render 'icon-youtube' -%}
+      </a>
+    </li>
+  {%- endif -%}
+  {%- if settings.social_vimeo_link != blank -%}
+    <li class="list-social__item">
+      <a href="{{ settings.social_vimeo_link }}"target="_blank"  class="link link--text list-social__link no-effect" aria-label="{{ 'general.social.links.vimeo' | t }}">
+        {%- render 'icon-vimeo' -%}
+        </a>
+      </a>
+    </li>
+  {%- endif -%}
+</ul>
+{%- if block.type == 'socials' -%}
+  {%- if block.settings.heading != blank or block.settings.description != blank -%}
+    <div class="content {{ block.settings.alignment }}">
+      {%- if block.settings.heading != blank -%}
+        <h2 class="footer-block__heading">{{ block.settings.heading }}</h2>
+      {%- endif -%}
+      {% if block.settings.description != blank %}
+        <div class="description">{{ block.settings.description }}</div>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endif %}

@@ -1,0 +1,169 @@
+.page-contact-width {
+	max-width: 1380px;
+	width: 100%;
+	margin: 0 auto;
+	padding: 0 15px;
+}
+
+.desc-form br {
+	display: none;
+}
+
+.contact-wrapper .breadcrumb {
+	display: none;
+	padding: 40px 0 0;
+}
+
+.contact-wrapper .breadcrumb li:not(:last-child)::after {
+	content: "\e904";
+	font-family: 'cecile-icon';
+	padding: 0 7px 0 5px;
+	font-size: 13px;
+	line-height: 13px;
+}
+
+.contact-infor {
+	margin-top: 60px;
+}
+
+.contact-infor .heading-contact,
+.heading-form {
+	font-size: 30px;
+	line-height: 28px;
+	letter-spacing: 0;
+	margin-bottom: 20px;
+}
+.heading-form {
+	margin: 40px 0 20px;
+}
+.desc-form {
+	margin: 0 0 40px;
+}
+.contact-infor .contact-information {
+	margin-bottom: 20px;
+}
+.contact-infor .contact-information .infor-item {
+	margin-bottom: 17px;
+}
+
+.contact-infor .contact-information .infor-item .infor-label {
+	color: var(--color-link);
+	font-weight: 600;
+	letter-spacing: 0;
+	min-width: 72px;
+	display: inline-block;
+	padding-right: 15px;
+}
+
+.contact-infor .social {
+	margin-bottom: 20px;
+}
+
+.contact-infor .social .heading-social {
+	font-size: 20px;
+	line-height: 32px;
+	margin-bottom: 22px;
+	text-transform: uppercase;
+}
+
+.contact-infor .social .list-social__link {
+	font-size: 20px;
+	line-height: 20px;
+	padding: 0 20px 20px 0;
+	color: var(--color-text);
+}
+
+.contact-infor .social .list-social__link:hover {
+	color: var(--color-link);
+}
+
+.contact-media {
+	padding: 0;
+}
+
+@media (min-width: 1025px) {
+	.contact-wrapper {
+		padding-bottom: 89px;
+	}
+
+	.main-contact .contact-wrapper-border {
+		display: block;
+		border-bottom: 1px solid var(--color-borders);
+	}
+
+	.contact-wrapper .breadcrumb {
+		display: flex;
+	}
+
+	.page-contact-width {
+		padding: 0 30px;
+	}
+
+	.contact-infor {
+		margin: 44px 0 0;
+		padding: 21px 15px 22px;
+	}
+
+	.contact-infor.no-breadcrumb {
+		margin-top: 89px;
+	}
+
+	.contact-infor .social {
+		margin-bottom: 0;
+	}
+
+	.contact-infor .heading-contact,
+	.heading-form {
+		font-size: 50px;
+		line-height: 55px;
+		margin-bottom: 34px;
+	}
+	.contact-infor .contact-information {
+		margin-bottom: 41px;
+	}
+	.contact-infor .contact-information .infor-item {
+		margin-bottom: 16px;
+	}
+
+	.contact-infor .social .heading-social {
+		font-size: 24px;
+		line-height: 28px;
+		margin-bottom: 32px;
+	}
+
+	.heading-form {
+		margin: 60px 0 40px;
+	}
+	.desc-form {
+		margin: 0 0 44px;
+	}
+	.desc-form br {
+		display: unset;
+	}
+
+	.col-12.order-1 {
+		order: 1;
+	}
+
+	.col-12.order-2 {
+		order: 2;
+		padding-left: 30px;
+	}
+
+	.contact-media {
+		padding: 0;
+		margin-top: 44px;
+	}
+
+	.contact-media.no-breadcrumb {
+		margin-top: 89px;
+	}
+
+	.contact-media.order-1 {
+		padding: 0 0 0 15px;
+	}
+
+	.contact-media.order-2 {
+		padding: 0 15px 0 0;
+	}
+}

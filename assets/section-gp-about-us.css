@@ -1,0 +1,102 @@
+.about-us .image-banner img{
+  width: 100%;
+  height: 100%;
+}
+.about-us .image-banner .desktop{
+  display: none;
+}
+.about-us .gp-banner-about .gp-title-banner{
+  position: absolute;
+  transform: translate(-50%,-50%);
+  top: calc(75% + 2px);
+  text-align: center;
+  left: 50%;
+  width: 100%;
+  padding: 0 30px;
+}
+.gp-banner-about{
+  position: relative;
+}
+.gp-banner-about .image-banner{
+  line-height: 0;
+}
+.signature{
+  font-family: 'Miss Fajardose', cursive;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 45px;
+  letter-spacing: 0.03em;
+  margin-left: 5px;
+  word-break: break-word;
+}
+.about-us .gp-banner-about .gp-title-banner .title-banner{
+  letter-spacing: 0;
+  font-size: 30px;
+  margin: 0;
+  text-transform: uppercase;
+}
+.about-us .gp-banner-about .gp-title-banner .sub-title-banner{
+  letter-spacing: 0;
+  margin-bottom: 9px;
+  margin-top: 0;
+  line-height: 24px;
+  word-break: break-word;
+}
+.about-us .gp-banner-about .gp-title-banner .signature-banner{
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  margin: 0;
+  word-break: break-word;
+}
+.heading-2 {
+  margin-bottom: 30px;
+}
+.text-left{
+  text-align: left;
+}
+.text-center{
+  text-align: center;
+}
+.text-right{
+  text-align: right;
+}
+.padding-section{
+  padding-top: 60px;
+}
+.gp-section-wrapper .gp-section-inner.text-row-with-image{
+  margin-bottom: -30px;
+}
+.gp-section-wrapper .gp-section-inner.about-us {
+  padding: 0;
+}
+.shopify-section:last-child .gp-section-wrapper:last-of-type .gp-section-inner{
+  padding-bottom: 0;
+}
+@media (min-width: 768px) {
+  .about-us .image-banner .mobile{
+    display: none;
+  }
+  .about-us .image-banner .desktop{
+    display: block;
+  }
+  .about-us .gp-banner-about .gp-title-banner{
+    top: calc(48% + 5px);
+  }
+  .about-us .gp-banner-about .gp-title-banner .title-banner{
+    font-size: 50px;
+    line-height: 55px;
+  }
+  .about-us .gp-banner-about .gp-title-banner .sub-title-banner{
+    margin-bottom: 16px;
+    margin-top: 39px;
+  }
+}
+@media (min-width: 1025px) {
+  .padding-section{
+    padding-top: 100px;
+  }
+  .heading-2 {
+    margin-bottom: 40px;
+  }
+}

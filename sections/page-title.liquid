@@ -1,0 +1,99 @@
+<link rel="stylesheet" href="{{ 'page-title.css' | asset_url }}" onload="this.media='all'">
+<div class="page-title-wrapper{% if collection.image and section.settings.show_collection_image_in_breadcrumb == true %} breadcrumb-has-image{% elsif section.settings.general_title_background_image != blank %} breadcrumb-has-image{% endif %}" 
+  {% if collection.image != blank and section.settings.show_collection_image_in_breadcrumb == true %} 
+    style="background-image:url({{ collection.image | image_url: width: 2800 }})" 
+  {% endif %}>
+  <div class="breadcrumbs {{ section.settings.breadcrumb_position }}">
+    {% if template contains 'product' %}
+    {% elsif template == 'cart'  %}
+      <h1 class="page-title">{{ 'cart.general.title' | t }}</h1>
+    {% elsif template contains 'collection' and collection.handle %}
+      <h4 class="page-sub-title">{{ collection.description }}</h4>
+      <h1 class="page-title ">{{ collection.title }}</h1>
+    {% elsif template == 'blog' %}
+      <h1 class="page-title">{{ blog.title }}</h1>
+    {% elsif template contains 'article' %}
+    {% elsif template contains 'page' %}
+      <h1 class="page-title">{{ page.title }}</h1>
+    {% elsif template contains 'search' %}
+      {% if search.performed == false %}
+        <h1 class="page-title">{{ 'templates.search.title' | t }}</h1>
+      {% else %}
+        <h1 class="page-title">
+          <span class="visually-hidden">{{ 'templates.search.title' | t: count: search.results_count }}:</span>
+          {{ 'templates.search.results_with_count' | t: terms: search.terms, count: search.results_count }}
+        </h1>
+      {% endif %}
+    {% else %}
+        <h1 class="page-title">{{ page_title }}</h1>
+    {% endif %}
+    {% if section.settings.show_breadcrumb %}
+      {% render 'breadcrumb' %}
+    {% endif %}
+  </div>
+</div>
+
+{% style %}
+
+{% if section.settings.general_title_background_image != blank or section.settings.desktop_padding_page_title != blank %}
+  {%- if section.settings.general_title_background_image != blank -%}
+    .page-title-wrapper {
+      background-image: url('{{ section.settings.general_title_background_image | image_url: width: 2800 }}');
+    }
+  {%- endif %}
+{% endif %}
+.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb{
+	background: {{ section.settings.background_color_breadcrumb }};
+}
+{% endstyle %}
+
+
+{% schema %}
+{
+  "name": "Page heading & breadcrumb",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "general_title_background_image",
+      "label": "Background image",
+      "info": "Only show when collection image blank"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_collection_image_in_breadcrumb",
+      "label": "Show collection image in breadcrumb",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_breadcrumb",
+      "label": "Show breadcrumb",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "breadcrumb_position",
+      "label": "Breadcrumb position",
+      "default": "above",
+      "options": [
+        {
+          "value": "below",
+          "label": "Bottom heading"
+        },              {
+          "value": "above",
+          "label": "Above heading"
+        }
+      ]
+    },
+    {
+      "type": "color",
+      "id": "background_color_breadcrumb",
+      "label": "Background color breadcrumb",
+      "default": "#e8e8e8"
+    }
+  ],
+  "presets": [{
+    "name": "Page heading & breadcrumb"
+  }]
+}
+{% endschema %}

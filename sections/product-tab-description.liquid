@@ -1,0 +1,115 @@
+{% if section.blocks.size > 0 %}
+<link rel="stylesheet" href="{{ 'product-tab-description.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'product-tab-description.css' | asset_url | stylesheet_tag }}</noscript>
+<div class="container tab-description-wrapper">
+  <div class="gp-product-col-information col-12 tab-description">
+    <div class="product-detail-infomation">
+      <div class="product-data-items-title">
+        <tab-menu class="product-data-items-menu nav-tabs">
+          {% for block in section.blocks %}
+            {% case block.type %}
+              {% when 'description' %}
+                {% if product.description != blank %}
+                  <div class="tab-title{% if forloop.first %} active{% endif %}">
+                    <a href="#attributedescription" class="title-tab-description no-effect">{{ 'products.product.detail' | t }}</a>
+                  </div>
+                  {% if product.description != blank %}
+                    <div class="tab-content-mobile {% if forloop.first %} active{% endif %}" data-id="#attributedescription">
+                      {{ product.description }}
+                    </div>
+                  {% endif %}
+                {% else %}
+                  {% if forloop.first %}{% assign is_blank = true %}{% endif %}
+                {% endif %}
+              {%- when '@app' -%}
+                <div class="tab-title{% if forloop.first %} active{% elsif is_blank and forloop.index == 2 %} active{% endif %}">
+                  <a href="#app-{{ forloop.index }}" class="title-tab-description no-effect">{{ 'products.product.reviews' | t }}</a>
+                </div>
+                <div class="tab-content-mobile content-reviews {% if forloop.first %} active{% elsif is_blank and forloop.index == 2 %} active{% endif %}" data-id="#app-{{ forloop.index }}">
+                    {% render block %}
+                </div>
+              {%- when 'custom_tab' -%}
+                {% if block.settings.heading != blank %}
+                  <div class="tab-title{% if forloop.first %} active{% elsif is_blank and forloop.index == 2 %} active{% endif %}">
+                    <a href="#customtab-{{ forloop.index }}" class="title-tab-description no-effect">{{ block.settings.heading | default: block.settings.page.title }}</a>
+                  </div>
+                  {% if block.settings.content != blank or block.settings.page != blank %}
+                    <div class="tab-content-mobile {% if forloop.first %} active{% elsif is_blank and forloop.index == 2 %} active{% endif %}" data-id="#customtab-{{ forloop.index }}">
+                      {%- if block.settings.content != blank -%}
+                        {{ block.settings.content }}
+                      {%- endif -%}
+                      {%- if block.settings.page != blank -%}
+                        {{ block.settings.page.content }}
+                      {%- endif -%}
+                    </div>
+                  {% endif %}
+                {% endif %}
+            {% endcase %}
+          {% endfor %}
+        </tab-menu>
+        <div class="items-content-wrapper">
+          <div class="product-data-items-content">
+            {% for block in section.blocks %}
+              {% case block.type %}
+                {% when 'description' %}
+                  {% if product.description != blank %}
+                    <div class="tab-content{% if forloop.first %} active{% endif %}" id="attributedescription">
+                      {{ product.description }}
+                    </div>
+                  {% endif %}
+                {%- when 'custom_tab' -%}
+                  {% if block.settings.content != blank or block.settings.page != blank %}
+                    <div class="tab-content{% if forloop.first %} active{% elsif is_blank and forloop.index == 2 %} active{% endif %}" id="customtab-{{ forloop.index }}">
+                      {{ block.settings.content }}
+                      {{ block.settings.page.content }}
+                    </div>
+                  {% endif %}
+              {% endcase %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+<script src="{{ 'tab-menu.js' | asset_url }}" defer="defer"></script>
+{% schema %}
+{
+  "name":"Product tab description",
+  "class": "spaced-section-100",
+  "blocks": [
+    {
+      "type": "description",
+      "name": "t:sections.main-product.blocks.description.name",
+      "limit": 1
+    },
+    {
+      "type": "custom_tab",
+      "name": "Custom tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "Custom tab",
+          "info": "Include a heading that explains the content.",
+          "label": "Heading"
+        },
+        {
+          "type": "richtext",
+          "id": "content",
+          "label": "Tab content"
+        },
+        {
+          "type": "page",
+          "id": "page",
+          "label": "Tab content from page"
+        }
+      ]
+    },
+    {
+      "type" : "@app"
+    }
+  ]
+}
+{% endschema %}

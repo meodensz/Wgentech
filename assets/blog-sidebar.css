@@ -1,0 +1,210 @@
+.blog-sidebar.none-sidebar{
+	display: none;
+}
+.section-sidebar{
+	margin-bottom: 60px;
+}
+.blog-sidebar {
+  word-break: break-word;
+}
+@media (min-width: 1025px) {
+	body .blog-wrapper .blog-left-sidebar.blog-sidebar {
+		width: 26.5%;
+		padding-right: 30px;
+		float: left;
+	}
+  .section-sidebar{
+    margin-bottom: 100px;
+  }
+	.blog-wrapper{
+		overflow: hidden;
+	}
+	body .blog-wrapper .blog-left-sidebar.main-blog {
+		width: 73.5%;
+		padding-left: 30px;
+		float: right;
+	}
+	body .blog-wrapper .blog-right-sidebar.blog-sidebar {
+		width: 26.5%;
+		padding-left: 30px;
+		float: right;
+	}
+	body .blog-wrapper .blog-right-sidebar.main-blog {
+		width: 73.5%;
+		padding-right: 30px;
+		float: left;
+	}
+  .blog-left-sidebar .article-template {
+		width: 73.5%;
+		padding-left: 30px;
+		float: right;
+	}
+  .blog-right-sidebar .article-template {
+		width: 73.5%;
+		padding-right: 30px;
+		float: left;
+	}
+}
+.sidebar-wrapper #SearchInput{
+	height: 60px;
+}
+.sidebar-wrapper .search-form .search-header__input.search__input.search__input-bigger::placeholder{
+  font-size: 16px;
+}
+.list-blog .info a {
+	font-size: 12px;
+	line-height: 18px;
+	margin-bottom: 25px;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: -webkit-box;
+}
+.list-blog .item-blog:last-child{
+	margin-bottom: 0;
+}
+.list-blog .item-blog{
+	margin-bottom: 10px;
+	display: flex;
+}
+.list-blog .item-blog .blog-item-wrapper{
+	display: flex;
+}
+.list-blog .info time{
+	font-size: 12px;
+	line-height: 15px;
+	color: var(--color-text);
+	text-transform: uppercase;
+}
+.list-blog .img-blog {
+	width: 100px;
+	float: left;
+	margin-right: 20px;
+}
+.list-blog .img-blog a{
+	display: block;
+	position: relative;
+	overflow: hidden;
+	padding-bottom: 100%;
+}
+.list-blog .img-blog a img{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+.gp-cf-inner .widget-title{
+	padding-bottom: 30px;
+}
+.gp-cf-inner:not(:first-child){
+	padding-top: 40px;
+}
+.article-tags .tag{
+	margin-right: 10px;
+	margin-bottom: 20px;
+}
+.blog-item-wrapper .info{
+	width: calc(100% - 120px);
+}
+/* CSS link-list */
+.sidebar-wrapper .link-list-wrapper details {
+	padding: 15px 0;
+	position: relative;
+}
+.sidebar-wrapper .link-list-wrapper details summary {
+	font-weight: 400;
+	font-size: 16px;
+	letter-spacing: 0.06em;
+	line-height: 24px;
+}
+.link-list-wrapper details summary a{
+	color: var(--color-text);
+}
+.sidebar-wrapper .gp-cf-inner .level1 {
+	margin-left: 25px;
+}
+.sidebar-wrapper .gp-cf-inner .js-toggle-linklist-sidebar {
+	position: absolute;
+	right: 0;
+	transition: all 0.5s;
+  -o-transition: all 0.5s;
+  -moz-transition: all 0.5s;
+  -webkit-transition: all 0.5s;
+  -ms-transition: all 0.5s;
+	top: 16px;
+	cursor: pointer;
+}
+.sidebar-wrapper details span.icon-download{
+	float: right;
+	line-height: 24px;
+}
+.sidebar-wrapper details[open] .icon-download::before {
+	content: "\e929";
+}
+
+/* writer  */
+.gp-cf-writer{
+	margin-top: 40px;
+}
+.gp-cf-writer .gp-cf-inner{
+  padding: 50px 10px;
+}
+@media (min-width: 768px) {
+  .gp-cf-writer .gp-cf-inner{
+    padding: 70px 10px 46px;
+  }
+}
+.logo-writer{
+	padding: 0 40px 30px;
+	text-align: center;
+}
+.logo-writer img{
+	width: auto;
+}
+.gp-cf-writer p {
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 24px;
+	letter-spacing: 0px;
+	padding: 0 10px 47px;
+	text-align: center;
+	margin: 0;
+}
+.writer-social{
+	text-align: center;
+}
+.writer-social .list-social__item{
+	display: inline-block;
+}
+.writer-social .list-social__item a{
+	margin: 0 10px;
+	font-size: 16px;
+}
+@media (min-width: 768px) {
+	.list-blog .info a{
+		font-size: 16px;
+		line-height: 21px;
+	}
+	.blog-item-wrapper .img-blog{
+		width: 123px;
+	}
+	.blog-item-wrapper .info{
+		width: calc(100% - 143px);
+	}
+	.gp-cf-inner .widget-title{
+		padding-bottom: 40px;
+	}
+	.gp-cf-writer{
+		margin-top: 60px;
+	}
+	.logo-writer{
+		padding: 0 0px 34px;
+	}
+	.gp-cf-writer p {
+		padding: 0 37px 44px;
+	}
+	.list-blog .item-blog{
+		margin-bottom: 20px;
+	}
+}

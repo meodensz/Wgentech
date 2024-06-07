@@ -1,0 +1,147 @@
+.gp-product-widget .paginate-product{
+	text-align: center;
+}
+.gp-product-widget .grid__item{
+	margin-bottom: 2rem;
+}
+.gp-product-widget .grid{
+	margin-bottom: -2rem;
+}
+.gp-product-widget .paginate-product .btn-2{
+	display: inline-block;
+	background-color: transparent;
+}
+.gp-product-widget .paginate-product .btn-2:hover{
+	color: var(--color-btn-primary-text)!important;
+	border-color: var(--color-btn-primary-border);
+	background-color: var(--color-btn-primary-background);
+}
+.gp-product-widget{
+	margin: 60px 0 0;
+}
+.gp-product-widget .paginate-product{
+	margin-top: 2rem;
+}
+.gp-product-widget .row > slider-component{
+  margin-bottom: 5rem;
+}
+.gp-product-widget slider-component + .section-heading-content{
+  margin-top: 5rem;
+}
+.gp-product-widget .row > slider-component:last-of-type{
+  margin-bottom: 0;
+}
+@media (max-width: 767px){
+	.gp-product-widget .slider--mobile{
+		padding-bottom: 20px;
+    margin-bottom: 30px;
+	}
+  .gp-product-widget .section-heading-content .title{
+    text-transform: uppercase;
+  }
+	.gp-product-widget slider-component .slider-buttons{
+		display: none;
+	}
+  .gp-product-widget .paginate-product .btn-2{
+    font-size: 14px;
+    padding: 6px 39px;
+    line-height: 22px;
+  }
+}
+@media (min-width: 768px){
+	.gp-product-widget .grid__item{
+		margin-bottom: 3rem;
+	}
+	.gp-product-widget .grid{
+		margin-bottom: -3rem;
+	}
+	.gp-product-widget .paginate-product{
+		margin-top: 3rem;
+	}
+}
+@media (min-width: 1025px){
+	.gp-product-widget .paginate-product{
+		margin-top: 5rem;
+	}
+	.gp-product-widget .grid__item{
+		margin-bottom: 5rem;
+	}
+	.gp-product-widget .grid{
+		margin-bottom: -5rem;
+	}
+	.gp-product-widget{
+		margin: 100px 0 0;
+	}
+}
+.div:not(.lds-ellipsis):empty,
+.lds-ellipsis div:empty{
+    display: block !important;
+}
+.lds-ellipsis {
+    display: inline-block;
+    position: absolute;
+    width: 64px;
+    height: 11px;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+    -moz-transform: translateX(-50%);
+    -ms-transform: translateX(-50%);
+    -o-transform: translateX(-50%);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.lds-ellipsis div {
+    position: absolute;
+    top: 0;
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: #00000054;
+    animation-timing-function: cubic-bezier(0, 1, 1, 0);
+}
+
+.lds-ellipsis div:nth-child(1) {
+    left: 6px;
+    animation: lds-ellipsis1 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(2) {
+    left: 6px;
+    animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(3) {
+left: 26px;
+animation: lds-ellipsis2 0.6s infinite;
+}
+
+.lds-ellipsis div:nth-child(4) {
+    left: 45px;
+    animation: lds-ellipsis3 0.6s infinite;
+}
+
+@keyframes lds-ellipsis1 {
+    0% {
+        transform: scale(0);
+    }
+    100% {
+        transform: scale(1);
+    }
+    }
+    @keyframes lds-ellipsis3 {
+    0% {
+        transform: scale(1);
+    }
+    100% {
+        transform: scale(0);
+    }
+    }
+    @keyframes lds-ellipsis2 {
+    0% {
+        transform: translate(0, 0);
+    }
+    100% {
+        transform: translate(19px, 0);
+    }
+}

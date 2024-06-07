@@ -1,0 +1,82 @@
+{%- unless product.has_only_default_variant -%}
+  <variant-radios data-section="{{ section.id }}" data-url="{{ product.url }}">
+    {%- for option in product.options_with_values -%}
+      {% assign optionName = option.name | downcase %}
+      <div class="selector-wrapper js product-form__item">
+        <div>
+          <span class="label-option{% if option.name == 'default' %} label--hidden{% endif %}">{{ option.name }}:</span>
+          <span class="selected-value">{{ option.selected_value }}</span>
+        </div>
+        {% assign colorSwatchArr = product_page_option_color_swatch | downcase | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq %}
+        {%- if colorSwatchArr contains optionName -%}
+          {%- assign option_index = forloop.index0 -%}
+          <div class="gp-swatch {% if product_page_option_color_swatch != blank %}{% if product_page_color_swatch_layout == 'swatch-img' %}color-swatch-img{% else %}color-swatch{% endif %}{% endif %}{% if forloop.first == true %} first-option{% endif %}">
+              {%- if product_page_color_swatch_layout == 'swatch-img' -%}
+                {% assign values = '' %}
+                {% for variant in product.variants %} 
+                  {%- assign value = variant.options[option_index] -%}
+                  {%- unless values contains value -%}
+                    {%- liquid
+                      assign values = values | join: ','
+                      assign values = values | append: ',' | append: value 
+                      assign values = values | split: ','
+                      assign bgColor =  value | split: ' ' | last | handle 
+                    -%}
+                    <span class="option-item {% if option.selected_value == value %} selected {% endif %}{% if bgColor == 'white' or variant.image != blank %} bordered{% endif %}" data-product-id="{{ product.id }}" data-variant-id="{{ variant.id }}" data-option="{{ option.name | handleize }}" data-value="{{ value | escape }}">
+                        <span class="color" {% if variant.image != blank %}data-variant-image="{{ variant.image | image_url: width: 300 }}"{% endif %} style="{% if variant.image == blank %}background-color:{{ bgColor }}; background-image: url({{ value | handle | append: '.' | append: 'png' | asset_img_url: '150x' }});{% else %}background-image: url({{ variant.image | image_url: width: 150 }}); background-color: #fff;{% endif %}"></span>
+                    </span>
+                  {%- endunless -%}
+                {% endfor %}
+              {% else %}
+                {% assign values = '' %}
+                {% for variant in product.variants %}
+                  {%- assign value = variant.options[option_index] -%}
+                  {%- unless values contains value -%}
+                    {%- liquid 
+                      assign values = values | join: ','
+                      assign values = values | append: ',' | append: value 
+                      assign values = values | split: ','
+                      assign bgColor =  value | split: ' ' | last | handle
+                    -%}
+                    <span class="option-item {% if option.selected_value == value %} selected {% endif %}" data-product-id="{{ product.id }}" data-variant-id="{{ variant.id }}" data-option="{{ option.name | handleize }}" data-value="{{ value | escape }}">
+                        <span class="color" style="background-image: url({{ value | handle | append: '.' | append: 'png' | asset_img_url: '150x' }}); background-color: {{ value | split: ' ' | last | handle }};"></span>
+                    </span>
+                  {% endunless %}
+                {% endfor %}
+              {%- endif -%} 
+          </div>
+        {%- else -%}
+          <div class="swatch gp-swatch">
+            {% for value in option.values %}
+              {% assign variant_label_state = true %}
+              {% if product.options.size == 1 %}
+                {% unless product.variants[forloop.index0].available %}
+                  {% assign variant_label_state = false %}
+                {% endunless %}
+              {% endif %}
+              <span class="option-item{% if option.selected_value == value %} selected{% endif %}{% unless variant_label_state %} disabled{% endunless %}" data-product-id="{{ product.id }}" data-option="{{ option.name | handleize }}" data-value="{{ value | escape }}">
+                <span>{{ value }}</span>
+              </span>
+            {% endfor %}
+            {%- liquid
+
+              assign swatchArr = option_show_popup_size_guide | downcase | replace: ' ,', ',' | replace: ', ', ',' | split: ',' | uniq
+              
+              assign option_name = option.name | downcase
+            -%}
+            {%- if swatchArr contains option_name -%}
+              {% if template == 'product' and page_size_guide != blank %}
+                  <modal-opener class="popup-sizeguide no-js-hidden" data-modal="#PopupModal-SizeGuide">
+                    <button id="Popup-SizeGuide" class="product-popup-modal__button link" type="button" aria-haspopup="dialog">{{ 'products.product.size_guide' | t }}</button>
+                  </modal-opener>
+                {% endif %}
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+    <noscript type="application/json">
+      {{ product.variants | json }}
+    </noscript>
+  </variant-radios>
+{%- endunless -%}

@@ -1,0 +1,121 @@
+.range-slider {
+  position: relative;
+  width: 100%;
+  height: 30px;
+  float: left;
+  text-align: center;
+}
+.range-slider input[type="range"] {
+  pointer-events: none;
+  position: absolute;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  -webkit-tap-highlight-color: var(--color-btn-primary-background);
+  border: none;
+  border-radius: 14px;
+  background: transparent;
+  left: 0;
+  top: 20px;
+  width: 100%;
+  outline: none;
+  height: 2px;
+  margin: 0;
+  padding: 0;
+  background: #e3d8d8;
+}
+.range-slider input[type="range"]::-webkit-slider-thumb {
+  pointer-events: all;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  outline: 0;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-btn-primary-border);
+  border-radius: 14px;
+  background-image: white;
+ /* android <= 2.2 */
+  background-image: -webkit-linear-gradient(top, #fff 0, #fff 100%);
+ /* older mobile safari and android > 2.2 */
+  background-image: linear-gradient(to bottom, #fff 0, #fff 100%);
+ /* W3C */
+  
+}
+.range-slider input[type="range"]::-moz-range-thumb {
+  pointer-events: all;
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  display: block;
+  outline: 0;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-btn-primary-border);
+  border-radius: 14px;
+  color: white;
+  background-image: white;
+  box-sizing: border-box;
+  background-image: -moz-linear-gradient(top, #fff 0, #fff 100%);
+}
+.range-slider input[type="range"]::-ms-thumb {
+  position: relative;
+  cursor: pointer;
+  z-index: 1;
+  outline: 0;
+  -ms-progress-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  -webkit-appearance: none;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--color-btn-primary-border);
+  border-radius: 14px;
+  background-image: white;
+  background-image: -ms-linear-gradient(top, #fff 0, #fff 100%);
+ /* W3C */
+}
+.range-slider input[type=range]:last-of-type::-moz-range-track {
+  -moz-appearance: none;
+  background: none transparent;
+  border: 0;
+}
+.range-slider input[type=range]::-moz-focus-outer {
+  border: 0;
+}
+.range-slider .blackline {
+  display: block;
+  height: 2px;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  z-index: 0;
+  top: 20px;
+  background: var(--color-link);
+}
+.facets__header {
+  opacity: 0;
+  visibility: hidden;
+  position: absolute;
+}
+.facets__price .price-value {
+  display: flex;
+  justify-content: space-between;
+
+  width: 100%;
+}
+@media (min-width: 768px) {
+  .range-slider input[type="range"] {
+    top: 35px;
+  }
+  .range-slider .blackline {
+    top: 35px;
+  }
+  .range-slider {
+    height: 50px;
+  }
+}

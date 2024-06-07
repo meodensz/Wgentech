@@ -1,0 +1,64 @@
+{
+  "sections": {
+    "map": {
+      "type": "map",
+      "settings": {
+        "fullwidth": true,
+        "filter": false,
+        "map": "<iframe src=\"https:\/\/www.google.com\/maps\/embed?pb=!1m18!1m12!1m3!1d5577.210094787738!2d20.627367664372297!3d48.25590136497153!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x473f7b1786fe0645%3A0xd20c6d075dba99f9!2sKazincbarcika%2C%20%C3%9Ajkazinc%2C%203700%20Hungary!5e0!3m2!1svi!2s!4v1648607346405!5m2!1svi!2s\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" title=\"map\"><\/iframe>"
+      }
+    },
+    "main-contact": {
+      "type": "main-contact",
+      "blocks": {
+        "32603829-7383-410d-96ca-0e36298270d9": {
+          "type": "phone",
+          "settings": {
+            "phone-number": "+98 0 9876 0954",
+            "label": "Phone"
+          }
+        },
+        "a9bd39f7-af34-43cc-91e7-0f5f42c81c37": {
+          "type": "email",
+          "settings": {
+            "label": "Email",
+            "email": "info@cecilesupport.com"
+          }
+        },
+        "58c8fc36-1426-4ca4-8201-b18096044b36": {
+          "type": "text",
+          "settings": {
+            "label": "Address",
+            "infor": "Box 599, Charlestown, Nevis, West Indies, Caribbean"
+          }
+        }
+      },
+      "block_order": [
+        "32603829-7383-410d-96ca-0e36298270d9",
+        "a9bd39f7-af34-43cc-91e7-0f5f42c81c37",
+        "58c8fc36-1426-4ca4-8201-b18096044b36"
+      ],
+      "settings": {
+        "fullwidth": false,
+        "show_breadcrumb": true,
+        "heading_contact": "Headquarter",
+        "image_description": "shopify:\/\/shop_images\/contact-us.jpg",
+        "position_infor": "order-1",
+        "show_social": true
+      }
+    },
+    "form": {
+      "type": "contact-form",
+      "settings": {
+        "fullwidth": false,
+        "heading_form": "Fill up the form <br>if you have any question",
+        "description_form": "We do our best to respond to quickly, it could take us <br>around 1 hour to get back to you. Feel free to say hello!"
+      }
+    }
+  },
+  "order": [
+    "map",
+    "main-contact",
+    "form"
+  ]
+}

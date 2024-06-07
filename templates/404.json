@@ -1,0 +1,22 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-404",
+      "settings": {
+        "header_logo": "shopify:\/\/shop_images\/Cecile__6.png",
+        "header_logo_max_width": 135,
+        "header_logo_max_width_mobile": 100,
+        "page_404_heading": "Oops!\n<br>\nPage not found",
+        "page_404_content": "<p>Get back home by clicking the button<\/p>",
+        "page_404_button": "Go to home",
+        "page_404_heading_color": "#2c2c2c",
+        "page_404_text_color": "#262626",
+        "background_image": "shopify:\/\/shop_images\/404.png",
+        "show_image": false
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

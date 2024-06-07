@@ -1,0 +1,263 @@
+<link rel="stylesheet" href="{{ 'section-product-widget.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'section-product-widget.css' | asset_url | stylesheet_tag }}</noscript>
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% render 'gp-section-style', section: section %}
+<div data-section-id="{{ section.id }}" data-section-type="product-widget" class="gp-section-wrapper {% unless section.settings.fullwidth %}not-fullwidth-section{% endunless %}">
+  <div class="gp-product-widget gp-section-inner">
+    <div class="row">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          {% case block.type %}
+            {% when 'products' %}
+              {%- liquid
+                  assign product_per_row = block.settings.product_per_row
+                  assign product_per_row_tablet = block.settings.product_per_row_tablet
+                  assign product_limit = block.settings.limit
+                  assign products_to_display = block.settings.collection.all_products_count
+
+                  if block.settings.collection.all_products_count > section.settings.limit
+                    assign products_to_display = block.settings.limit
+                  endif
+              -%}
+              {%- assign collection = collections[block.settings.collection] -%}
+                <slider-component id="{{ block.id }}" class="col-12">
+                    {% paginate collection.products by product_limit %}
+                      <ul class="grid grid--2-col product-grid grid--{{ product_per_row_tablet }}-col-tablet grid--{{ product_per_row }}-col-desktop{% if block.settings.collection.all_products_count > 2 and block.settings.swipe_on_mobile and block.settings.limit > 2 %} slider slider--mobile{% endif %} products-on-page" role="list">
+                        {% if block.settings.collection != blank %}
+                          {% for product in collection.products %}
+                            <li class="grid__item {% if block.settings.collection.all_products_count > 2 and block.settings.swipe_on_mobile and block.settings.limit > 2 %} slider__slide{% endif %}">
+                              {% render 'product-card', product: product ,
+                                media_size: settings.image_ratio,
+                                show_secondary_image: settings.show_secondary_image,
+                                add_image_padding: section.settings.add_image_padding,
+                              %}
+                            </li>
+                          {% endfor %}
+                        {% else %}
+                          {% for i in (1..product_limit) %}
+                            <li class="grid__item">
+                              {% render 'product-card-placeholder', product: product ,
+                              media_size: settings.image_ratio,
+                              show_secondary_image: settings.show_secondary_image,
+                              add_image_padding: section.settings.add_image_padding, %}
+                            </li>
+                          {% endfor %}
+                        {% endif %}
+                      </ul>
+                    {%- if block.settings.collection.all_products_count > 2 and block.settings.swipe_on_mobile and block.settings.limit > 2 -%}
+                      <div class="slider-buttons no-js-hidden show-mobile">
+                        <div class="slider-counter caption hidden">
+                          <span class="slider-counter--current">1</span>
+                          <span aria-hidden="true"> / </span>
+                          <span class="visually-hidden">{{ 'accessibility.of' | t }}</span>
+                          <span class="slider-counter--total">{{ products_to_display }}</span>
+                        </div>
+                        <button type="button" class="slider-button slider-button--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}"><span class="theme-iconback"></span></button>
+                        <button type="button" class="slider-button slider-button--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}"><span class="theme-iconnext"></span></button>
+                      </div>
+                    {%- endif -%}
+                      {% if block.settings.button_text_load_more != blank %}
+                        {% if block.settings.button_ajax %}
+                          {% if paginate.next.url %}
+                            <div class="paginate-product">
+                              <button class="btn-2 load-more-products" data-next-url="{{ paginate.next.url }}">
+                                {{ block.settings.button_text_load_more }}
+                              </button>
+                          </div>
+                          {% endif %}
+                        {% else %}
+                          <div class="paginate-product">
+                            <a href="{% if block.settings.link_button != blank %}{{ block.settings.link_button }}{% else %}#{% endif %}" class="btn-2"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                            {{ block.settings.button_text_load_more }}
+                            </a>
+                          </div>
+                        {% endif %}
+                      {% endif %}
+                    {% endpaginate %}
+                </slider-component>
+            {% else %}
+              {%- render 'block-heading', block: block, forloop: forloop -%}
+          {% endcase %}
+        {% endfor %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% javascript %}
+document.addEventListener("DOMContentLoaded", function(e) {
+  $('.paginate-product .load-more-products').on('click', function(){
+    var $this = $(this);
+    var next_url = $this.data('next-url');
+    var id_collection_product = $this.parent().parent().attr('id');
+    var products_on_page = $('#'+id_collection_product).find('.products-on-page');
+    $.ajax({
+      url: next_url,
+      type:'GET',
+      dataType:'html',
+      beforeSend: function () {
+        $this.after('<div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>');
+        $this.hide();
+      },
+      success: function (data) {
+        var news_product = $(data).find('#'+id_collection_product).find('.products-on-page');
+        var new_url = $(data).find('#'+id_collection_product).find('.load-more-products').data('next-url');
+        $this.parent().find('.lds-ellipsis').remove();
+        if(new_url){
+          $this.show();
+        }
+        products_on_page.append(news_product.html());
+        $this.data('next-url',new_url);
+      }
+    });
+  });
+});
+{% endjavascript %}
+
+{% schema %}
+{
+  "name": "Featured collection",
+  "class": "index-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Common settings"
+      },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Heading content",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Heading"
+        },
+        {
+          "type": "textarea",
+          "id": "sub_text",
+          "label": "Subheading",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting"
+        },
+        {
+          "type": "select",
+          "id": "text_alignment",
+          "label": "Text alignment",
+          "default": "center",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "products",
+      "name": "Products",
+      "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "range",
+          "id": "product_per_row",
+          "label": "Products per row",
+          "min": 1,
+          "max": 5,
+          "step": 1,
+          "default": 4
+        },
+        {
+          "type": "range",
+          "id": "product_per_row_tablet",
+          "label": "Products per row tablet",
+          "min": 1,
+          "max": 4,
+          "step": 1,
+          "default": 3
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Limit",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 12
+        },
+        {
+          "type": "checkbox",
+          "id": "swipe_on_mobile",
+          "label": "Show swipe on mobile",
+          "default": false
+        },
+        {
+          "type": "header",
+          "content": "Button"
+        },
+        {
+          "type": "text",
+          "id": "button_text_load_more",
+          "label": "Button label"
+        },
+        {
+          "type": "url",
+          "id": "link_button",
+          "label": "Enter link"
+        },
+        {
+          "type": "checkbox",
+          "id": "open_new_window",
+          "label": "Open link in new tab",
+          "default": false,
+          "info": "Only using when AJAX load more is uncheck."
+        },
+        {
+          "type": "checkbox",
+          "id": "button_ajax",
+          "label": "AJAX load more product",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured collection",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "products"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

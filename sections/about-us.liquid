@@ -1,0 +1,125 @@
+<link rel="stylesheet" href="{{ 'section-gp-about-us.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'section-gp-about-us.css' | asset_url | stylesheet_tag }}</noscript>
+{% render 'gp-section-style' %}
+<div data-section-id="{{ section.id }}" data-section-type="gp-product-tab" class="gp-section-wrapper">
+  <div class=" about-us gp-section-inner">
+    <div class=" gp-banner-about">
+    {% if section.settings.image_banner_desktop != blank %}
+          <div class="image-banner lazyload-parent {% if section.settings.image_banner_mobile != blank %} desktop-only-2 {% endif %}">
+            {%- assign image_dt = section.settings.image_banner_desktop -%}
+            {%- assign img_url_dt = image_dt | image_url: width: 1 -%}
+              <img
+              srcset="{%- if section.settings.image_banner_desktop.width >= 375 -%}{{ section.settings.image_banner_desktop | image_url: width: 375 }} 375w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 750 -%}{{ section.settings.image_banner_desktop | image_url: width: 750 }} 750w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 1100 -%}{{ section.settings.image_banner_desktop | image_url: width: 1100 }} 1100w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 1500 -%}{{ section.settings.image_banner_desktop | image_url: width: 1500 }} 1500w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 1780 -%}{{ section.settings.image_banner_desktop | image_url: width: 1780 }} 1780w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 2000 -%}{{ section.settings.image_banner_desktop | image_url: width: 2000 }} 2000w,{%- endif -%}
+              {%- if section.settings.image_banner_desktop.width >= 2800 -%}{{ section.settings.image_banner_desktop | image_url: width: 2800 }} 2800w{%- endif -%}"
+              data-src="{{ img_url_dt }}" 
+              src="{{ section.settings.image_banner_desktop | image_url: width: 750 }}"
+              sizes="100vw" 
+              alt="{{ img_url_dt.alt }}" 
+              loading="lazy" 
+              width="{{ section.settings.image_banner_desktop.width }}" 
+              height="{{ section.settings.image_banner_desktop.height }}" 
+              class="motion-reduce" />
+          </div>          
+        {% else %}
+          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg desktop-only' }}
+        {% endif %}
+      {% if section.settings.image_banner_mobile != blank %}
+            <div class="image-banner lazyload-parent">
+              {%- assign image_dt = section.settings.image_banner_mobile -%}
+              {%- assign img_url_dt = image_dt | image_url: width: 1 -%}
+                <img
+                srcset="{%- if section.settings.image_banner_mobile.width >= 375 -%}{{ section.settings.image_banner_mobile | image_url: width: 375 }} 375w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 750 -%}{{ section.settings.image_banner_mobile | image_url: width: 750 }} 750w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 1100 -%}{{ section.settings.image_banner_mobile | image_url: width: 1100 }} 1100w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 1500 -%}{{ section.settings.image_banner_mobile | image_url: width: 1500 }} 1500w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 1780 -%}{{ section.settings.image_banner_mobile | image_url: width: 1780 }} 1780w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 2000 -%}{{ section.settings.image_banner_mobile | image_url: width: 2000 }} 2000w,{%- endif -%}
+                {%- if section.settings.image_banner_mobile.width >= 2800 -%}{{ section.settings.image_banner_mobile | image_url: width: 2800 }} 2800w{%- endif -%}"
+                data-src="{{ img_url_dt }}"
+                src="{{ section.settings.image_banner_mobile | image_url: width: 750 }}"
+                sizes="100vw" 
+                alt="{{ img_url_dt.alt }}" 
+                loading="lazy"
+                width="{{ section.settings.image_banner_mobile.width }}" 
+                height="{{ section.settings.image_banner_mobile.height }}" 
+                class="motion-reduce mobile" />
+            </div>
+      {% endif %}
+      {% if section.settings.sub_title_banner != blank %}
+
+      <div class="gp-title-banner">
+        <h2 class=" h1 heading-title title-banner">{{ page_title }}</h2 >
+      {% if section.settings.sub_title_banner != blank %}
+        <p class="sub-title-banner">{{ section.settings.sub_title_banner }}</p>
+      {% endif %}
+      {% if section.settings.signature_banner != blank %}
+        <p class="signature-banner">- {{ section.settings.signature_banner }} -</p>
+      {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% style %}
+  [data-section-id="{{ section.id }}"] .gp-banner-about .title-banner{
+    color: {{ section.settings.title_banner_color }} ;
+  }
+  [data-section-id="{{ section.id }}"] .gp-banner-about .sub-title-banner{
+    color: {{ section.settings.sub_title_banner_color }} ;
+  }
+  [data-section-id="{{ section.id }}"] .gp-banner-about .signature-banner{
+    color: {{ section.settings.signature_banner_color }} ;
+  }
+{% endstyle %}
+
+{% schema %}
+  {
+    "name":"About us heading",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "image_banner_desktop",
+        "label": "Image banner desktop"
+      },
+      {
+        "type": "image_picker",
+        "id": "image_banner_mobile",
+        "label": "Image banner mobile"
+      },
+      {
+        "type": "color",
+        "id": "title_banner_color",
+        "label": "Heading color",
+        "default": "#fff"
+      },
+      {
+        "type": "text",
+        "id": "sub_title_banner",
+        "label": "Heading sub banner",
+        "default": "“If you can’t be better than your competition, just dress better”"
+      },
+      {
+        "type": "color",
+        "id": "sub_title_banner_color",
+        "label": "Heading sub color",
+        "default": "#fff"
+      },
+      {
+        "type": "text",
+        "id": "signature_banner",
+        "label": "Quote name"
+      },
+      {
+        "type": "color",
+        "id": "signature_banner_color",
+        "label": "Quote name color",
+        "default": "#fff"
+      }
+    ]
+  }
+{% endschema %}

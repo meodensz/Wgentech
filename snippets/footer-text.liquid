@@ -1,0 +1,10 @@
+<div class="{{ block.type }}-wrapper text-{{ block.settings.alignment }} footer-block__details-content">
+  {%- if block.settings.heading != blank -%}
+    <h2 class="footer-block__heading">{{ block.settings.heading }}</h2>
+  {%- endif -%}
+  {% if block.settings.subtext != blank %}
+    <div class="content">
+      {{ block.settings.subtext }}
+    </div>
+  {% endif %}
+</div>

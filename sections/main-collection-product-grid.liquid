@@ -1,0 +1,217 @@
+{{ 'template-collection.css' | asset_url | stylesheet_tag }}
+{{ 'component-loading-overlay.css' | asset_url | stylesheet_tag }}
+
+<link rel="preload" href="{{ 'component-card.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-price.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-rte.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<link rel="preload" href="{{ 'component-facet.css' | asset_url }}" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-facet.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-price.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'component-rte.css' | asset_url | stylesheet_tag }}</noscript>
+
+<script src="{{ 'facet.js' | asset_url }}" defer="defer"></script>
+
+{%- assign filter_position = section.settings.position_filter -%}
+{%- assign view_mode = section.settings.collection_page_view_mode -%}
+<div class="container{% if section.settings.enable_filtering %} {{ filter_position }}-filter{% endif %}" id="ProductGridContainer">
+  {%- paginate collection.products by section.settings.products_per_page -%}
+    {% if filter_position == "left" %}{% render 'facet-sidebar', results: collection, view_mode: view_mode, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting, title_category_tree: section.settings.title_category_tree, navigation_filter: section.settings.navigation_filter, product_count: section.settings.collection_page_display_product_count, filter_position: section.settings.position_filter %}{% endif %}
+    <div class="collection active{% if collection.products.size == 0 %} collection--empty{% endif %}" id="product-grid" data-id="{{ section.id }}">
+      {% render 'facet', results: collection, view_mode: view_mode, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting, title_category_tree: section.settings.title_category_tree, navigation_filter: section.settings.navigation_filter, product_count: section.settings.collection_page_display_product_count, filter_position: section.settings.position_filter %}
+      <div class="main-collection-product-grid{% if view_mode == "list-grid" or view_mode == "list" %} view-list{% endif %}">
+        <div class="loading-overlay"></div>
+        {% if collection.products.size == 0 %}
+          {{ 'sections.collection_template.use_fewer_filters_html' | t: link: collection.url, class: "underlined-link link" }}
+        {% else %}
+          <ul id="main-collection-product" data-id="{{ section.id }}" class="grid grid--{{ section.settings.products_per_row_mobile }}-col grid--{{ section.settings.products_per_row_tablet }}-col-tablet grid--{{ section.settings.products_per_row_desktop }}-col-desktop list--1-col list--1-col-tablet {% if section.settings.list_mode == "2-column" %} list--2-col-desktop{% else %}list--1-col-desktop{% endif %} negative-margin">
+            {%- for product in collection.products -%}
+              <li class="grid__item">
+                {% render 'product-card', product: product , view_mode: view_mode, media_size: section.settings.image_ratio, show_secondary_image: section.settings.show_secondary_image %}
+              </li>
+            {%- endfor -%}
+            {%- if paginate.pages > 1 -%}
+            {% render 'pagination', paginate: paginate, anchor: '', class: '' %}
+          {%- endif -%}
+          </ul>
+        {% endif %}
+      </div>
+    </div>
+   
+    {% if filter_position == "right" %}{% render 'facet-sidebar', results: collection, view_mode: view_mode, enable_filtering: section.settings.enable_filtering, enable_sorting: section.settings.enable_sorting, title_category_tree: section.settings.title_category_tree, navigation_filter: section.settings.navigation_filter, product_count: section.settings.collection_page_display_product_count, filter_position: section.settings.position_filter %}{% endif %}
+  {%- endpaginate -%}
+</div>
+{% schema %}
+{
+  "name": "t:sections.main-collection-product-grid.name",
+  "class": "collection-grid-section",
+  "settings": [
+    {
+      "type": "select",
+      "id": "collection_page_view_mode",
+      "label": "View mode",
+      "default": "grid-list",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "list",
+          "label": "List"
+        },
+        {
+          "value": "grid-list",
+          "label": "Grid (default)\/list"
+        },
+        {
+          "value": "list-grid",
+          "label": "List (default)\/grid"
+        }
+      ]
+    },
+    {
+      "type": "select",
+      "id": "list_mode",
+      "label": "List mode",
+      "default": "2-column",
+      "options": [
+        {
+          "value": "2-column",
+          "label": "2 columns"
+        },
+        {
+          "value": "1-column",
+          "label": "1 column"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id": "products_per_page",
+      "min": 2,
+      "max": 50,
+      "step": 1,
+      "default": 16,
+      "label": "t:sections.main-collection-product-grid.settings.products_per_page.label"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 4,
+      "label": "Number of product per row (desktop, for grid mode)"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_tablet",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 2,
+      "label": "Number of product per row (tablet, for grid mode)"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1,
+      "label": "Number of product per row (mobile, for grid mode)"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__3.content"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+        {
+          "value": "adapt",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__1.label"
+        },
+        {
+          "value": "portrait",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__2.label"
+        },
+        {
+          "value": "square",
+          "label": "t:sections.main-collection-product-grid.settings.image_ratio.options__3.label"
+        }
+      ],
+      "default": "adapt",
+      "label": "t:sections.main-collection-product-grid.settings.image_ratio.label"
+    },
+    {
+      "type": "header",
+      "content": "t:sections.main-collection-product-grid.settings.header__1.content"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_filtering.label",
+      "info": "t:sections.main-collection-product-grid.settings.enable_filtering.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "textarea",
+      "id": "show_as_color_swatch",
+      "label": "Show as color swatch",
+      "default": "Color, Colors",
+      "info": "Enter the option names that you want to show as color swatch. Devide by comma."
+    },
+    {
+      "type": "textarea",
+      "id": "show_as_swatch",
+      "label": "Show as swatch",
+      "default": "Size", 
+      "info": "Enter the option names that you want to show as Swatch. Devide by comma."
+    },
+    {
+      "type": "select",
+      "id": "position_filter",
+      "label": "Position filter",
+      "default": "top",
+      "options": [
+        {
+          "value": "top",
+          "label": "Top filter"
+        },
+        {
+          "value": "left",
+          "label": "Left filter"
+        },
+        {
+          "value": "right",
+          "label": "Right filter"
+        }
+      ]
+    },
+    {
+      "type": "header",
+      "content": "Category tree in filters"
+    },
+    {
+      "type": "text",
+      "id": "title_category_tree",
+      "label": "Heading"
+    },
+    {
+      "type": "link_list",
+      "id": "navigation_filter",
+      "label": "Navigation",
+      "default": "main-menu" 
+    }
+  ]
+}
+{% endschema %}

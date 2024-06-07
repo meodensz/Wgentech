@@ -1,0 +1,54 @@
+.rich-text {
+  margin: auto;
+  text-align: center;
+  /* 1.5rem margin on left & right */
+}
+
+.rich-text.rich-text--full-width {
+  max-width: initial;
+  width: 100%;
+}
+
+.rich-text__blocks * {
+  overflow-wrap: break-word;
+}
+.gp-section-wrapper .rich-text__blocks .h2{
+  font-size: 24px;
+  line-height: 30px;
+  margin-bottom: 30px;
+  text-transform: uppercase;
+}
+@media (min-width: 1025px) {
+  .gp-section-wrapper .rich-text__blocks .h2{
+    font-size: 40px;
+    line-height: 46px;
+    text-transform: capitalize;
+  }
+}
+@media screen and (min-width: 768px) {
+.rich-text__text .rte{
+  letter-spacing: 0;
+}
+
+/* Blocks */
+
+.rich-text__blocks > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.rich-text__blocks .button{
+  margin: 30px 0;
+  display: inline-block;
+}
+.rich-text__blocks > * + * {
+  margin-top: 30px;
+}
+
+@media (min-width: 1025px) {
+  .rich-text__blocks > * + * {
+    margin-top: 40px;
+  }
+}
+.rich-text__blocks > * + a {
+  margin-top: 3rem;
+}

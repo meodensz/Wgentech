@@ -1,0 +1,251 @@
+<link rel="stylesheet" href="{{ 'section-icon-with-text.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-icon-with-text.css' | asset_url | stylesheet_tag }}</noscript>
+{% render 'gp-section-style' %}
+<div data-section-id="{{ section.id }}" data-section-type="gp-product-tab" class="container gp-section-wrapper section-icon-with-text {% unless section.settings.fullwidth %}custom_width{% endunless %}">
+  <div class="gp-section-inner">
+    <div class="services-wrapper">
+      {% if section.settings.heading != blank %}
+        <h2 class="heading-2 {{ section.settings.text_align_title }} ">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.blocks.size > 0 %}
+        <div class="services">
+          <div class="row">
+            {% for block in section.blocks %}
+              <div class=" item-services col-{{ block.settings.columns_mobile }} col-md-{{ block.settings.columns_tablet }} col-xl-{{ block.settings.columns_desktop }} ">
+                <div class="text-center services_layout_content">
+                  {% if block.settings.icon != blank %}
+                    <i class="{{ block.settings.icon }}"></i>
+                  {% endif %}
+                  {% if block.settings.content_services != blank or block.settings.title != blank %}
+                    <div class="services_customer_content">
+                      {% if block.settings.title %}
+                        <h4 class="sub-title">{{ block.settings.title }}</h4>
+                      {% endif %}
+                      {% if block.settings.content_services %}
+                        <div class="content-services">{{ block.settings.content_services }}</div>
+                      {% endif %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% style %}
+  .services_layout_content i{
+    {% if section.settings.icon_font_size %}
+      font-size: {{ section.settings.icon_font_size }}px;
+    {% endif %}
+    {% if section.settings.color_icon %}
+      color: {{ section.settings.color_icon }};
+    {% endif %}
+    {% if section.settings.background_icon %}
+    background-color:{{ section.settings.background_icon }};
+    {% endif %}
+  }
+  {% unless section.settings.fullwidth %}
+    {% if section.settings.custom_width != blank %}
+      .custom_width .gp-section-inner .services-wrapper{
+        max-width:{{ section.settings.custom_width }}px;
+        margin:auto;
+      }
+    {% endif %}
+  {% endunless %}
+  {% if section.settings.color_text_heading %}
+    .services-wrapper h2{
+      color: {{ section.settings.color_text_heading }};
+    }
+  {% endif %}
+  {% if section.settings.color_title %}
+    .services_customer_content .sub-title{
+      color: {{ section.settings.color_title }};
+    }
+  {% endif %}
+  {% if section.settings.color_title %}
+    .services_customer_content .content-services p{
+      color: {{ section.settings.color_text }};
+    }
+  {% endif %}
+{% endstyle %}
+{% schema %}
+{
+  "name":"Icon with text",
+  "class":"padding-section",
+  "settings":[
+    {
+      "type": "text",
+      "id":"heading",
+      "label":"Heading",
+      "default": "Featured Services"
+    },
+    {
+      "type": "select",
+      "id": "text_align_title",
+      "label": "Text alignment",
+      "default": "text-center",
+      "options": [
+        {
+          "value": "text-left",
+          "label": "Left"
+        },
+        {
+          "value": "text-center",
+          "label": "Center"
+        },
+        {
+          "value": "text-right",
+          "label": "Right"
+        }
+      ]
+    },
+    {
+      "type": "range",
+      "id":"icon_font_size",
+      "label":"Icon font size",
+      "min": 1,
+      "max": 100,
+      "default":69,
+      "step": 1
+    },
+    {
+      "type": "color",
+      "id":"color_icon",
+      "label":"Color icon",
+      "default": "#262626"
+    },
+    {
+      "type": "color",
+      "id":"background_icon",
+      "label":"Background icon",
+      "default": "#ffec42"
+    },
+    {
+      "type": "color",
+      "id":"color_title",
+      "label":"Color heading",
+      "default": "#262626"
+    },
+    {
+      "type": "color",
+      "id":"color_text",
+      "label":"Color text",
+      "default": "#595959"
+    },
+    {
+      "type": "header",
+      "content": "Common settings"
+    },
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": false
+    },
+    {
+      "type": "text", 
+      "id": "custom_width",
+      "label": "Custom width",
+      "default": "1240",
+      "info": "Unit: px. Leave it to blank to get default width. only active when unchecked checkbox Fullwidth "
+    },
+    {
+      "type": "color",
+      "id":"color_text_heading",
+      "label":"Color text heading",
+      "default": "#262626"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background color",
+      "default": "#ffffff"
+    }
+  ],
+  "blocks": [
+      {
+      "name": "Icon block", 
+      "type": "icon_text", 
+      "settings": [
+        {
+          "type": "text",
+          "id": "icon",
+          "label": "Icon",
+          "default": "icon-hand-shake"
+        },
+        {
+          "type": "text",
+          "id":"title",
+          "label":"Heading",
+          "default": "Lorem ipsum"
+        },
+        {
+          "type": "richtext",
+          "id":"content_services",
+          "label":"Content service",
+          "default": "<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>"
+        },          
+        {
+          "type": "range",
+          "id":"columns_desktop",
+          "label":"Columns desktop",
+          "min": 1,
+          "max": 12,
+          "default":4,
+          "step": 1
+        },
+        {
+          "type": "range",
+          "id":"columns_tablet",
+          "label":"Columns tablet",
+          "min": 1,
+          "max": 12,
+          "default":4,
+          "step": 1
+        },
+        {
+          "type": "range",
+          "id":"columns_mobile",
+          "label":"Columns mobile",
+          "min": 1,
+          "max": 12,
+          "default":12,
+          "step": 1
+        }
+      ]
+    }
+  ],    
+  "presets": [
+    {
+      "name": "Icon with text",
+      "category": "Banner",
+      "blocks": [
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-rocket-1",
+            "title": "Free Shipping"
+          }
+        },
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-technical-support",
+            "title": "24/7 Support"
+          }
+        },
+        {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-hand-shake",
+            "title": "Payment Process"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

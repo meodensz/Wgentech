@@ -1,0 +1,173 @@
+.breadcrumbs{
+	display: flex;
+	flex-direction: column;
+}
+.page-title {
+	font-size: 30px;
+	line-height: 36px;
+	text-transform: uppercase;
+	text-align: center;
+	letter-spacing: .03em;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+.breadcrumb{
+	display: none;
+	text-transform: capitalize;
+}
+.page-title-wrapper.breadcrumb-has-image .breadcrumb{
+	padding: 12px 0;
+}
+.page-title-wrapper.breadcrumb-has-image .page-title {
+	margin-bottom: 2px;
+}
+.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb{
+	order: 1;
+	justify-content: flex-start;
+	margin-bottom: 25px;
+	padding: 9px 30px;
+	background: #e8e8e8;
+}
+.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb
+.page-title-wrapper:not(.breadcrumb-has-image) .page-title {
+	order: 2;
+}
+.page-title-wrapper .breadcrumb a {
+	color: var(--color-text);
+}
+.page-title-wrapper .breadcrumb a, .page-title-wrapper .breadcrumb span {
+	max-width: 200px;
+}
+.page-title-wrapper .breadcrumb>*+:before {
+	content: '>';
+	font-weight: 400;
+	font-size: 14px;
+	line-height: 26px;
+	margin-left: 15px;
+	margin-right: 15px;
+}
+.page-title-wrapper .breadcrumbs:after, .page-title-wrapper .breadcrumbs:before {
+	content: '';
+	clear: both;
+	display: table;
+}
+.page-title-wrapper.breadcrumb-has-image {
+	padding: 201px 0 263px;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-attachment: scroll;
+	background-size: cover;
+	margin-bottom: 30px;
+	position: relative;
+}
+.page-title-wrapper.breadcrumb-has-image::before{
+  background-color: rgba(0,0,0,0.5);
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
+.page-title-wrapper.breadcrumb-has-image .breadcrumbs .page-title,
+.page-title-wrapper.breadcrumb-has-image .breadcrumbs .page-sub-title,
+.page-title-wrapper.breadcrumb-has-image .breadcrumb span
+,.page-title-wrapper.breadcrumb-has-image .breadcrumb a,
+.page-title-wrapper.breadcrumb-has-image .breadcrumb>*+:before {
+  color: #fff;
+}
+.page-title-wrapper.breadcrumb-has-image .breadcrumb a:hover:after{
+  background-color:#fff;
+}
+.page-title-wrapper.breadcrumb-has-image .breadcrumbs {
+	position: relative;
+}
+.page-title-wrapper {
+	padding: 30px 0;
+}
+.page-title-wrapper .page-sub-title{
+	font-size: 16px;
+    line-height: 24px;
+	margin: 0;
+	text-align: center;
+	text-transform: uppercase;
+}
+
+@media (min-width: 768px) {
+	.breadcrumb{
+		display: flex;
+		justify-content: center;
+	}
+	.page-title-wrapper.breadcrumb-has-image .page-title {
+		margin-bottom: 6px;
+	}
+	.page-title-wrapper {
+		padding: 0;
+	}
+	.page-title-wrapper .breadcrumb a, .page-title-wrapper .breadcrumb span {
+		font-size: 12px;
+    line-height: 18px;
+	}
+	.page-title-wrapper .breadcrumb>*+:before {
+		content: '>';
+		font-size: 12px;
+		line-height: 18px;
+	}
+	.page-title-wrapper .page-sub-title{
+		font-size: 20px;
+		line-height: 28px;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb{
+		margin-bottom: 80px;
+    	padding: 13px 30px;
+	}
+	.blog-wrapper .page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb{
+		margin-bottom: 50px;
+	}
+	.page-title-wrapper .breadcrumb a, .page-title-wrapper .breadcrumb span {
+		font-size: 14px;
+    line-height: 26px;
+	}
+	.page-title-wrapper .breadcrumb>*+:before {
+		font-size: 10px;
+		line-height: 24px;
+	}
+	.page-title{
+		letter-spacing: .03em;
+		font-size: 50px;
+		line-height: 55px;
+    padding-left: 30px;
+    padding-right: 30px;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .page-title{
+    margin-bottom: 40px;
+	}
+	.page-title-wrapper.breadcrumb-has-image {
+		padding: 230px 0 226px;
+		margin-bottom: 50px;
+	}
+	.blog-wrapper .page-title-wrapper:not(.breadcrumb-has-image) .page-title{
+		margin-bottom: 60px;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumbs.above .page-title{
+		order: 2;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumbs.above .breadcrumb{
+		order: 1;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumbs.below .page-title{
+		order: 1;
+	}
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumbs.below .breadcrumb{
+		order: 2;
+	}
+}
+@media (min-width: 1025px) {
+	.page-title-wrapper:not(.breadcrumb-has-image) .breadcrumb{
+    	padding: 13px var(--general-padding);
+	}
+  .page-title{
+    padding-left: var(--general-padding);
+    padding-right: var(--general-padding);
+  }
+}

@@ -1,0 +1,227 @@
+<header-drawer>
+  <details class="menu-drawer-container">
+    <summary class="no-effect header__icon header__icon--menu header__icon--summary link link--text " aria-label="{{ 'sections.header.menu' | t }}">
+      <i class="icon-menu-bar"></i>
+    </summary>
+    <div id="menu-drawer" class="menu-drawer motion-reduce" tabindex="-1">
+      <div class="menu-drawer__inner-container">
+        {% if settings.header_version == 'header3' %}
+          <p>{{ 'sections.header.menu' | t }}</p>
+        {% endif %}
+        <button id="close-menu"><i class="icon-close"></i></button>
+        <div class="menu-drawer__navigation-container">
+          <nav class="menu-drawer__navigation">
+            <ul class="menu-drawer__menu list-menu" role="list">
+              {% for link in linklists[section.settings.header_main_menu].links %}
+                <li>
+                  {% if link.links != blank %}
+                    {% liquid 
+                      assign megamenu = ''
+                      if section.blocks.size > 0 
+                        for block in section.blocks 
+                          assign link_handle = link.title | handle 
+                          assign block_handle = block.settings.title | handle
+                          if block_handle == link_handle 
+                            assign megamenu = megamenu | append: link_handle | append: " "
+                            assign hide_title_menu = block.settings.hide_title_menu
+                          endif 
+                        endfor
+                      endif
+                    %} 
+                    {% if megamenu contains link_handle %}
+                      <details>
+                        <summary class="menu-drawer__menu-item list-menu__item link">
+                          {{ link.title | split: '[' | first }}
+                          {%- if link.title contains '[' -%}
+                            <span class="label-menu" {% if link.title contains '(' %}style="background: {{ link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ link.title | split: '[' | last | split: ']' | first }}</span>
+                          {%- endif -%}
+                          <span class="toggle-menu">
+                            <span class="icon-next"></span>
+                          </span>
+                        </summary>
+                        <div class="menu-drawer__submenu motion-reduce" tabindex="-1">
+                          <div class="menu-drawer__inner-submenu">
+                            <button class="menu-drawer__close-button link link--text " aria-expanded="true">
+                              <i class="icon-back"></i>
+                            </button>
+                            <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                              {% if hide_title_menu == false %}
+                                {% for child_link in link.links %} 
+                                  {% assign child_list_handle = child_link.title | handle %} 
+                                  {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                                    <details>
+                                      <summary class="menu-drawer__menu-item list-menu__item link">
+                                        <span>{{ child_link.title | split: '[' | first }}</span>
+                                        {%- if child_link.title contains '[' -%}
+                                          <span class="label-menu" {% if child_link.title contains '(' %}style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                        {%- endif -%}
+                                        <span class="toggle-menu">
+                                          <span class="icon-next"></span>
+                                        </span>
+                                      </summary>
+                                      <div class="menu-drawer__submenu motion-reduce">
+                                        <button class="menu-drawer__close-button link link--text " aria-expanded="true">
+                                          <i class="icon-back"></i>
+                                        </button>
+                                        <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                                          {% for grandchild_link in child_link.links %}
+                                            <li>
+                                              <a href="{{ grandchild_link.url }}">
+                                                {{ grandchild_link.title | split: '[' | first }}
+                                                {%- if grandchild_link.title contains '[' -%}
+                                                  <span class="label-menu" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_highlight }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                                {%- endif -%}
+                                              </a>
+                                            </li>
+                                          {% endfor %}
+                                        </ul>
+                                      </div>
+                                    </details>
+                                  {% endif %}
+                                {% endfor %}
+                              {% else if hide_title_menu == true %}
+                                {% for child_link in link.links %} 
+                                  {% for grandchild_link in child_link.links %}
+                                    <li>
+                                      <a href="{{ grandchild_link.url }}">
+                                        {{ grandchild_link.title | split: '[' | first }}
+                                        {%- if grandchild_link.title contains '[' -%}
+                                          <span class="label-menu" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                        {%- endif -%}
+                                      </a>
+                                    </li>
+                                  {% endfor %}
+                                {% endfor %}
+                              {% else %}
+                                {% assign child_list_handle = child_link.title | handle %} 
+                                {% for child_link in link.links %} 
+                                  {% if child_link.links.size > 0 %}
+                                    <details>
+                                      <summary class="no-border menu-drawer__menu-item list-menu__item link">
+                                        <span>{{ child_link.title | split: '[' | first }}</span>
+                                        {%- if child_link.title contains '[' -%}
+                                          <span class="label-menu" {% if child_link.title contains '(' %}style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                        {%- endif -%}
+                                        <span class="toggle-menu">
+                                          <span class="icon-next"></span>
+                                        </span>
+                                      </summary>
+                                      <div class="menu-drawer__submenu motion-reduce">
+                                        <button class="menu-drawer__close-button link link--text " aria-expanded="true">
+                                          <i class="icon-back"></i>
+                                        </button>
+                                        <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                                          {% for grandchild_link in child_link.links %}
+                                            <li>
+                                              <a href="{{ grandchild_link.url }}">
+                                                {{ grandchild_link.title | split: '[' | first }}
+                                                {%- if grandchild_link.title contains '[' -%}
+                                                  <span class="label-menu" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_highlight }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                                {%- endif -%}
+                                              </a>
+                                            </li>
+                                          {% endfor %}
+                                        </ul>
+                                      </div>
+                                    </details>
+                                  {% else %}
+                                      <li>
+                                        <a href="{{ child_link.url }}">
+                                          <span>
+                                            {{ child_link.title | split: '[' | first }}
+                                            {%- if child_link.title contains '[' -%}
+                                              <span class="label-menu" {% if child_link.title contains '(' %}style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                            {%- endif -%}
+                                          </span>
+                                        </a>
+                                      </li>
+                                  {% endif %}
+                                {% endfor %}
+                              {% endif %}
+                            </ul>
+                          </div>
+                        </div>
+                      </details>
+                    {% else %}
+                      <details>
+                        <summary class="menu-drawer__menu-item list-menu__item link">
+                          {{ link.title | split: '[' | first }}
+                          {%- if link.title contains '[' -%}
+                            <span class="label-menu" {% if link.title contains '(' %}style="background: {{ link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ link.title | split: '[' | last | split: ']' | first }}</span>
+                          {%- endif -%}
+                          <span class="toggle-menu"> <span class="icon-next"></span> </span>
+                        </summary>
+                        <div class="menu-drawer__submenu motion-reduce" tabindex="-1">
+                          <div class="menu-drawer__inner-submenu">
+                            <button class="menu-drawer__close-button link link--text " aria-expanded="true">
+                              <i class="icon-back"></i>
+                            </button>
+                            <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                              {% assign child_list_handle = child_link.title | handle %} 
+                              {% for child_link in link.links %} 
+                                {% if child_link.links.size > 0 %}
+                                  <details>
+                                    <summary class="menu-drawer__menu-item list-menu__item link">
+                                      {{ child_link.title | split: '[' | first }}
+                                      {%- if child_link.title contains '[' -%}
+                                        <span class="label-menu" {% if child_link.title contains '(' %}style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                      {%- endif -%}
+                                      <span class="toggle-menu">
+                                        <span class="icon-next"></span>
+                                      </span>
+                                    </summary>
+                                    <div class="menu-drawer__submenu motion-reduce">
+                                      <button class="menu-drawer__close-button link link--text " aria-expanded="true">
+                                        <i class="icon-back"></i>
+                                      </button>
+                                      <ul class="menu-drawer__menu list-menu" role="list" tabindex="-1">
+                                        {% for grandchild_link in child_link.links %}
+                                          <li>
+                                            <a href="{{ grandchild_link.url }}">
+                                              <span>
+                                                {{ grandchild_link.title | split: '[' | first }}
+                                                {%- if grandchild_link.title contains '[' -%}
+                                                  <span class="label-menu" {% if grandchild_link.title contains '(' %}style="background: {{ grandchild_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ grandchild_link.title | split: '[' | last | split: ']' | first }}</span>
+                                                {%- endif -%}
+                                              </span>
+                                            </a>
+                                          </li>
+                                        {% endfor %}
+                                      </ul>
+                                    </div>
+                                  </details>
+                                {% else %}
+                                  <li>
+                                    <a href="{{ child_link.url }}">
+                                      <span>
+                                        {{ child_link.title | split: '[' | first }}
+                                        {%- if child_link.title contains '[' -%}
+                                          <span class="label-menu" {% if child_link.title contains '(' %}style="background: {{ child_link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ child_link.title | split: '[' | last | split: ']' | first }}</span>
+                                        {%- endif -%}
+                                      </span>
+                                    </a>
+                                  </li>
+                                {% endif %}
+                              {% endfor %}
+                            </ul>
+                          </div>
+                        </div>
+                      </details>
+                    {% endif %}
+                  {% else %}
+                    <a href="{{ link.url }}" class="level0">
+                      {{ link.title | split: '[' | first }}
+                      {%- if link.title contains '[' -%}
+                        <span class="label-menu" {% if link.title contains '(' %}style="background: {{ link.title | split: '(' | last | split: ')' | first }}"{% else %}style="background: {{ settings.color_primary }}"{% endif %}>{{ link.title | split: '[' | last | split: ']' | first }}</span>
+                      {%- endif -%}
+                    </a>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </details>
+</header-drawer>

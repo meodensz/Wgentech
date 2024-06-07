@@ -1,0 +1,362 @@
+<link rel="stylesheet" href="{{ 'section-product-slider-with-banner.css' | asset_url }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ 'component-card.css' | asset_url }}" type="text/css" media="all">
+<link rel="stylesheet" href="{{ 'slick.min.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-card.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'section-product-slider-with-banner.css' | asset_url | stylesheet_tag }}</noscript>
+<noscript>{{ 'slick.min.css' | asset_url | stylesheet_tag }}</noscript>
+
+{% render 'gp-section-style', section: section %}
+<div data-section-id="{{ section.id }}" data-section-type="product-slider-with-banner" class="gp-section-wrapper gp-product-slider-with-banner{% unless section.settings.fullwidth %} not-fullwidth-section{% endunless %}">
+  <div class="gp-section-inner col-padding-0">
+      {% if section.blocks.size > 0 %}
+        {% for block in section.blocks %}
+          <div data-block-id="{{ block.id }}" class="row banner-position-{{ block.settings.banner_position }}">
+            <div class="block-banner col-lg-6 col-12">
+              <div class="image-banner-inner{% if block.settings.image == blank %} img-border{% endif %}">
+                <div class="image-banner">
+                  {% if block.settings.image == blank %}
+                    {{ 'image' | placeholder_svg_tag }}
+                  {% else %}
+                    <img srcset="{%- if block.settings.image.width >= 180 -%}{{ block.settings.image | image_url: width: 180 }} 180w,
+                              {%- endif -%} {%- if block.settings.image.width >= 360 -%}{{ block.settings.image | image_url: width: 360 }} 360w,
+                              {%- endif -%} {%- if block.settings.image.width >= 540 -%}{{ block.settings.image | image_url: width: 540 }} 540w,
+                              {%- endif -%} {%- if block.settings.image.width >= 720 -%}{{ block.settings.image | image_url: width: 720 }} 720w,
+                              {%- endif -%} {%- if block.settings.image.width >= 900 -%}{{ block.settings.image | image_url: width: 900 }} 900w,
+                              {%- endif -%} {%- if block.settings.image.width >= 1080 -%}{{ block.settings.image | image_url: width: 1080 }} 1080w{%- endif -%}" 
+                        src="{{ block.settings.image | image_url: width: 1000 }}" 
+                        sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" 
+                        alt="{{ block.settings.image.alt | escape }}" 
+                        loading="lazy" 
+                        class="motion-reduce" 
+                        width="{{ block.settings.image.width }}"
+                        height="{{ block.settings.image.height }}"/>   
+                  {% endif %} 
+                </div>
+                {% if block.settings.heading != blank or block.settings.subheading != blank %}
+                  <div class="text-banner">
+                    <h3>{{ block.settings.heading }}</h3>
+                    <div class="subheading">{{ block.settings.subheading }}</div>
+                  </div>
+                {% endif %} 
+                {% if block.settings.btn_label != blank %}
+                <div class="button-banner">
+                  <a class="{{ block.settings.btn_style }} btn-banner" href="{% if block.settings.btn_url != blank %}{{ block.settings.btn_url }}{% else %}#{% endif %}" {% if block.settings.open_new_window %}target="_blank"{% endif %}>{{ block.settings.btn_label }}</a>
+                </div>
+                {% endif %} 
+              </div>
+            </div>
+            <div class="block-products col-lg-6 col-12 position-{{ forloop.index }}"{% if block.settings.banner_position == 'right' %} dir="rtl"{% endif %}>
+              {%- liquid
+                  assign product_per_row = block.settings.product_per_row
+                  assign product_per_row_tablet = block.settings.product_per_row_tablet
+                  assign product_per_row_mobile = block.settings.product_per_row_mobile
+                  assign product_limit = block.settings.limit
+                  assign collection = collections[block.settings.collection]
+              -%}
+              <ul class="product-grid-slider" data-item-desktop="{{ product_per_row }}" data-item-tablet="{{ product_per_row_tablet }}" data-item-mobile="{{ product_per_row_mobile }}" data-position="{{ block.settings.banner_position }}">
+                {% if block.settings.collection != blank %}
+                  {% for product in collection.products limit: product_limit %}
+                    <li class="item"{% if block.settings.banner_position == 'right' %} dir="ltr"{% endif %}>
+                      {% render 'product-card',
+                        product: product,
+                        media_size: settings.image_ratio,
+                        add_image_padding: section.settings.add_image_padding,
+                        show_secondary_image: settings.show_secondary_image
+                      %}
+                    </li>
+                  {% endfor %}
+                {% else %}
+                  {% for i in (1..product_limit) %}
+                    <li class="item">
+                      {% render 'product-card-placeholder', 
+                      product: product ,
+                      media_size: settings.image_ratio,
+                      show_secondary_image: settings.show_secondary_image,
+                      add_image_padding: section.settings.add_image_padding %}
+                    </li>
+                  {% endfor %}
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          {% style %}
+            {% if block.settings.image != blank %}
+              @media screen and (min-width:1025px) {
+                [data-block-id="{{ block.id }}"] .image-banner-inner {
+                  background-image: url('{{ block.settings.image | image_url: width: 5000 }}');
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  background-position: {{ block.settings.position_img }};
+                }
+              }
+            {% else %}
+              @media screen and (min-width:1025px){
+                [data-block-id="{{ block.id }}"] .image-banner-inner {
+                  background-image: url({{ 'image-placeholder.png' | asset_url }});
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  background-position: center;
+                }
+              }
+            {% endif %}
+            {% if block.settings.color_text != blank %}
+              [data-block-id="{{ block.id }}"] .text-banner h3, [data-block-id="{{ block.id }}"] .text-banner .subheading {
+                color: {{ block.settings.color_text }}
+              } 
+            {% endif %}
+          {% endstyle %}
+          <script>
+            document.addEventListener('DOMContentLoaded', function() { 
+              var rtl = false;
+              var nextArrow = '<i class="icon-arrow-right"></i>';
+              var prevArrow = '<i class="icon-arrow-left"></i>';
+              var itemPerSlide = $('[data-block-id="{{ block.id }}"] .product-grid-slider').data('item-desktop');
+              var itemPerSlideTablet = $('[data-block-id="{{ block.id }}"] .product-grid-slider').data('item-tablet');
+              var itemPerSlideMobile = $('[data-block-id="{{ block.id }}"] .product-grid-slider').data('item-mobile');
+              var position = $('[data-block-id="{{ block.id }}"] .product-grid-slider').data('position');
+              if (position == 'right') {
+                var rtl = true;
+                var nextArrow = '<i class="icon-arrow-left"></i>';
+                var prevArrow = '<i class="icon-arrow-right"></i>';
+              }
+              $('[data-block-id="{{ block.id }}"] .product-grid-slider').not('.slick-initialized').slick({
+                  slidesToShow: itemPerSlide,
+                  slidesToScroll: 1,
+                  dots: false,
+                  arrows: true,
+                  nextArrow: nextArrow,
+                  prevArrow: prevArrow,
+                  speed: 500,
+                  infinite: true,
+                  rtl: rtl,
+                  responsive: [
+                    {
+                      breakpoint: 1025,
+                      settings: {
+                        slidesToShow: itemPerSlideTablet
+                      }
+                    },
+                    {
+                      breakpoint: 768,
+                      settings: {
+                        slidesToShow: itemPerSlideMobile
+                      }
+                    },
+                    {
+                      breakpoint: 480,
+                      settings: {
+                        slidesToShow: 2
+                      }
+                    }
+                  ]
+                });
+
+                var arrow = $('[data-block-id="{{ block.id }}"] .product-grid-slider .slick-arrow');
+                var height_img = $('[data-block-id="{{ block.id }}"] .product-grid-slider .card-media').height();
+                var height_arrow = arrow.height() + 2;
+                var top = (height_img/2) - (height_arrow/2);
+                arrow.css('top', top+'px')
+
+                window.addEventListener("resize", () => {
+                  var arrow = $('[data-block-id="{{ block.id }}"] .product-grid-slider .slick-arrow');
+                  var height_img = $('[data-block-id="{{ block.id }}"] .product-grid-slider .card-media').height();
+                  var height_arrow = arrow.height() + 2;
+                  var top = (height_img / 2) - (height_arrow / 2);
+                  arrow.css('top', top+'px')
+                });
+            });
+          </script>
+        {% endfor %}
+      {% endif %}
+  </div>
+</div>
+
+{%- if section.blocks.size > 0 -%}
+  <script src="{{ 'slick.min.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Products with banner",
+  "settings": [
+    {
+			"type": "header",
+			"content": "Common settings"
+		},
+    {
+      "type": "checkbox",
+      "id": "fullwidth",
+      "label": "Fullwidth",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "products-with-banner",
+      "name": "Products with banner",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Banner"
+        },
+        {
+          "type": "select",
+          "id": "banner_position",
+          "label": "Banner position",
+          "default": "right",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "select",
+          "label": "Position of image",
+          "id": "position_img",
+          "default": "center",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ]
+        },
+        {
+          "type": "color",
+          "label": "Color text",
+          "id": "color_text",
+          "default": "#262626"
+        },
+        {
+          "type": "text",
+          "id": "heading",
+          "default": "bags",
+          "label": "Heading"
+        },
+        {
+          "type": "text",
+          "id": "subheading",
+          "default": "Must have <br>item",
+          "label": "Subheading"
+        },
+        {
+          "type": "text",
+          "id": "btn_label",
+          "label": "Button label",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "btn_url",
+          "label": "Button link"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open link in new tab",
+          "default": false,
+          "id": "open_new_window"
+        },
+        {
+          "type": "select",
+          "label": "Button style",
+          "id": "btn_style",
+          "default": "btn-2",
+          "options": [
+            {
+              "value": "btn",
+              "label": "Button primary"
+            },
+            {
+              "value": "btn-2",
+              "label": "Button secondary"
+            }
+          ]
+        },
+        {
+          "type": "header",
+          "content": "Collection"
+        },
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "Collection"
+        },
+        {
+          "type": "select",
+          "id": "product_per_row",
+          "label": "Products per row",
+          "default": "2",
+          "options": [
+            {
+              "value": "1",
+              "label": "1"
+            },
+            {
+              "value": "2",
+              "label": "2"
+            }
+          ]
+        },
+        {
+          "type": "range",
+          "id": "product_per_row_tablet",
+          "label": "Products per row tablet",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "product_per_row_mobile",
+          "label": "Products per row mobile",
+          "info": "Apply to screen 480px -> 767px",
+          "min": 1,
+          "max": 3,
+          "step": 1,
+          "default": 2
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Limit",
+          "min": 1,
+          "max": 20,
+          "step": 1,
+          "default": 6
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Products with banner",
+      "category": "Product",
+      "blocks": [
+        {
+          "type": "products-with-banner"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

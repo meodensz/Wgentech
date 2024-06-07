@@ -1,0 +1,260 @@
+{
+  "sections": {
+    "main": {
+      "type": "about-us",
+      "settings": {
+        "image_banner_desktop": "shopify:\/\/shop_images\/Rectangle_467_1.png",
+        "image_banner_mobile": "shopify:\/\/shop_images\/Rectangle_468.png",
+        "title_banner_color": "#ffffff",
+        "sub_title_banner": "“If you can’t be better than your competition, just dress better”",
+        "sub_title_banner_color": "#ffffff",
+        "signature_banner": "Anna Wintour",
+        "signature_banner_color": "#ffffff"
+      }
+    },
+    "text-image": {
+      "type": "gp-text-row-with-image",
+      "blocks": {
+        "41f8ff67-f6db-4955-bf1d-756f2080c165": {
+          "type": "image-with-content",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/ccdde8108692443_1_1.png",
+            "image_position": "right-2",
+            "title": "Setting Industry Standards",
+            "sub_title": "OUR HISTORY",
+            "content": "<p>Portland meggings chartreuse plaid palo santo, gluten-free ramps iPhone etsy salvia cray kombucha copper mug single-origin coffee. <\/p>",
+            "content_impression": "<h4>12.345<\/h4><p>Satisfied customers worldwide and growing<\/p>",
+            "title_signature": "",
+            "signature_text_post": "",
+            "bg_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "41f8ff67-f6db-4955-bf1d-756f2080c165"
+      ],
+      "settings": {
+        "fullwidth": false,
+        "custom_width": "1350",
+        "background_color": "#ffffff"
+      }
+    },
+    "164082821072dd209c": {
+      "type": "icon-with-text",
+      "blocks": {
+        "1640828210ad2a0a52-0": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-rocket-1",
+            "title": "Free Shipping",
+            "content_services": "<p>For most people, online shopping has played an important part in everyday life. Online shopping is suitable for people who are too busy to go out or just enjoy the convenience of ordering things online.<\/p>",
+            "columns_desktop": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12
+          }
+        },
+        "1640828210ad2a0a52-1": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-technical-support",
+            "title": "24\/7 Support",
+            "content_services": "<p>In an IT landscape, 24\/7 support means a support service that is available 24 hours a day and 7 days a week. This thing can cover a wide range of IT services - like server monitoring, call center support, database support and so on.<\/p>",
+            "columns_desktop": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12
+          }
+        },
+        "1640828210ad2a0a52-2": {
+          "type": "icon_text",
+          "settings": {
+            "icon": "icon-hand-shake",
+            "title": "Payment Process",
+            "content_services": "<p>Payment processing is how businesses complete credit card and debit card transactions.<\/p>",
+            "columns_desktop": 4,
+            "columns_tablet": 4,
+            "columns_mobile": 12
+          }
+        }
+      },
+      "block_order": [
+        "1640828210ad2a0a52-0",
+        "1640828210ad2a0a52-1",
+        "1640828210ad2a0a52-2"
+      ],
+      "settings": {
+        "heading": "Featured Services",
+        "icon_font_size": 69,
+        "color_icon": "#262626",
+        "fullwidth": false,
+        "custom_width": "1140",
+        "background_color": "#f5f5f5"
+      }
+    },
+    "16412407047b1c3091": {
+      "type": "rich-text",
+      "blocks": {
+        "1641240704a9af81e2-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "Our Mission",
+            "heading_size": "extra-large"
+          }
+        },
+        "1641240704a9af81e2-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>Everybody has a plan for future. Though future is uncertain and many times unpredictable, I believe that to some extent our future depends on our actions on past and present. In the future, I want to run a mega shopping mall business where my involvement would not be mandatory to run the daily business and I would enjoy my time by visiting different places of the world.<\/p>"
+          }
+        }
+      },
+      "block_order": [
+        "1641240704a9af81e2-0",
+        "1641240704a9af81e2-1"
+      ],
+      "settings": {
+        "full_width": false,
+        "custom_width": "960"
+      }
+    },
+    "16418101251506ab00": {
+      "type": "image-with-text",
+      "blocks": {
+        "16418101259b521053-0": {
+          "type": "heading",
+          "settings": {
+            "heading": "The Founder",
+            "heading_size": "extra-large"
+          }
+        },
+        "16418101259b521053-1": {
+          "type": "text",
+          "settings": {
+            "text": "<p>﻿CECILE is a high-end fashion design brand for all young fashion lovers founded by Rustin Lana designer in 2016.<\/p><p>The brand is built with the desire to contribute to the development and integration with world fashion. In terms of style, we aim to build an image of a woman of the era, with multiple styles, to hide her rebellious beauty and express her distinctive fashion ‘ego’.<\/p><p><\/p><p><\/p>",
+            "title_signature": "Co-founder",
+            "signature_text_post": "John Doe"
+          }
+        }
+      },
+      "block_order": [
+        "16418101259b521053-0",
+        "16418101259b521053-1"
+      ],
+      "settings": {
+        "background_image": "shopify:\/\/shop_images\/banner-about-us-32.jpg",
+        "background_image_mobile": "shopify:\/\/shop_images\/banner-about-us-33_2.jpg",
+        "layout": "image_first",
+        "height": "adapt"
+      }
+    },
+    "16412787350eef4663": {
+      "type": "gp-text-row-with-image",
+      "blocks": {
+        "5210d6da-822b-4d75-8109-08cfa31189e2": {
+          "type": "image-with-content",
+          "settings": {
+            "desktop_image": "shopify:\/\/shop_images\/a85164108692443_2_1.png",
+            "image_position": "right-2",
+            "title": "Growing Fast",
+            "sub_title": "OUR FUTURE",
+            "content": "<p>Everybody has a plan for future. Though future is uncertain and many times unpredictable, I believe that to some extent our future depends on our actions on past and present. In the future, I want to run a mega shopping mall business where my involvement would not be mandatory to run the daily business and I would enjoy my time by visiting different places of the world. <\/p>",
+            "content_impression": "<h4>54.23<\/h4><p>Satisfied customers worldwide and growing<\/p>",
+            "title_signature": "",
+            "signature_text_post": "",
+            "bg_color": "#ffffff"
+          }
+        }
+      },
+      "block_order": [
+        "5210d6da-822b-4d75-8109-08cfa31189e2"
+      ],
+      "settings": {
+        "fullwidth": false,
+        "custom_width": "1350",
+        "background_color": "#ffffff"
+      }
+    },
+    "1641266664be59ce76": {
+      "type": "video",
+      "settings": {
+        "heading": "",
+        "cover_image": "shopify:\/\/shop_images\/7540ed108692443_1_f1aae5e9-a4a3-49a6-9b6f-5d8b4df87e16.png",
+        "video_url": "https:\/\/www.youtube.com\/watch?v=_9VUPq3SxOc",
+        "description": "",
+        "full_width": false,
+        "custom_width": "1420"
+      }
+    },
+    "16418825736002ced9": {
+      "type": "list-image-logo",
+      "blocks": {
+        "1818ee97-8e18-4688-9b77-38f6688a2055": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-33.jpg"
+          }
+        },
+        "3991e32a-c3f9-41f2-b2ef-67046375d388": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-34.jpg"
+          }
+        },
+        "dbeb0de7-acfc-4d48-bdab-e072c5bc38ae": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-40.jpg"
+          }
+        },
+        "5bf87e2f-ea48-4381-a55e-5a8233d269a0": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-36.jpg"
+          }
+        },
+        "9ee05bd4-c355-427e-beec-cdf61fafb066": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-37.jpg"
+          }
+        },
+        "60147537-306d-42ee-89bb-4ceda5c2318b": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-38.jpg"
+          }
+        },
+        "3842f728-1999-45a4-b6be-ed95e8058579": {
+          "type": "image-logo",
+          "settings": {
+            "img_logo": "shopify:\/\/shop_images\/img-about-us-39.jpg"
+          }
+        }
+      },
+      "block_order": [
+        "1818ee97-8e18-4688-9b77-38f6688a2055",
+        "3991e32a-c3f9-41f2-b2ef-67046375d388",
+        "dbeb0de7-acfc-4d48-bdab-e072c5bc38ae",
+        "5bf87e2f-ea48-4381-a55e-5a8233d269a0",
+        "9ee05bd4-c355-427e-beec-cdf61fafb066",
+        "60147537-306d-42ee-89bb-4ceda5c2318b",
+        "3842f728-1999-45a4-b6be-ed95e8058579"
+      ],
+      "settings": {
+        "heading": "COMPANY PARTNERS",
+        "fullwidth": false,
+        "custom_width": "828",
+        "background_color": "#ffffff"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "text-image",
+    "164082821072dd209c",
+    "16412407047b1c3091",
+    "16418101251506ab00",
+    "16412787350eef4663",
+    "1641266664be59ce76",
+    "16418825736002ced9"
+  ]
+}

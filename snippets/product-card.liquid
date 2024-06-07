@@ -1,0 +1,153 @@
+{% comment %}
+Renders a product card
+
+Accepts:
+- product: {Object} Product Liquid object (optional)
+- media_size: {String} Size of the product image card. Values are "square" and "portrait". Default is "square"
+(optional)
+- show_secondary_image: {Boolean} Show the secondary image on hover. Default: false (optional)
+- add_image_padding: {Boolean} Enables padding on the image to space out the grid
+- show_vendor: {Boolean} Show the product vendor. Default: false
+- show_image_outline: {Boolean} Show card outline. Default: true (optional)
+- show_rating: {Boolean} Show the product rating. Default: false
+
+Usage:
+{% render 'product-card', show_vendor: section.settings.show_vendor %}
+{% endcomment %}
+{% liquid
+if media_size == blank
+  assign media_size = settings.image_ratio
+endif
+if show_secondary_image == blank
+  assign show_secondary_image = settings.show_secondary_image
+endif
+if view_mode == "list-grid" or view_mode == "list"
+  assign view = "list"
+else
+  assign view = "grid"
+endif 
+%}
+
+<div class="card-wrapper product-{{ view }}">
+  <div class="card-media{% if product.featured_media == nil %} no-effect card--text-only card--soft{% endif %}{% if product.featured_media != nil and show_image_outline %} card--outline{% endif %}">
+    <div class="card__inner">
+      {%- liquid
+        assign featured_media_aspect_ratio = product.featured_media.aspect_ratio
+        if product.featured_media.aspect_ratio == nil
+            assign featured_media_aspect_ratio = 1
+        endif
+      -%}
+      {%- if product.featured_media -%}
+        <a href="{{ product.url | default: '#' }}" class="no-effect media media--transparent media--{{ media_size }} media--hover-effect{% if product.media[1] != nil and show_secondary_image %} hover-second-image{% endif %}" {% if media_size == 'adapt' and product.featured_media %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;" {% endif %}>
+          <img srcset="{%- if product.featured_media.width >= 165 -%}{{ product.featured_media | image_url: width: 165 }} 165w,{%- endif -%} {%- if product.featured_media.width >= 360 -%}{{ product.featured_media | image_url: width: 360 }} 360w,{%- endif -%} {%- if product.featured_media.width >= 533 -%}{{ product.featured_media | image_url: width: 533 }} 533w,{%- endif -%} {%- if product.featured_media.width >= 720 -%}{{ product.featured_media | image_url: width: 720 }} 720w,{%- endif -%} {%- if product.featured_media.width >= 940 -%}{{ product.featured_media | image_url: width: 940 }} 940w,{%- endif -%} {%- if product.featured_media.width >= 1066 -%}{{ product.featured_media | image_url: width: 1066 }} 1066w,{%- endif -%} {{ product.featured_media | image_url: width: 1920 }} {{ product.featured_media.width }}w" src="{{ product.featured_media | image_url: width: 533 }}" sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)" alt="{{ product.featured_media.alt | escape }}" loading="lazy" class="motion-reduce" width="{{ product.featured_media.width }}" height="{{ product.featured_media.height }}">
+          {%- if product.media[1] != nil and show_secondary_image -%}
+            <img srcset="{%- if product.media[1].width >= 165 -%}{{ product.media[1] | image_url: width: 165 }} 165w,{%- endif -%} {%- if product.media[1].width >= 360 -%}{{ product.media[1] | image_url: width: 360 }} 360w,{%- endif -%} {%- if product.media[1].width >= 533 -%}{{ product.media[1] | image_url: width: 533 }} 533w,{%- endif -%} {%- if product.media[1].width >= 720 -%}{{ product.media[1] | image_url: width: 720 }} 720w,{%- endif -%} {%- if product.media[1].width >= 940 -%}{{ product.media[1] | image_url: width: 940 }} 940w,{%- endif -%} {%- if product.media[1].width >= 1066 -%}{{ product.media[1] | image_url: width: 1066 }} 1066w,{%- endif -%} {{ product.media[1] | image_url: width: 1920 }} {{ product.media[1].width }}w" src="{{ product.media[1] | image_url: width: 533 }}" sizes="(min-width: 990px) calc((100vw - 130px) / 4), (min-width: 750px) calc((100vw - 120px) / 3), calc((100vw - 35px) / 2)" alt="{{ product.media[1].alt | escape }}" loading="lazy" class="motion-reduce" width="{{ product.media[1].width }}" height="{{ product.media[1].height }}">
+          {%- endif -%}
+        </a>
+      {%- else -%}
+      <a  href="{{ product.url | default: '#' }}" class="no-effect media media--transparent media--{{ media_size }} media--hover-effect"
+        {% if media_size == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: featured_media_aspect_ratio | times: 100 }}%;"{% endif %}>
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+      </a>
+      {%- endif -%}
+    </div>
+    {%- render 'product-badges', product: product -%}
+    <div class="card-action">
+      {%- unless settings.hide_quickview_btn -%}
+        <modal-opener class="no-js-hidden" data-modal="#PopupModal-quickview">
+          <a href="{{ product.url | default: '#' }}" class="action-tooltip btn-main btn btn-2 btn-quick-view js-open-quickview {% if product.available == false %}only{% endif %}" title="{{ 'products.product.quick_view' | t }}">
+            <i class="icon-eye-2"></i>
+          </a>
+        </modal-opener>
+      {%- endunless -%}
+    </div>
+  </div>
+  <div class="card-details">
+    {%- liquid 
+      unless settings.hide_vendor
+        echo product.vendor | prepend: '<span class="product-vendor">' | append: '</span>'
+      endunless 
+      echo product.url | default: '#' | prepend: '<div class="product-title"><a href="'
+      echo product.title | escape | prepend: '">' | append: '</a></div>'
+      unless settings.hide_product_type 
+        if product.type != blank
+          echo product.type | link_to_type | replace: '<a', '<div class="product-type-wrapper"><a class="product-type"' | append: '</div>'
+        endif
+      endunless
+      if settings.hide_review == false and product.metafields.reviews.rating.value != blank
+        render 'product-review', template: 'product-rating', product: product
+      endif
+      
+      render 'price', product: product, price_class: ''
+    -%}
+    <div class="product-desc">
+      {% if product.description and settings.hide_description == false %}
+        <p class="product-description">
+          {{ product.description | strip_html | truncate: 100, '...' }}
+        </p>
+      {% endif %}
+      <div class="product-action">
+        {%- unless settings.hide_add_to_cart -%}
+          {%- if product.available == false -%}
+            <div>
+              <a href="{{ product.url }}" class="btn-main btn btn-2 btn-add-to-cart disable" disabled title="{{ 'products.product.sold_out' | t }}">
+                <span class="add-cart-text">{{ 'products.product.sold_out' | t }}</span>
+                <span class="icon-cart"></span>
+              </a>
+            </div>
+          {%- else -%}
+            {%- assign variants_first = product.variants | size -%}
+            {%- if variants_first > 1 -%}
+                <modal-opener class="no-js-hidden" data-modal="#PopupModal-quickview">
+                  <a href="{{ product.url | default: '#' }}" class="btn-main btn btn-add-to-cart {% unless settings.hide_quickview_btn %}js-open-quickview{% endunless %}" title="{{ 'products.product.select_options' | t }}">
+                    <span class="add-cart-text">{{ 'products.product.select_options' | t }}</span>
+                    <span class="icon-cart"></span>
+                  </a>
+                </modal-opener>
+            {%- else -%}
+              {%- assign variants_first = product.variants | first -%}
+              {%- if variants_first.inventory_management and variants_first.inventory_quantity <= 0 and variants_first.incoming -%}
+                {%- assign buttonText = 'products.product.pre_order' | t -%}
+              {%- else -%}
+                {%- assign buttonText = 'products.product.add_to_cart' | t -%}
+              {%- endif -%}
+              <cart-opener data-modal="#PopupModal-addtocart">
+                <a href="{{ product.url }}" class="btn-main btn btn-add-to-cart" data-total="{{ product.variants.first.inventory_quantity }}" data-vid="{{ product.variants.first.id }}" title="{{ buttonText }}">
+                  <span class="add-cart-text">{{ buttonText }}</span>
+                  <span class="icon-cart"></span>
+                </a>
+              </cart-opener>
+            {%- endif -%}
+          {%- endif -%}
+        {%- endunless -%}
+        {%- unless settings.hide_quickview_btn -%}
+          <modal-opener class="no-js-hidden" data-modal="#PopupModal-quickview">
+            <a href="{{ product.url | default: '#' }} " class="action-tooltip btn-main btn btn-2 btn-quick-view js-open-quickview" title="{{ 'products.product.quick_view' | t }}">
+              <i class="icon-eye-2"></i>
+            </a>
+          </modal-opener>
+        {%- endunless -%}
+      </div>
+    </div>
+    {%- unless settings.hide_add_to_cart -%}
+      {%- if product.available == true -%}
+        {%- assign variants_first = product.variants | size -%}
+        {%- if variants_first > 1 -%}
+          {% unless settings.hide_quickview_btn %}
+            <modal-opener class="no-js-hidden" data-modal="#PopupModal-quickview">
+              <a href="{{ product.url | default: '#' }}" class="btn-main btn btn-2 btn-add-to-cart  {% unless settings.hide_quickview_btn %}js-open-quickview{% endunless %}" title="{{ 'products.product.select_options' | t }}">
+                <span class="icon-cart"></span>
+              </a>
+            </modal-opener>
+          {% endunless %}
+        {%- else -%}
+          <cart-opener data-modal="#PopupModal-addtocart">
+            <a href="{{ product.url }}" class="btn-main btn btn-2 btn-add-to-cart" data-vid="{{ product.variants.first.id }}" title="{{ buttonText }}">
+              <span class="icon-cart"></span>
+            </a>
+          </cart-opener>
+        {%- endif -%}
+      {%- endif -%}
+    {%- endunless -%}
+  </div>
+</div>

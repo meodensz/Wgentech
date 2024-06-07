@@ -1,0 +1,427 @@
+{{ 'section-blog-post.css' | asset_url | stylesheet_tag }}
+<link rel="stylesheet" href="{{ 'main-article.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'main-article.css' | asset_url | stylesheet_tag }}</noscript>
+<link rel="stylesheet" href="{{ 'blog-sidebar.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'blog-sidebar.css' | asset_url | stylesheet_tag }}</noscript>
+{%- liquid 
+  assign sidebar_class = 'none-sidebar'
+  if template contains 'none-sidebar'
+    assign sidebar_class = 'none-sidebar'
+  else
+    if settings.article_sidebar_position == 'left' 
+      assign sidebar_class = 'blog-left-sidebar'
+    elsif settings.article_sidebar_position == 'right'
+      assign sidebar_class = 'blog-right-sidebar'
+    endif
+  endif
+-%}
+<div class="blog-single-template container {{ sidebar_class }}">
+  <article class="article-template" itemscope itemtype="http://schema.org/BlogPosting">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+        {%- when 'featured_image'-%}
+          {%- if article.image -%}
+            <div class="featured_image_wrapper">
+              <img srcset="{% if article.image.width >= 350 %}{{ article.image | image_url: width: 350 }} 350w,{% endif %}
+                {% if article.image.width >= 450 %}{{ article.image | image_url: width: 450 }} 450w,{% endif %}
+                {% if article.image.width >= 550 %}{{ article.image | image_url: width: 550 }} 550w,{% endif %}
+                {% if article.image.width >= 650 %}{{ article.image | image_url: width: 650 }} 650w,{% endif %}
+                {% if article.image.width >= 700 %}{{ article.image | image_url: width: 700 }} 700w,{% endif %}
+                {% if article.image.width >= 749 %}{{ article.image | image_url: width: 749 }} 749w,{% endif %}
+                {% if article.image.width >= 1498 %}{{ article.image | image_url: width: 1498 }} 1498w,{% endif %}
+                {% if article.image.width >= 1100 %}{{ article.image | image_url: width: 1100 }} 1100w,{% endif %}
+                {% if article.image.width >= 2200 %}{{ article.image | image_url: width: 2200 }} 2200w,{% endif %}"
+                sizes="(min-width: 1200px) 1100px, (min-width: 750px) calc(100vw - 10rem), 100vw"
+                src="{{ article.image | image_url: width: 2200 }}"
+                loading="lazy"
+                width="{{ article.image.width }}"
+                height="{{ article.image.height }}"
+                alt="{{ article.image.alt | escape }}">
+            </div>
+          {%- endif -%}
+
+          {%- when 'title'-%}
+            <header class="blog-info-title">
+              <h1 class="article-template__title" itemprop="headline">{{ article.title | escape }}</h1>
+              {%- if block.settings.blog_show_date -%}
+                <span class="caption-with-letter-spacing" itemprop="dateCreated pubdate datePublished">{{ article.published_at | time_tag: format: 'month_year' }}</span>
+              {%- endif -%}
+              <a href="#comments" class="caption-with-letter-spacing">
+                <i class="icon-comment"></i>
+                {% if article.comments_count <= 1 %}
+                {{ 'blogs.article.comments.one' | t: count: article.comments_count }}
+                {% else %}
+                {{ 'blogs.article.comments.other' | t: count: article.comments_count }}
+                {% endif %}
+              </a>
+              {%- if block.settings.blog_show_author -%}
+                <span class="caption-with-letter-spacing" itemprop="author" itemscope itemtype="http://schema.org/Person">
+                  <span itemprop="name">{{ article.author }}</span>
+                </span>
+              {%- endif -%}
+            </header>
+          {%- when 'content'-%}
+            {% if article.content != blank %}
+              <div class="article-template__content rte" itemprop="articleBody">
+                {{ article.content }}
+              </div>
+            {% endif %}
+          {%- when 'social_sharing'-%}
+            {% if block.settings.style_tag_share == 'style-2' %}
+              {% assign style_pagination = 'style-2' %}
+              <div class="tag-share-nextpost style-2{% if block.settings.enable_tags == false %} no-tag{% endif %}">
+                <div class="article-template__social-sharing {% if article.tags.size > 0 %} social-sharing-space-between {% endif %}">
+                  {%- if block.settings.enable_tags -%}
+                    {% if article.tags.size > 0 %}
+                      <div class="article-tags">
+                        {% for tag in article.tags %}
+                          <a class="tag no-effect" href="{{ blog.url }}/tagged/{{ tag | handle }}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>{{tag}}</a>{% unless forloop.last %}{% endunless %}
+                        {% endfor %}
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                  {%- if block.settings.enable_sharing -%}
+                    {% render 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+                  {% endif %}
+                </div>
+                {% if blog.next_article or blog.previous_article %}
+                  {% assign current_found = false %}
+                  {% assign done = false %}
+                  {% for a in blog.articles %}
+                    {% if current_found and done == false %}
+                      {% assign next_article = a %}
+                      {% assign done = true %}
+                    {% endif %}
+                    {% unless done %}
+                      {% if a.id == article.id %}
+                        {% assign current_found = true %}
+                      {% else %}
+                        {% assign prev_article = a %}
+                      {% endif %}
+                    {% endunless %}
+                  {% endfor %}
+                  <div class="section-other-article">
+                    {% if prev_article %}
+                    <div class="nextPreviousBtn prev">
+                      <a href="{{ prev_article.url }}" class="link-article no-effect" title="{{ 'blogs.article.previous_post' | t }}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        <div class="btn-icon">
+                          <i class="icon-ar-lefr"></i>
+                          <span class="label-btn">{{ 'blogs.article.previous_post' | t }}</span>
+                        </div>
+                        {{ prev_article.title }}
+                      </a>
+                    </div>
+                    {% endif %}  
+                    {% if next_article %}
+                      <div class="nextPreviousBtn next">
+                        <a href="{{ next_article.url }}" class="link-article no-effect" title="{{ 'blogs.article.next_post' | t }}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                          <div class="btn-icon">
+                            <span class="label-btn">{{ 'blogs.article.next_post' | t }}</span>
+                            <i class="icon-ar-right"></i>
+                          </div>
+                          {{ next_article.title }}
+                        </a>
+                      </div>
+                    {% endif %}
+                  </div>
+                {% endif %}
+              </div>
+            {% else %}
+              <div class="tag-share-nextpost style-1{% if block.settings.enable_tags == false %} border-top{% endif %}">
+                {%- if block.settings.enable_tags -%}
+                  {%- if article.tags.size > 0 -%}
+                    <div class="article-tags">
+                      {% for tag in article.tags %}
+                        <a class="tag no-effect" href="{{ blog.url }}/tagged/{{ tag | handle }}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>{{tag}}</a>{% unless forloop.last %}{% endunless %}
+                      {% endfor %}
+                    </div>
+                  {%- endif -%}
+                {%- endif -%}
+                {% if blog.next_article or blog.previous_article %}
+                  {% assign current_found = false %}
+                  {% assign done = false %}
+                  {% for a in blog.articles %}
+                    {% if current_found and done == false %}
+                      {% assign next_article = a %}
+                      {% assign done = true %}
+                    {% endif %}
+                    {% unless done %}
+                      {% if a.id == article.id %}
+                        {% assign current_found = true %}
+                      {% else %}
+                        {% assign prev_article = a %}
+                      {% endif %}
+                    {% endunless %}
+                  {% endfor %}
+                  {%- if block.settings.enable_sharing -%}
+                    <div class="social-sharing-mobile">
+                      {% render 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+                    </div>
+                  {%- endif -%}
+                  <div class="section-other-article row">
+                    <div class="nextPreviousBtn prev col-6{% if block.settings.enable_sharing %} col-md-4{% endif %}">
+                      <a href="{{ prev_article.url }}" class="link-article no-effect{% unless prev_article %} disable{% endunless %}" {% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        <div class="btn-icon">
+                          <i class="icon-ar-lefr"></i><span class="label-btn">{{ 'blogs.article.previous_post' | t }}</span>
+                        </div>
+                      </a>
+                    </div>
+                    {%- if block.settings.enable_sharing -%}
+                      <div class="col-4 social-sharing-desktop">
+                        {% render 'social-sharing', share_title: article.title, share_permalink: article.url, share_image: article.image %}
+                      </div>
+                    {%- endif -%}
+                    <div class="nextPreviousBtn next col-6 col-md-4">
+                      <a href="{{ next_article.url }}" class="link-article no-effect{% unless next_article %} disable{% endunless %}"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                        <div class="btn-icon">
+                          <span class="label-btn">{{ 'blogs.article.next_post' | t }}</span>
+                          <i class="icon-ar-right"></i>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
+                {% endif %}
+              </div>
+            {% endif %}
+      {%- endcase -%}
+    {%- endfor -%}
+    {%- if blog.comments_enabled? -%}
+      <div class="article-template__comment-wrapper">
+        <div id="comments">
+          {%- if article.comments_count > 0 -%}
+            {%- assign anchorId = '#Comments-' | append: article.id -%}
+
+            <h2 id="Comments-{{ article.id }}">{{ 'blogs.article.comments' | t: count: article.comments_count }}</h2>
+            {% paginate article.comments by 5 %}
+              <div class="article-template__comments">
+                {%- if comment.status == 'pending' and comment.content -%}
+                  <article id="{{ comment.id }}" class="article-template__comments-comment">
+                    <div class="info-comment">
+                      <span class="info-author">{{ comment.author }}</span>
+                    </div>
+                    {{ comment.content }}
+                  </article>
+                {%- endif -%}
+                {%- for comment in article.comments -%}
+                  <article id="{{ comment.id }}" class="article-template__comments-comment">
+                    <div class="info-comment">
+                      <span class="info-author">{{ comment.author }}</span>
+                      <span class="info-time">{{ comment.created_at | time_tag: format: 'month_year' }}</span>
+                    </div>
+                    {{ comment.content }}
+                  </article>
+                {%- endfor -%}
+                {% render 'pagination', paginate: paginate, anchor: anchorId %}
+              </div>
+            {% endpaginate %}
+          {%- endif -%}
+          {% form 'new_comment', article %}
+            {%- liquid
+              assign post_message = 'blogs.article.success'
+              if blog.moderated? and comment.status == 'unapproved'
+                assign post_message = 'blogs.article.success_moderated'
+              endif
+            -%}
+            <h2>{{ 'blogs.article.comment_form_title' | t }}</h2>
+            {%- if form.errors -%}
+              <div class="form-message form-message--error">
+                <ul>
+                  {%- for field in form.errors -%}
+                    <li>
+                      <a href="#CommentForm-{{ field }}" class="form-message__link no-effect">
+                        {%- if form.errors.translated_fields[field] contains 'author' -%}
+                          {{ 'blogs.article.name' | t }}
+                        {%- elsif form.errors.translated_fields[field] contains 'body'-%}
+                        {{ 'blogs.article.message' | t }}
+                        {%- else -%}
+                          {{ form.errors.translated_fields[field] }}
+                        {%- endif -%}
+                        {{ form.errors.messages[field] }}
+                      </a>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- elsif form.posted_successfully? -%}
+              <div class="form-message form-message--success" role="status">
+                {{ post_message | t }}
+              </div>
+            {%- endif -%}
+
+            <div{% if blog.moderated? == false %} class="article-template__comments-fields"{% endif %}>
+              <div class="article-template__comment-fields">
+                <div class="field-wrapper field field--with-error field-textarea">
+                    <label class="form__label field__label" for="CommentForm-body">{{ 'blogs.article.message' | t }} <span aria-hidden="true">*</span></label>
+                  <textarea
+                    rows="5"
+                    name="comment[body]"
+                    id="CommentForm-body"
+                    class="text-area field__input"
+                    aria-required="true"
+                    {% if form.errors contains 'body' %}
+                      aria-invalid="true"
+                      aria-describedby="CommentForm-body-error"
+                    {% endif %}
+                  >{{ form.body }}</textarea>
+                  {%- if form.errors contains 'body' -%}
+                    <small id="CommentForm-body-error">
+                      <span class="form-message__link no-effect">{{ 'blogs.article.message' | t }} {{ form.errors.messages['body'] }}.</span>
+                    </small>
+                  {%- endif -%}
+                </div>
+                <div class="field-wrapper field field--with-error">
+                  <div class="field-wrapper-input">
+                    <label class="field__label" for="CommentForm-author">{{ 'blogs.article.name' | t }} <span aria-hidden="true">*</span></label>
+                    <input
+                      type="text"
+                      name="comment[author]"
+                      id="CommentForm-author"
+                      class="field__input"
+                      autocomplete="name"
+                      value="{{ form.author }}"
+                      aria-required="true"
+                      {% if form.errors contains 'author' %}
+                        aria-invalid="true"
+                        aria-describedby="CommentForm-author-error"
+                      {% endif %}
+                    >
+                  </div>
+                  {%- if form.errors contains 'author' -%}
+                    <small id="CommentForm-author-error">
+                      <span class="form-message__link no-effect">{{ 'blogs.article.name' | t }} {{ form.errors.messages['author'] }}.</span>
+                    </small>
+                  {%- endif -%}
+                </div>
+                <div class="field-wrapper field field--with-error">
+                  <div class="field-wrapper-input">
+                    <label class="field__label" for="CommentForm-email">{{ 'blogs.article.email' | t }} <span aria-hidden="true">*</span></label>
+                    <input
+                      type="email"
+                      name="comment[email]"
+                      id="CommentForm-email"
+                      autocomplete="email"
+                      class="field__input"
+                      value="{{ form.email }}"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      aria-required="true"
+                      {% if form.errors contains 'email' %}
+                        aria-invalid="true"
+                        aria-describedby="CommentForm-email-error"
+                      {% endif %}
+                    >
+                  </div>
+                  {%- if form.errors contains 'email' -%}
+                    <small id="CommentForm-email-error">
+                      <span class="form-message__link no-effect">{{ 'blogs.article.email' | t }} {{ form.errors.messages['email'] }}.</span>
+                    </small>
+                  {%- endif -%}
+                </div>
+              </div>
+            </div>
+            {%- if blog.moderated? -%}
+              <p class="article-template__comment-warning caption">{{ 'blogs.article.moderated' | t }}</p>
+            {%- endif -%}
+            <input type="submit" class="btn" value="{{ 'blogs.article.post' | t }}">
+          {% endform %}
+        </div>
+    </div>
+    {%- endif -%}
+  </article>
+</div>
+
+{%- if style_pagination == 'style-2' -%}
+  {% style %}
+    {%- if next_article.image != blank -%}
+      .style-2 .nextPreviousBtn.next{
+        background-image: url({{ next_article.image | image_url: width: 2800 }});
+      }
+    {%- endif -%}
+    {%- if prev_article.image != blank -%}
+      .style-2 .nextPreviousBtn.prev{
+        background-image: url({{ prev_article.image | image_url: width: 2800 }});
+      }
+    {%- endif -%}
+  {% endstyle %}
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "t:sections.main-article.name",
+  "tag": "section",
+  "class":"section-article",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "featured_image",
+      "name": "t:sections.main-article.blocks.featured_image.name",
+      "limit": 1
+    },
+    {
+      "type": "title",
+      "name": "t:sections.main-article.blocks.title.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "blog_show_date",
+          "default": true,
+          "label": "t:sections.main-article.blocks.title.settings.blog_show_date.label"
+        },
+        {
+          "type": "checkbox",
+          "id": "blog_show_author",
+          "default": false,
+          "label": "t:sections.main-article.blocks.title.settings.blog_show_author.label"
+        }
+      ]
+    },
+    {
+      "type": "content",
+      "name": "t:sections.main-article.blocks.content.name",
+      "limit": 1
+    },
+    {
+      "type": "social_sharing",
+      "name": "t:sections.main-article.blocks.pagination_layout.name",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "style_tag_share",
+          "options": [
+            {
+              "value": "style-1",
+              "label": "Default"
+            },
+            {
+              "value": "style-2",
+              "label": "Show featured image"
+            }
+          ],
+          "label": "Pagination layout"
+        },
+        {
+          "type": "checkbox",
+          "label": "Open post in a new window",
+          "default": false,
+          "id": "open_new_window"
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_tags",
+          "label": "Show tags",
+          "default": true
+        },
+        {
+          "type": "checkbox",
+          "id": "enable_sharing",
+          "label": "Show sharing social",
+          "default": true
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

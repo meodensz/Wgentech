@@ -1,0 +1,384 @@
+{% if section.blocks.size > 0 %}
+{%- liquid 
+  assign sidebar_class = 'none-sidebar'
+  if template.name == 'blog'
+  if template contains 'none-sidebar'
+      assign sidebar_class = 'none-sidebar'
+  else
+    if settings.blog_sidebar_position == 'left' 
+      assign sidebar_class = 'blog-left-sidebar'
+    elsif settings.blog_sidebar_position == 'right'
+      assign sidebar_class = 'blog-right-sidebar'
+    endif
+  endif
+  else
+    if template contains 'none-sidebar'
+      assign sidebar_class = 'none-sidebar'
+    else
+      if settings.article_sidebar_position == 'left' 
+        assign sidebar_class = 'blog-left-sidebar'
+      elsif settings.article_sidebar_position == 'right'
+        assign sidebar_class = 'blog-right-sidebar'
+      endif
+    endif
+  endif
+-%}
+<div class="blog-sidebar container {{ sidebar_class }} " data-section-id="{{ section.id }}">
+  <div class="sidebar-wrapper">
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'search' %}
+          <div class="gp-cf-search gp-cf-inner">
+            {% if block.settings.title != blank %}
+              <h3 class="widget-title">
+                <span>{{ block.settings.title }}</span>
+              </h3>
+            {% endif %}
+            <form action="{{ routes.search_url }}" class="header-search-form search-form" id="search_article" method="get" role="search">
+              <input name="type" type="hidden" value="article">
+              <div aria-live="polite" class="form-message form-message--error search-result-error-message hide" data-search-error-message>
+                <ul id="error-search-form">
+                  <li>{{ 'general.search.empty_search_message' | t }}</li>
+                </ul>
+              </div>
+              <div class="input-group">
+                <input type="search" id="SearchInput" class="search-header__input  search__input search__input-bigger" name="q" value="{{ search.terms | escape }}" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}">
+                <span class="search-close icon-error"></span>
+                <span class="search-submit-btn">
+                <span class="icon-search" id="SearchResultSubmit" type="submit"></span>
+                </span>
+              </div>
+            </form>
+          </div>
+        {% when 'link_list' %}
+          {% if block.settings.navigation != blank %}
+            {% assign navigation = block.settings.navigation %}
+            {% if linklists[navigation].links.size > 0 %}
+              <div class="col-filter gp-cf-link-list gp-cf-inner position-{{ forloop.index }}" data-block-id="{{ block.id }}">
+                {% if block.settings.title != blank %}
+                  <h3 class="widget-title">
+                    <span>{{ block.settings.title }}</span>
+                  </h3>
+                {% endif %}
+                <div>
+                  <div class="link-list-wrapper">
+                    {% for link in linklists[navigation].links %}
+                      <details data-id="{{ forloop.index }}">
+                        {% assign child_list_handle = link.title | handle %}
+                        <summary  class="level0 {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}parent{% endif %}">
+                          <a href="{{ link.url }}">{{ link.title }}</a>
+                          {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                            <span class="icon-download "></span>
+                          {% endif %}
+                        </summary>
+                        {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                          <div class="level1">
+                            {% for child_link in linklists[child_list_handle].links %}
+                              <details>
+                                <summary>
+                                  <a href="{{ child_link.url }}">{{ child_link.title }}</a></summary>
+                              </details>
+                            {% endfor %}
+                          </div>
+                        {% endif %}
+                      </details>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% when 'tags' %}
+          {% if block.settings.limit > 0 %}
+            {% if blog.tags.size > 0 %}
+              <div class=" col-filter gp-cf-tags gp-cf-inner">
+                {% if block.settings.title != blank %}
+                  <h3 class="widget-title">
+                    <span>{{ block.settings.title }}</span>
+                  </h3>
+                {% endif %}
+                <div>
+                  <div class="article-tags">
+                    {% assign limit = block.settings.limit %}
+                    {% for tag in blog.tags limit: limit %}
+                      <a href="{{ blog.url }}/tagged/{{ tag | handleize }}" class="tag no-effect">{{ tag }}</a>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endif %}
+        {% when 'blog_list' %}
+          {% if block.settings.blog != blank %}
+            <div class="col-filter gp-cf-blog-list gp-cf-inner">
+              {% if block.settings.title != blank %}
+                <h3 class="widget-title">
+                  <span>{{ block.settings.title }}</span>
+                </h3>
+              {% endif %}
+              <ul class="list-blog">
+                {% assign limit = block.settings.limit %}
+                {% assign blog_selected = block.settings.blog %}
+                {% for article in blogs[blog_selected].articles limit: limit %}
+                  <li class="item-blog">
+                    <div class="blog-item-wrapper">
+                      <div class="img-blog">
+                        {% if article.image != blank %}
+                          <a href="{{ article.url }}" title="{{ article.title }}" class="no-effect">
+                            <img src="{{ article.image | image_url: width: 750 }}" srcset="{%- if article.image.width >= 375 -%}{{ article.image | image_url: width: 375 }} 375w,{%- endif -%} {%- if article.image.width >= 750 -%}{{ article.image | image_url: width: 750 }} 750w,{%- endif -%} {%- if article.image.width >= 1100 -%}{{ article.image | image_url: width: 1100 }} 1100w,{%- endif -%} {%- if article.image.width >= 1500 -%}{{ article.image | image_url: width: 1500 }} 1500w,{%- endif -%} {%- if article.image.width >= 1780 -%}{{ article.image | image_url: width: 1780 }} 1780w,{%- endif -%} {%- if article.image.width >= 2000 -%}{{ article.image | image_url: width: 2000 }} 2000w,{%- endif -%} {%- if article.image.width >= 2800 -%}{{ article.image | image_url: width: 2800 }} 2800w{%- endif -%}" alt="{{ article.image.alt | escape }}" sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" loading="lazy" width="{{ article.image.width }}" height="{{ article.image.height }}">
+                          </a>
+                        {% else %}
+                          {{ 'image' | placeholder_svg_tag }}
+                        {% endif %}
+                      </div>
+                      <div class="info">
+                        {{ article.published_at | time_tag: format: 'date' }}
+                        <a class="no-effect" href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a>
+                      </div>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
+        {% when 'image_with_text' %}
+          <div class="col-filter gp-cf-writer position-{{ forloop.index }}"  data-block-id="{{ block.id }}">
+            <div class="gp-cf-inner">
+              {% if block.settings.logo != blank %}
+                <div class="logo-writer">
+                  <img src="{{ block.settings.logo | image_url: width: 750 }}" srcset="{%- if block.settings.logo.width >= 375 -%}{{ block.settings.logo | image_url: width: 375 }} 375w,{%- endif -%} {%- if block.settings.logo.width >= 750 -%}{{ block.settings.logo | image_url: width: 750 }} 750w,{%- endif -%} {%- if block.settings.logo.width >= 1100 -%}{{ block.settings.logo | image_url: width: 1100 }} 1100w,{%- endif -%} {%- if block.settings.logo.width >= 1500 -%}{{ block.settings.logo | image_url: width: 1500 }} 1500w,{%- endif -%} {%- if block.settings.logo.width >= 1780 -%}{{ block.settings.logo | image_url: width: 1780 }} 1780w,{%- endif -%} {%- if block.settings.logo.width >= 2000 -%}{{ block.settings.logo | image_url: width: 2000 }} 2000w,{%- endif -%} {%- if block.settings.logo.width >= 2800 -%}{{ block.settings.logo | image_url: width: 2800 }} 2800w{%- endif -%}" alt="{{ block.settings.logo.alt | escape }}" sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" loading="lazy" width="{{ block.settings.logo.width }}" height="{{ block.settings.logo.height }}">
+                </div>
+              {% endif %}
+              {% if block.settings.content != blank %}
+                <p>{{ block.settings.content }}</p>
+              {% endif %}
+              {% if block.settings.show_social %}
+                <div class="writer-social">
+                  <ul>
+                    {%- if settings.social_twitter_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_twitter_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-twitter' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.twitter' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_facebook_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_facebook_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-facebook' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.facebook' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_pinterest_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_pinterest_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-pinterest' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.pinterest' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_instagram_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_instagram_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-instagram' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.instagram' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_tiktok_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_tiktok_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-tiktok' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.tiktok' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_tumblr_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_tumblr_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-tumblr' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.tumblr' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_snapchat_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_snapchat_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-snapchat' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.snapchat' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_youtube_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_youtube_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-youtube' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.youtube' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                    {%- if settings.social_vimeo_link != blank -%}
+                      <li class="list-social__item">
+                        <a target="_blank" href="{{ settings.social_vimeo_link }}" class="mini-icon-hover no-effect">
+                          {%- render 'icon-vimeo' -%}
+                          <span class="visually-hidden">{{ 'general.social.links.vimeo' | t }}</span>
+                        </a>
+                      </li>
+                    {%- endif -%}
+                  </ul>
+                </div>
+              {% endif %}
+            </div>
+        </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% style %}
+  {% for block in section.blocks %}
+    {% if block.settings.background_image != blank %}
+      .position-{{ forloop.index }}.gp-cf-writer {
+        background-image: url({{ block.settings.background_image | image_url: width: 2800 }});
+      }
+    {% endif %}
+    {% if block.settings.social_color != blank %}
+      .position-{{ forloop.index }}.gp-cf-writer .writer-social a{
+        color: {{ block.settings.social_color }};
+      }
+    {% endif %}
+  	{% if block.settings.content != blank %}
+      .position-{{ forloop.index }}.gp-cf-writer p{
+        color: {{ block.settings.text_color }};
+  		}
+  	{% endif %}
+  {% endfor %}
+
+{% endstyle %}
+
+{% schema %}
+{
+  "name": "Blog sidebar",
+  "tag": "section",
+	"class":"section-sidebar",
+  "settings": [
+  ],
+  "blocks": [
+    {
+      "type": "search",
+      "name": "Search",
+			"limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        }
+      ]
+    },
+    {
+      "type": "image_with_text",
+      "name": "Image with text",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "background_image",
+          "label": "Background Image"
+        },
+        {
+          "type":"image_picker",
+          "id":"logo",
+          "label": "Logo"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_social",
+          "label": "Show social media",
+          "default": true
+        },
+        {
+          "type":"richtext",
+          "id":"content",
+          "label":"Content",
+          "default":"<p>Hello, We’re content writer who is fascinated by content fashion, celebrity and lifestyle. We helps clients bring the right content to the right people</p>"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color",
+          "default": "#595959"
+        },
+        {
+          "type": "color",
+          "id": "social_color",
+          "label": "social media color",
+          "default": "#262626"
+        }
+      ]
+    },
+    {
+      "type": "link_list",
+      "name": "Category tree",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "link_list",
+          "id": "navigation",
+          "label": "Navigation",
+          "default": "main-menu"
+        }
+      ]
+    },
+    {
+      "type": "tags",
+      "name": "Tags",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Number of tags",
+          "default": 8,
+          "min": 0,
+          "max": 20
+        }
+      ]
+    },
+    {
+      "type": "blog_list",
+      "name": "Blog list",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading"
+        },
+        {
+          "type": "blog",
+          "id": "blog",
+          "label": "Select blog"
+        },
+        {
+          "type": "range",
+          "id": "limit",
+          "label": "Limit blog posts",
+          "default": 3,
+          "min": 1,
+          "max": 10
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

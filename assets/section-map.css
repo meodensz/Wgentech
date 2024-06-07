@@ -1,0 +1,6 @@
+.map {
+    display: flex;
+}
+.map iframe {
+    width: 100%;
+}

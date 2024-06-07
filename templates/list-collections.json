@@ -1,0 +1,26 @@
+{
+  "sections": {
+    "title": {
+      "type": "page-title",
+      "settings": {
+        "show_collection_image_in_breadcrumb": true,
+        "show_breadcrumb": true,
+        "breadcrumb_position": "above",
+        "background_color_breadcrumb": "#e8e8e8"
+      }
+    },
+    "main": {
+      "type": "main-list-collections",
+      "settings": {
+        "display_type": "all",
+        "image_ratio": "square",
+        "sort": "alphabetical",
+        "grid_desktop": 3
+      }
+    }
+  },
+  "order": [
+    "title",
+    "main"
+  ]
+}

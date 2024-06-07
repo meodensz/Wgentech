@@ -1,0 +1,180 @@
+<link rel="stylesheet" href="{{ 'section-image-widget.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-image-widget.css' | asset_url | stylesheet_tag }}</noscript>
+<div  data-section-id="{{ section.id }}" data-section-type="gp-product-tab" class="gp-section-wrapper section-image-widget container {% unless section.settings.fullwidth %}custom_width{% endunless %}">
+  <div class="gp-section-inner">
+    <div class="image-widget-wrapper">
+      {% if section.settings.heading != blank %}
+        <h2 class="heading-2 {{ section.settings.text_align_title }} ">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.blocks.size > 0 %}
+        <div class="image-widget" data-size="{{ section.blocks.size }}">
+          <div class="row">
+            {% for block in section.blocks %}
+              <div class="forloop-{{ forloop.index }} item-image-widget col-{{ block.settings.columns_mobile }}">
+                <a href="{% if block.settings.link != blank %}{{ block.settings.link }}{% else %}#{% endif %}" class="img-wrapper no-effect"{% if block.settings.open_new_window %} target="_blank"{% endif %}>
+                  {% if block.settings.img != blank %}
+                    <img
+                    src="{{ block.settings.img | image_url: width: 533 }}"
+                    srcset="{%- if block.settings.img.width >= 375 -%}{{ block.settings.img | image_url: width: 375 }} 375w,{%- endif -%}
+                      {%- if block.settings.img.width >= 750 -%}{{ block.settings.img | image_url: width: 750 }} 750w,{%- endif -%}
+                      {%- if block.settings.img.width >= 1100 -%}{{ block.settings.img | image_url: width: 1100 }} 1100w,{%- endif -%}
+                      {%- if block.settings.img.width >= 1500 -%}{{ block.settings.img | image_url: width: 1500 }} 1500w,{%- endif -%}
+                      {%- if block.settings.img.width >= 1780 -%}{{ block.settings.img | image_url: width: 1780 }} 1780w,{%- endif -%}
+                      {%- if block.settings.img.width >= 2000 -%}{{ block.settings.img | image_url: width: 2000 }} 2000w,{%- endif -%}
+                      {%- if block.settings.img.width >= 2800 -%}{{ block.settings.img | image_url: width: 2800 }} 2800w{%- endif -%}"
+                    sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)"
+                    alt="{{ block.settings.img.alt | escape }}"
+                    loading="lazy"
+                    width="{{ block.settings.img.width }}"
+                    height="{{ block.settings.img.height }}"
+                    class="motion-reduce" />
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+                </a>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% style %}
+  {% unless section.settings.fullwidth %}
+    {% if section.settings.custom_width != blank %}
+      .custom_width .gp-section-inner .image-widget-wrapper{
+        max-width:{{ section.settings.custom_width }}px;
+        margin:auto;
+      }
+    {% endif %}
+  {% endunless %}
+  {% if section.settings.color_text_heading %}
+    .image-widget-wrapper h2{
+      color: {{ section.settings.color_text_heading }};
+    }
+  {% endif %}
+  {% if section.settings.background_color != blank %}
+    [data-section-id="{{ section.id }}"].section-image-widget{
+      background-color:{{ section.settings.background_color }};
+    }
+  {% endif %}
+{% endstyle %}
+{% schema %}
+  {
+    "name": "Image widget",
+    "max_blocks":5,
+    "settings": [
+      {
+        "type": "text",
+        "id":"heading",
+        "label":"Heading",
+        "default": "Mix And Match"
+      },
+      {
+        "type": "select",
+        "id": "text_align_title",
+        "label": "Text alignment",
+        "default": "text-center",
+        "options": [
+          {
+            "value": "text-left",
+            "label": "Left"
+          },
+          {
+            "value": "text-center",
+            "label": "Center"
+          },
+          {
+            "value": "text-right",
+            "label": "Right"
+          }
+        ]
+      },
+      {
+        "type": "header",
+        "content": "Common settings"
+      },
+      {
+        "type": "checkbox",
+        "id": "fullwidth",
+        "label": "Fullwidth",
+        "default": false
+      },
+      {
+        "type": "text", 
+        "id": "custom_width",
+        "label": "Custom width block",
+        "info": "Unit: px. Leave it to blank to get default width. only active when unchecked checkbox Fullwidth ",
+        "default": "1350"
+      },
+      {
+        "type": "color",
+        "id":"color_text_heading",
+        "label":"Color text heading",
+        "default": "#262626"
+      },
+      {
+        "type": "color",
+        "id": "background_color",
+        "label": "Background color",
+        "default": "#f5f5f5"
+      }
+    ],
+    "blocks" : [
+      {
+        "type": "image",
+        "name": "Image",
+        "settings": [
+          {
+            "type": "image_picker",
+            "id": "img",
+            "label": "Image"
+          },
+          {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+          },
+          {
+            "type": "checkbox",
+            "id": "open_new_window",
+            "label": "Open link in new tab",
+            "default": false
+          },
+          {
+            "type": "range",
+            "id":"columns_mobile",
+            "label":"Columns mobile",
+            "min": 1,
+            "max": 12,
+            "default":12,
+            "step": 1
+          }
+        ]
+      }
+    ],
+    "presets": [
+      {
+        "name": "Image widget",
+        "blocks": [
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          },
+          {
+            "type": "image"
+          }
+        ]
+      }
+    ]
+  }
+{% endschema %}

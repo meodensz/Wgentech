@@ -1,0 +1,20 @@
+{% comment %} heading content of each section {% endcomment %}
+{% if block.settings.title != blank or block.settings.sub_text != blank %}
+  <div class="section-heading-content space-bottom-30 space-bottom-lg-40 position-{{ forloop.index }} text-{{ block.settings.text_alignment }} col-12" {{ block.shopify_attributes }}>
+    {% if block.settings.title != blank %}
+      <h3 class="title">
+      {{ block.settings.title }}</h3>
+    {% endif %}
+    {% if block.settings.sub_text != blank %}
+      <span class="sub-text">{{ block.settings.sub_text }}</span>
+    {% endif %}
+  </div>
+{% endif %}
+{% style %}
+  {% if block.settings.color_text != blank %}
+    .section-heading-content.position-{{ forloop.index }} h3,
+    .section-heading-content.position-{{ forloop.index }} .sub-text{
+      color: {{ block.settings.color_text }} ;
+    }
+  {% endif %}
+{% endstyle %}

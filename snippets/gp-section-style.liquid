@@ -1,0 +1,9 @@
+{% if section.settings.background_color != blank %} 
+  {% style %}
+    [data-section-id="{{ section.id }}"] {
+      {% if section.settings.background_color != blank %} 
+        background-color: {{ section.settings.background_color }};
+      {% endif %}
+    }
+  {% endstyle %}
+{%- endif -%}

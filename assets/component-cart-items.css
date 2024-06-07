@@ -1,0 +1,191 @@
+.cart__items .cart-items {
+  width: 100%;
+}
+.cart__items .cart-item {
+  position: relative;
+}
+.cart__items .cart-item>* {
+  padding: 0 0 10px 0;
+  width: calc(100% - 80px);
+  float: left;
+}
+.cart__items .cart-item .cart-item__details {
+  padding: 0 15px 5px 0;
+  width: 45%;
+}
+.cart__items .cart-item .cart-item__media {
+  width: 80px;
+  height: 100%;
+  padding: 0 20px 0 0;
+}
+.cart-item__prices .unit-price{
+  text-align: left;
+}
+.cart__items .cart-item .cart-item__media img {
+  object-fit: contain;
+  height: auto;
+  display: flex;
+}
+
+.cart__items .cart-item .cart-item__totals {
+  padding-top: 9px;
+  width: auto;
+  float: right;
+}
+.cart__items .cart-item .cart-item__prices.clear {
+  padding-left: 80px;
+  clear: both;
+}
+.cart__items .cart-item .cart-item__quantity {
+  padding-bottom: 40px;
+  padding-left: 80px;
+  width: auto;
+  clear: both;
+}
+
+.cart__items .cart-item__quantity .quantity {
+  border: 1px solid var(--color-borders);
+  border-radius: 4px;
+  flex-wrap: unset;
+  width: 100%;
+  max-width: 100px;
+  margin: 0 auto;
+}
+
+.cart__items .cart-item__quantity .quantity .quantity__button {
+  width: 30px;
+  padding: 0;
+  height: 42px;
+  font-size: 13px;
+  line-height: 100%;
+  border: none;
+}
+.cart-item__discounted-prices .cart-item__old-price{
+  padding-right: 10px;
+}
+.cart__items .cart-item__quantity .quantity .quantity__input {
+  text-align: center;
+  height: 42px;
+  color: #262626;
+}
+.cart__items .cart-item .cart-item__details>* {
+  margin: 0;
+}
+.cart__items .cart-item .cart-item__details>*:not(.cart-item__error) {
+  padding-bottom: 5px;
+}
+.cart__items .cart-item__details .product-option:not(:last-child):after {
+  content: ',';
+  padding: 0 5px 0 0;
+}
+.cart-item .cart-item__error-text:empty {
+  display: none;
+}
+.cart-item .cart-item__error-text {
+  padding: 4px 27px 4px 9px;
+  color: var(--color-form-message-error-text);
+  background: var(--color-form-message-error-background);
+  text-align: left;
+  width: auto;
+  font-size: 12px;
+  display: inline-block;
+}
+.cart-item .cart-item__error-text .icon-information {
+  padding: 0 5px 0 0;
+}
+.cart__items .cart-item__details .swatch-list,
+.cart__items .cart-item .cart-item__details .product-option {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.cart__items .cart-item .cart-item__details .product-option>*:last-child {
+  margin: 0;
+  color: var(--color-link);
+}
+.cart__items .cart-item .cart-item__prices .price-item:not(:last-child) {
+  padding-right: 5px;
+}
+.cart__items .cart-item .cart-item__totals cart-remove-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.cart__items .cart-item .cart-item__totals .loading-overlay {
+  top: calc(50% - 20px);
+  left: auto;
+  right: 0;
+  width: unset;
+  transform: translate(-25%, -50%);
+}
+@media (max-width: 767px) {
+  a.cart-item__name {
+    white-space: break-spaces;
+  }
+  .cart__items .cart-item .cart-item__details{
+    width: calc(100% - 80px);
+    padding: 0px 30px 5px 0px;
+  }
+  .cart__items .cart-item .cart-item__totals{
+    padding-left: 80px;
+    clear: both;
+    float: left;
+  }
+  .cart__items .cart-item .cart-item__quantity{
+    padding-bottom: 0;
+  }
+  .cart__items .cart-item .cart-item__totals .price{
+    justify-content: flex-start;
+    text-align: left;
+    margin-left: 0;
+  }
+}
+@media (min-width: 768px) {
+  .cart__items .cart-item .cart-item__media {
+    width: 150px;
+    padding: 30px 50px 30px 0;
+  }
+  .cart__items .cart-item .cart-item__media img {
+    min-height: 100px;
+  }
+  .cart__items .cart-item .cart-item__details {
+    padding: 5px 15px 5px 0;
+    width: 29%;
+  }
+  .cart__items .cart-item .cart-item__prices.clear {
+    padding-left: 0;
+  }
+  .cart__items .cart-item .cart-item__quantity {
+    padding-left: 0;
+    padding-bottom: 30px;
+    text-align: center;
+  }
+  .cart__items .cart-item__quantity .quantity {
+    max-width: 200px;
+    width: 80%;
+  }
+  .cart__items .cart-item__quantity .quantity .quantity__button {
+    width: 42px;
+  }
+  .cart__items .cart-item .cart-item__totals {
+    padding-top: 30px;
+    float: none;
+    position: relative;
+    vertical-align: top;
+  }
+  .cart__items .cart-item .cart-item__totals cart-remove-button {
+    top: auto;
+    bottom: 27px;
+    right: 6px;
+  }
+  .cart__items .cart-item .cart-item__totals .loading-overlay {
+    top: 50%;
+  }
+}
+@media (min-width: 1025px) {
+  .cart__items .cart-item__quantity .quantity {
+    width: 100%;
+  }
+}

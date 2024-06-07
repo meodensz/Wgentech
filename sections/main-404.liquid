@@ -1,0 +1,215 @@
+<link rel="stylesheet" href="{{ 'section-gp-404-page.css' | asset_url }}" media="print" onload="this.media='all'">
+<noscript>{{ 'section-gp-404-page.css' | asset_url | stylesheet_tag }}</noscript>
+{% layout 'none' %}
+<div class="gp-404-template">
+  <div class="wrapper-logo-404">
+    <a class="logo-404" href="{{ routes.root_url }}" title="{{ shop.name }}">
+      {%- if section.settings.header_logo != blank -%}
+        {%- assign image_size = section.settings.header_logo_max_width -%}
+        <img srcset="{{ section.settings.header_logo | image_url: width: image_size }}"
+          src="{{ section.settings.header_logo | image_url: width: image_size }}"
+          loading="lazy"
+          class="header__heading-logo {% if section.settings.header_logo_mobile != blank %}desktop-only{% endif %}"
+          width="{{ section.settings.header_logo.width }}"
+          height="{{ section.settings.header_logo.height }}"
+          alt="{{ section.settings.header_logo.alt | default: shop.name | escape }}"
+        >
+      {%- else -%}
+        <span class="h2">{{ shop.name }}</span>
+      {%- endif -%}
+      {%- if section.settings.header_logo_mobile != blank -%}
+        {%- assign image_size = section.settings.header_logo_max_width_mobile -%}
+        <img srcset="{{ section.settings.header_logo_mobile | image_url: width: image_size }}"
+          src="{{ section.settings.header_logo_mobile | image_url: width: image_size }}"
+          loading="lazy"
+          class="header__heading-logo logo-mobile"
+          width="{{ section.settings.header_logo_mobile.width }}"
+          height="{{ section.settings.header_logo_mobile.height }}"
+          alt="{{ section.settings.header_logo_mobile.alt | default: shop.name | escape }}"
+        >
+      {%- endif -%}
+    </a>
+  </div>
+  <div class="container-fluid">
+    <div class="row">
+      <div class="page-content-404" >
+        <div class="gp-404-content-wrapper">
+          <div class="gp-404-content">
+            {% if section.settings.page_404_heading != blank %}
+              <h1 class="title">{{ section.settings.page_404_heading }}</h1>
+            {% endif %}
+            {% if section.settings.page_404_content != blank %}
+              <p>{{ section.settings.page_404_content }}</p>
+            {% endif %}
+            {% if section.settings.page_404_button != blank %} 
+              <div class="button-go-home">
+                <a href="{{ routes.root_url }}" class="btn">{{ section.settings.page_404_button }}</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% if section.settings.show_image == true %}
+        {% if section.settings.background_image != blank %}
+          <div class="banner-404">
+            <img
+            src="{{ section.settings.background_image | image_url: width: 750 }}"
+            srcset="{%- if section.settings.background_image.width >= 375 -%}{{ section.settings.background_image | image_url: width: 375 }} 375w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 750 -%}{{ section.settings.background_image | image_url: width: 750 }} 750w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 1100 -%}{{ section.settings.background_image | image_url: width: 1100 }} 1100w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 1500 -%}{{ section.settings.background_image | image_url: width: 1500 }} 1500w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 1780 -%}{{ section.settings.background_image | image_url: width: 1780 }} 1780w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 2000 -%}{{ section.settings.background_image | image_url: width: 2000 }} 2000w,{%- endif -%}
+            {%- if section.settings.background_image.width >= 2800 -%}{{ section.settings.background_image | image_url: width: 2800 }} 2800w{%- endif -%}"
+            alt="{{ section.settings.background_image.alt }}" 
+            loading="lazy" 
+            sizes="100vw" width="{{ section.settings.background_image.width }}" 
+            height="{{ section.settings.background_image.height }}" 
+            />
+          </div>
+        {% endif %}
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% style %}
+  .gp-404-content *:not(.btn){
+    color: {{ section.settings.page_404_text_color }};
+  }
+  .gp-404-content-wrapper .gp-404-content h1,
+  .gp-404-content-wrapper .gp-404-content h2,
+  .gp-404-content-wrapper .gp-404-content h3,
+  .gp-404-content-wrapper .gp-404-content h4,
+  .gp-404-content-wrapper .gp-404-content h5,
+  .gp-404-content-wrapper .gp-404-content h6,
+  .gp-404-content-wrapper .gp-404-content .h1,
+  .gp-404-content-wrapper .gp-404-content .h2,
+  .gp-404-content-wrapper .gp-404-content .h3,
+  .gp-404-content-wrapper .gp-404-content .h4,
+  .gp-404-content-wrapper .gp-404-content .h5,
+  .gp-404-content-wrapper .gp-404-content .h6,
+  .gp-404-content-wrapper .gp-404-content .title{
+    color: {{ section.settings.page_404_heading_color }};
+  }
+  .gp-404-content,
+  .gp-404-content a:not(.btn){
+    color: {{ section.settings.page_404_text_color }};
+  }
+  {% if section.settings.show_image == true %}
+    .gp-404-template .row {
+      height: calc( 100vh - 54px );
+    }
+  {% endif %}
+  {% if section.settings.show_image == false %}
+    {% if section.settings.background_image != blank %}
+      .template-404{
+        background-image: url('{{ section.settings.background_image | image_url: width: 2800 }}');
+        background-repeat: no-repeat;
+        background-size: auto;
+        background-position: center;
+      }
+    {% endif %}
+  {% endif %}
+  @media (min-width: 1025px) {
+    {% if section.settings.show_image == true %}
+      {% if section.settings.background_image != blank %}
+        .template-404{
+          background-image: url('{{ section.settings.background_image | image_url: width: 2800 }}');
+          background-repeat: no-repeat;
+          background-size: auto;
+          background-position: center;
+        }
+      {% endif %}
+    {% endif %}
+  }
+  {% endstyle %}
+{% schema %}
+{
+  "name": "404 Page",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_logo",
+      "label": "Logo image"
+    },
+    {
+      "type": "range",
+      "id": "header_logo_max_width",
+      "label": "Custom logo width",
+      "min": 80,
+      "max": 300,
+      "step": 5,
+      "default": 100,
+      "unit": "t:sections.header.settings.logo_width.unit"
+    },
+    {
+      "type": "image_picker",
+      "id": "header_logo_mobile",
+      "label": "Mobile logo"
+    },
+    {
+      "type": "range",
+      "id": "header_logo_max_width_mobile",
+      "label": "Custom logo width (mobile)",
+      "min": 60,
+      "max": 200,
+      "step": 5,
+      "default": 100,
+      "unit": "t:sections.header.settings.logo_width.unit"
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "page_404_heading",
+      "label": "Heading 404",
+      "default": "404"
+    },
+    {
+      "type": "richtext",
+      "id": "page_404_content",
+      "label": "Content",
+      "default": "<p>Oops... looks like you got lost</p>"
+    },
+    {
+      "type": "text",
+      "id": "page_404_button",
+      "label": "Button Go Home",
+      "default": "Go To Home"
+    },
+    {
+      "type": "header",
+      "content": "Color"
+    },
+    {
+      "type": "color",
+      "id": "page_404_heading_color",
+      "label": "Heading color",
+      "default": "#2c2c2c"
+    },
+    {
+      "type": "color",
+      "id": "page_404_text_color",
+      "label": "Text color",
+      "default": "#707070"
+    },
+    {
+      "type": "image_picker",
+      "id": "background_image",
+      "label": "Background image"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show image below on mobile",
+      "default": false
+    }
+  ]
+}
+{% endschema %}

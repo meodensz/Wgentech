@@ -1,0 +1,14 @@
+{
+    "sections": {
+      "cart-ajax-item": {
+        "type": "cart-ajax-item"
+      },
+      "cart-ajax-footer": {
+        "type": "cart-ajax-footer"
+      }
+    },
+    "order": [
+      "cart-ajax-item",
+      "cart-ajax-footer"
+    ]
+  }

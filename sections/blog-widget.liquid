@@ -1,0 +1,152 @@
+<link rel="stylesheet" href="{{ 'component-slider.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'component-slider.css' | asset_url | stylesheet_tag }}</noscript>
+<link rel="stylesheet" href="{{ 'blog-widget.css' | asset_url }}" type="text/css" media="all">
+<noscript>{{ 'blog-widget.css' | asset_url | stylesheet_tag }}</noscript>
+<div data-section-id="{{ section.id }}" data-section-type="gp-blog-posts" class="gp-section-wrapper container">
+  <div class="gp-blog-widget gp-section-inner">
+    {% if section.settings.title != blank %}
+      <h2 class="text-center heading-2">{{ section.settings.title }}</h2>
+    {% endif %}
+    {%- if section.settings.blog != blank -%}
+      <slider-component class="widget-wrapper ">
+        {% assign article_per_row = section.settings.article_per_row %}
+        {% assign article_per_row_tablet = section.settings.article_per_row_tablet %}
+        {% assign article_per_row_mobile = section.settings.article_per_row_mobile %}
+        <ul class=" grid {% if section.settings.layout == 'slider' %} slider {% endif %} grid--{{ article_per_row_mobile }}-col grid--{{ article_per_row_tablet }}-col-tablet grid--{{ article_per_row }}-col-desktop">
+          {% assign article_limit = section.settings.limit %}
+          {% for article in section.settings.blog.articles limit: article_limit %}
+            <li class="grid__item {% if section.settings.layout == 'slider' %} slider__slide {% endif %}">
+              <div class="">
+                  {% if article.image != blank %}
+                    <a href="{{ article.url }}" title="{{ article.title }}" class="media media--{{ section.settings.image_ratio }} media--hover-effect overflow-hidden" {% if section.settings.image_ratio == 'adapt' %} style="padding-bottom: {{ 1 | divided_by: article.image.aspect_ratio | times: 100 }}%;" {% endif %}>
+                      <img src="{{ article.image | image_url: width: 750 }}" srcset="{%- if article.image.width >= 375 -%}{{ article.image | image_url: width: 375 }} 375w,{%- endif -%} {%- if article.image.width >= 750 -%}{{ article.image | image_url: width: 750 }} 750w,{%- endif -%} {%- if article.image.width >= 1100 -%}{{ article.image | image_url: width: 1100 }} 1100w,{%- endif -%} {%- if article.image.width >= 1500 -%}{{ article.image | image_url: width: 1500 }} 1500w,{%- endif -%} {%- if article.image.width >= 1780 -%}{{ article.image | image_url: width: 1780 }} 1780w,{%- endif -%} {%- if article.image.width >= 2000 -%}{{ article.image | image_url: width: 2000 }} 2000w,{%- endif -%} {%- if article.image.width >= 2800 -%}{{ article.image | image_url: width: 2800 }} 2800w{%- endif -%}" alt="{{ article.image.alt | escape }}" sizes="(min-width: 1100px) 535px, (min-width: 750px) calc((100vw - 130px) / 2), calc((100vw - 50px) / 2)" loading="lazy" width="{{ article.image.width }}" height="{{ article.image.height }}">
+                    </a>
+                  {% else %}
+                    {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+                  {% endif %}
+              </div>
+              <div class="info">
+                <span class="blog-title">{{ blog.title }}</span>
+                <a class="article-title" href="{{ article.url }}" title="{{ article.title }}">{{ article.title }}</a>
+                <div class="date_comments">
+                  {{ article.published_at | time_tag: format: 'date' }}
+                  <span class="article__comment">
+                    <i class="icon-comment"></i>
+                    {% if article.comments_count <= 1 %}
+                    {{ 'blogs.article.comments.one' | t: count: article.comments_count }}
+                    {% else %}
+                    {{ 'blogs.article.comments.other' | t: count: article.comments_count }}
+                    {% endif %}
+                  </span>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+        {% if section.settings.layout == 'slider' %}
+          <div>
+            <button type="button" class="pagination_item pagination_item--prev" name="previous" aria-label="{{ 'accessibility.previous_slide' | t }}"><span class="icon-arrow-left"></span></button>
+            <button type="button" class="pagination_item pagination_item--next" name="next" aria-label="{{ 'accessibility.next_slide' | t }}"><span class="icon-arrow-right"></span></button>
+          </div>
+        {% endif %}
+      </slider-component>
+    {%- endif -%}
+  </div>
+</div>
+{% schema %}
+{
+  "name": "Blog widget",
+  "tag": "section",
+	"class":"section-blog-widget",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Heading"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "t:sections.featured-blog.settings.blog.label"
+    },
+    {
+      "type": "select",
+      "id": "image_ratio",
+      "options": [
+          {
+            "value": "adapt",
+            "label": "t:sections.main-list-collections.settings.image_ratio.options__1.label"
+          }, 
+          {
+            "value": "portrait",
+            "label": "t:sections.main-list-collections.settings.image_ratio.options__2.label"
+          }, 
+          {
+            "value": "square",
+            "label": "t:sections.main-list-collections.settings.image_ratio.options__3.label"
+          }
+      ],
+      "default": "adapt",
+      "label": "t:sections.main-list-collections.settings.image_ratio.label"
+    },
+    {
+      "type": "range",
+      "id": "article_per_row",
+      "label": "Articles per row",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "article_per_row_tablet",
+      "label": "Articles per row tablet",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "range",
+      "id": "article_per_row_mobile",
+      "label": "Articles per row mobile",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "limit",
+      "label": "Limit",
+      "min": 1,
+      "max": 20,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "default": "grid",
+      "options": [
+        {
+          "value": "grid",
+          "label": "Grid"
+        },
+        {
+          "value": "slider",
+          "label": "Slideshow"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog widget"
+    }
+  ]
+}
+{% endschema %}

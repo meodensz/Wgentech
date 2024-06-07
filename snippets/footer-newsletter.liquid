@@ -1,0 +1,56 @@
+<div class="footer-block__newsletter {{ block.settings.text_alignment }} {{ block.settings.newsletter_style }}">
+  {% if block.settings.newsletter_heading != blank or block.settings.description != blank %}
+    <div class="content">
+      {%- if block.settings.newsletter_heading != blank -%}
+        <h2 class="footer-block__heading">{{ block.settings.newsletter_heading }}</h2>
+      {%- endif -%}
+      {% if block.settings.description != blank %}
+        <p class="description">{{ block.settings.description }}</p>
+      {% endif %}
+    </div>
+  {% endif %}
+  {%- form 'customer', id: 'ContactFooter', class: 'footer__newsletter newsletter-form' -%}
+    <input type="hidden" name="contact[tags]" value="newsletter">
+    <div class="newsletter-form__field-wrapper">
+      <div class="field">
+        <input
+          id="NewsletterForm--{{ block.id }}"
+          type="email"
+          name="contact[email]"
+          class="field__input"
+          value="{{ form.email }}"
+          aria-required="true"
+          aria-label="email"
+          autocapitalize="off"
+          autocomplete="email"
+          {% if form.errors %}
+            autofocus
+            aria-invalid="true"
+            aria-describedby="ContactFooter-error"
+          {% elsif form.posted_successfully? %}
+            aria-describedby="ContactFooter-success"
+          {% endif %}
+          placeholder="{{ 'newsletter.input_placeholder' | t }}"
+          required
+        >
+        <label class="field__label" for="NewsletterForm--{{ block.id }}">
+          {{ 'newsletter.label' | t }}
+        </label>
+      </div>
+       <button type="submit" class="newsletter-form__button" name="commit" id="Subscribe-{{ block.id }}" aria-label="{{ 'newsletter.button_label' | t }}">
+          <i class="icon-arrow-right"></i>
+      </button>
+    </div>
+    {%- if form.posted_successfully? -%}
+      <h3 class="newsletter-form__message newsletter-form__message--success form__message" id="ContactFooter-success" tabindex="-1" autofocus>{{ 'newsletter.success' | t }}</h3>
+    {%- endif -%}
+    {%- if form.errors -%}
+      <h3 class="newsletter-form__message form__message newsletter-form__message--error" id="ContactFooter-error">{{ form.errors.translated_fields['email'] | capitalize }} {{ form.errors.messages['email'] }}</h3>
+    {%- endif -%}
+  {%- endform -%}
+  {%- if block.settings.show_social -%}
+    <div class="footer-socials-wrapper {{ block.settings.social_alignment }}">
+      {%- render 'footer-social', block: block -%}
+    </div>
+  {%- endif -%}
+</div>
